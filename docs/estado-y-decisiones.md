@@ -16,7 +16,7 @@ Equipo de 6 (UAM, Managua). Objetivo de esta etapa: **la demo del evento**.
 | 003 | Motor de rutas (3 perfiles + regreso) | Listo sobre el DTM real (falta medir en Render y comparar con la travesía) |
 | 004 | Análisis de misión e informe | Cerrada (15-nov): misiones, informe y límite por IP verificados en Render v0.5.0 |
 | 005 | Manifiesto del terreno 3D | Pendiente |
-| 006 | Pipeline de assets 3D (Blender) y Rive | Pendiente |
+| 006 | Pipeline de assets 3D (Blender) y Rive | En curso: optimizador listo (28.4 → 3.3 MB en PC); faltan los modelos de Tripo y acordar la mudanza de `backend/render/` |
 
 Las specs 002 a 006 tienen `spec.md` y `tasks.md` en borrador; se completan con `clarificacion.md`
 y `plan.md` al abrir cada una. Datos de NASA: `docs/datos/catalogo-de-datos.md`.
@@ -58,6 +58,8 @@ y `plan.md` al abrir cada una. Datos de NASA: `docs/datos/catalogo-de-datos.md`.
 | D-7 | Vercel (frontend, equipo) + Render (API) + Cloudflare R2 (archivos pesados). Google Cloud y Porkbun descartados (14-nov) | Gratis; lo decidió el equipo |
 | D-11 a D-19 | Ver `specs/001-base-de-datos-y-catalogo/plan.md` | Migraciones SQL, psycopg, textos jsonb, modo live por endpoint, Render, CORS |
 | D-20 a D-27 | Ver `specs/003-motor-de-rutas/plan.md` | Dijkstra (SciPy), rejilla de 10 m, `tobler-eva-v1`, 20° y 360 min con fuente de NASA, costos por perfil |
+| D-35 | Ver `specs/003-motor-de-rutas/plan.md` | Búsqueda de rutas por ventana: ~1.5 s en Render |
+| D-36 a D-39 | Ver `specs/006-assets-3d-y-rive/plan.md` | glTF-Transform, originales fuera de Git, presupuesto como aviso, reemplazo si un modelo falla |
 | D-32 a D-34 | Ver `specs/004-misiones-e-informe/plan.md` | Ruta en jsonb, límite por IP y tope de misiones, error RATE_LIMITED |
 | D-28 a D-31 | Ver `specs/002-pipeline-de-datos/plan.md` | Recorte 4 × 3 km leído por rangos (sin descargar), terreno servido por la API, semilla 002 aparte |
 

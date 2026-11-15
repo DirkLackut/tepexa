@@ -1,0 +1,12 @@
+{
+  "name": "tepexa-assets",
+  "private": true,
+  "type": "module",
+  "description": "Optimiza los modelos .glb del equipo para la web (spec 006)",
+  "scripts": {
+    "modelos": "node optimizar.mjs"
+  },
+  "dependencies": {
+    "@gltf-transform/cli": "4.5.1"
+  }
+}

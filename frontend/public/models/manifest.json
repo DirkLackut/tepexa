@@ -1,0 +1,391 @@
+{
+  "models": {
+    "crater": {
+      "source_file": "Crater.glb",
+      "source": {
+        "bytes": 4307976,
+        "triangles": 178804,
+        "textures": 0,
+        "animations": 0,
+        "extensions": [
+          "KHR_materials_transmission",
+          "KHR_materials_specular",
+          "KHR_materials_ior"
+        ]
+      },
+      "warnings": [
+        "usa transmisión (vidrio/agua): costosa en celulares; el frontend puede apagarla en móvil"
+      ],
+      "ok": true,
+      "pc": {
+        "url": "/models/crater/pc.glb",
+        "bytes": 496584,
+        "triangles": 178804,
+        "textures": 0,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "KHR_materials_ior",
+          "KHR_materials_specular",
+          "KHR_materials_transmission",
+          "KHR_mesh_quantization"
+        ]
+      },
+      "movil": {
+        "url": "/models/crater/movil.glb",
+        "bytes": 177376,
+        "triangles": 44701,
+        "textures": 0,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "KHR_materials_ior",
+          "KHR_materials_specular",
+          "KHR_materials_transmission",
+          "KHR_mesh_quantization"
+        ]
+      }
+    },
+    "medusa": {
+      "source_file": "Medusa.glb",
+      "source": {
+        "bytes": 18790600,
+        "triangles": 624962,
+        "textures": 0,
+        "animations": 0,
+        "extensions": [
+          "KHR_materials_specular"
+        ]
+      },
+      "warnings": [],
+      "ok": true,
+      "pc": {
+        "url": "/models/medusa/pc.glb",
+        "bytes": 1816812,
+        "triangles": 624962,
+        "textures": 0,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "KHR_materials_specular",
+          "KHR_mesh_quantization"
+        ]
+      },
+      "movil": {
+        "url": "/models/medusa/movil.glb",
+        "bytes": 630272,
+        "triangles": 156240,
+        "textures": 0,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "KHR_materials_specular",
+          "KHR_mesh_quantization"
+        ]
+      }
+    },
+    "mars": {
+      "source_file": "mars.glb",
+      "source": {
+        "bytes": 5254404,
+        "triangles": 129072,
+        "textures": 1,
+        "animations": 0,
+        "extensions": [
+          "KHR_materials_emissive_strength",
+          "KHR_texture_transform"
+        ]
+      },
+      "warnings": [],
+      "ok": true,
+      "pc": {
+        "url": "/models/mars/pc.glb",
+        "bytes": 962644,
+        "triangles": 129072,
+        "textures": 1,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "EXT_texture_webp",
+          "KHR_materials_emissive_strength",
+          "KHR_mesh_quantization",
+          "KHR_texture_transform"
+        ]
+      },
+      "movil": {
+        "url": "/models/mars/movil.glb",
+        "bytes": 260748,
+        "triangles": 32268,
+        "textures": 1,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "EXT_texture_webp",
+          "KHR_materials_emissive_strength",
+          "KHR_mesh_quantization",
+          "KHR_texture_transform"
+        ]
+      }
+    },
+    "yasid": {
+      "source_file": "yasid.glb",
+      "source": {
+        "bytes": 59870172,
+        "triangles": 1923695,
+        "textures": 3,
+        "animations": 0,
+        "extensions": []
+      },
+      "warnings": [],
+      "ok": true,
+      "pc": {
+        "url": "/models/yasid/pc.glb",
+        "bytes": 2779984,
+        "triangles": 299899,
+        "textures": 3,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "EXT_texture_webp",
+          "KHR_mesh_quantization"
+        ]
+      },
+      "movil": {
+        "url": "/models/yasid/movil.glb",
+        "bytes": 1297524,
+        "triangles": 130442,
+        "textures": 3,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "EXT_texture_webp",
+          "KHR_mesh_quantization"
+        ]
+      }
+    },
+    "israel": {
+      "source_file": "israel.glb",
+      "source": {
+        "bytes": 59849736,
+        "triangles": 1937334,
+        "textures": 3,
+        "animations": 0,
+        "extensions": []
+      },
+      "warnings": [],
+      "ok": true,
+      "pc": {
+        "url": "/models/israel/pc.glb",
+        "bytes": 2716088,
+        "triangles": 300090,
+        "textures": 3,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "EXT_texture_webp",
+          "KHR_mesh_quantization"
+        ]
+      },
+      "movil": {
+        "url": "/models/israel/movil.glb",
+        "bytes": 1147288,
+        "triangles": 113304,
+        "textures": 3,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "EXT_texture_webp",
+          "KHR_mesh_quantization"
+        ]
+      }
+    },
+    "dylan": {
+      "source_file": "dylan.glb",
+      "source": {
+        "bytes": 60782228,
+        "triangles": 1957288,
+        "textures": 3,
+        "animations": 0,
+        "extensions": []
+      },
+      "warnings": [],
+      "ok": true,
+      "pc": {
+        "url": "/models/dylan/pc.glb",
+        "bytes": 2771768,
+        "triangles": 300051,
+        "textures": 3,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "EXT_texture_webp",
+          "KHR_mesh_quantization"
+        ]
+      },
+      "movil": {
+        "url": "/models/dylan/movil.glb",
+        "bytes": 1259932,
+        "triangles": 125743,
+        "textures": 3,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "EXT_texture_webp",
+          "KHR_mesh_quantization"
+        ]
+      }
+    },
+    "drone": {
+      "source_file": "drone.glb",
+      "source": {
+        "bytes": 62290992,
+        "triangles": 1950484,
+        "textures": 3,
+        "animations": 0,
+        "extensions": []
+      },
+      "warnings": [
+        "movil: 1.77 MB supera el presupuesto de 1.5 MB"
+      ],
+      "ok": true,
+      "pc": {
+        "url": "/models/drone/pc.glb",
+        "bytes": 2873416,
+        "triangles": 299982,
+        "textures": 3,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "EXT_texture_webp",
+          "KHR_mesh_quantization"
+        ]
+      },
+      "movil": {
+        "url": "/models/drone/movil.glb",
+        "bytes": 1767336,
+        "triangles": 196002,
+        "textures": 3,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "EXT_texture_webp",
+          "KHR_mesh_quantization"
+        ]
+      }
+    },
+    "alejandro": {
+      "source_file": "alejandro.glb",
+      "source": {
+        "bytes": 59746928,
+        "triangles": 1921690,
+        "textures": 3,
+        "animations": 0,
+        "extensions": []
+      },
+      "warnings": [],
+      "ok": true,
+      "pc": {
+        "url": "/models/alejandro/pc.glb",
+        "bytes": 2751348,
+        "triangles": 299974,
+        "textures": 3,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "EXT_texture_webp",
+          "KHR_mesh_quantization"
+        ]
+      },
+      "movil": {
+        "url": "/models/alejandro/movil.glb",
+        "bytes": 1290148,
+        "triangles": 130902,
+        "textures": 3,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "EXT_texture_webp",
+          "KHR_mesh_quantization"
+        ]
+      }
+    },
+    "dirk": {
+      "source_file": "dirk.glb",
+      "source": {
+        "bytes": 60955240,
+        "triangles": 1947869,
+        "textures": 3,
+        "animations": 0,
+        "extensions": []
+      },
+      "warnings": [],
+      "ok": true,
+      "pc": {
+        "url": "/models/dirk/pc.glb",
+        "bytes": 2841180,
+        "triangles": 299968,
+        "textures": 3,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "EXT_texture_webp",
+          "KHR_mesh_quantization"
+        ]
+      },
+      "movil": {
+        "url": "/models/dirk/movil.glb",
+        "bytes": 1423060,
+        "triangles": 143088,
+        "textures": 3,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "EXT_texture_webp",
+          "KHR_mesh_quantization"
+        ]
+      }
+    },
+    "china": {
+      "source_file": "china.glb",
+      "source": {
+        "bytes": 60517440,
+        "triangles": 1930022,
+        "textures": 3,
+        "animations": 0,
+        "extensions": []
+      },
+      "warnings": [],
+      "ok": true,
+      "pc": {
+        "url": "/models/china/pc.glb",
+        "bytes": 2911040,
+        "triangles": 299924,
+        "textures": 3,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "EXT_texture_webp",
+          "KHR_mesh_quantization"
+        ]
+      },
+      "movil": {
+        "url": "/models/china/movil.glb",
+        "bytes": 1488704,
+        "triangles": 150284,
+        "textures": 3,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "EXT_texture_webp",
+          "KHR_mesh_quantization"
+        ]
+      }
+    }
+  },
+  "generated_at": "2026-11-15T10:20:05.787Z",
+  "budget_bytes": {
+    "pc": 4000000,
+    "movil": 1500000
+  },
+  "note": "Generado por pipeline/assets/optimizar.mjs. El frontend elige pc o movil y usa un reemplazo si un modelo falla."
+}

@@ -74,7 +74,7 @@ el **terreno sintético**; los `id` y las coordenadas de los puntos de interés 
 3. **Rutas:** cada perfil trae `outbound.polyline` como `[x, y, z]`. **La misma polilínea** se dibuja en
    el mapa, el minimapa, el 3D y el informe; nadie recalcula rutas en el navegador. `legs[]` dice en qué
    vértice empieza y termina cada tramo. `elevation_profile` sirve para el gráfico.
-4. **Tiempos:** `/routes/compare` tarda unos 2 s en Render (más si se piden muchos objetivos lejanos). Muestren «calculando…» y no permitan doble envío.
+4. **Tiempos:** `/routes/compare` tarda ~1.5 s en Render (más si se piden muchos objetivos lejanos). Muestren «calculando…» y no permitan doble envío.
    **Primera llamada:** si nadie usó la API en 15 min, Render tarda ~50 s en despertar. Llamen a
    `/health` al abrir la app y muestren un estado de carga.
 5. **Guardar y ver el informe:** `POST /missions` con `{name, route_request, selected_profile, crew}`
@@ -99,6 +99,37 @@ el **terreno sintético**; los `id` y las coordenadas de los puntos de interés 
 responden 409 `REGION_PREVIEW_ONLY`. El 3D de Medusae, si lo hay, son los modelos `.glb` del equipo de
 Blender, no la API. Muéstrenlo como avance, nunca como misión planificable.
 
+## 5b. Modelos 3D del equipo (Blender, Tripo…)
+- **Flujo:** el original va en `assets/models/originales/` (no se sube a Git) → `cd pipeline/assets && npm install && npm run modelos`
+  → se suben `frontend/public/models/<nombre>/pc.glb`, `movil.glb` y `manifest.json`.
+- **Cargar sin romper nada:** lean `/models/manifest.json`; usen `movil` en celulares. Cada modelo va en
+  `<Suspense>` y en un *error boundary* con un reemplazo simple: si un modelo no está, falla o pesa
+  demasiado, la app sigue. `useGLTF` de drei ya descomprime meshopt.
+- **Presupuesto (aviso, no error):** ≤ 4 MB por modelo en PC y ≤ 1.5 MB en móvil. El script avisa.
+- **Modelos que hay hoy** (`manifest.json` tiene los datos exactos):
+
+  | Modelo | PC | Móvil | Nota |
+  |---|---|---|---|
+  | `mars`, `crater`, `medusa` | 0.5–1.8 MB | 0.2–0.6 MB | `crater` usa transmisión (agua): apáguenla en móvil |
+  | `alejandro`, `dirk`, `dylan`, `israel`, `yasid` (avatares Tripo) | ~2.8 MB | 1.2–1.4 MB | Consentimiento de las 5 personas confirmado (15-nov) |
+  | `china` (Tripo, de Israel) | 2.91 MB | 1.49 MB | Justo en el límite de móvil |
+  | `drone` (Tripo) | 2.87 MB | **1.77 MB** ⚠ | Ver «Problema en celular» |
+
+- **Problema en celular (dron):** la versión móvil del dron pesa 1.77 MB y el límite es 1.5 MB. Los escaneos
+  de Tripo tienen muchas costuras de textura y el optimizador no baja de ~190 mil triángulos aunque se le
+  permita perder más calidad. No rompe nada (es un aviso), pero en un celular con datos móviles tarda más.
+  Opciones, de mejor a peor:
+  1. **Reexportar el dron desde Tripo con menos caras** (opción de baja poligonización o *face limit* de unas
+     50 mil caras), ponerlo en `assets/models/originales/drone.glb` y correr `npm run modelos -- drone.glb`.
+  2. En móvil, cargar el dron solo cuando se vaya a ver (no en la pantalla de inicio) y mostrar un reemplazo
+     simple mientras llega.
+  3. Aceptar el aviso.
+  Lo mismo vale para cualquier modelo nuevo de Tripo: si el script avisa en `movil`, reexporten con menos caras.
+- **No los pongan en `backend/`**: ahí Render se vuelve a publicar con cada modelo.
+- `Crater.glb` es artístico: úsenlo en la entrada. El simulador usa el heightmap real de la API (las rutas
+  solo coinciden con ese terreno).
+- Detalles y mediciones: `specs/006-assets-3d-y-rive/plan.md`.
+
 ## 6. Reglas que no se rompen
 - El contrato (`contracts/`) solo cambia por PR revisado por el backend. Las dudas van a
   `specs/000-contrato-api/clarificacion.md`.
@@ -110,7 +141,6 @@ Blender, no la API. Muéstrenlo como avance, nunca como misión planificable.
 
 | # | Pendiente | Quién | Bloquea al frontend |
 |---|---|---|---|
-| B0 | Bajar el tiempo de `/routes/compare` (búsqueda por ventana, D-35) | Backend | Hecho en código; se mide al publicar |
 | B1 | Agregar la URL de Vercel al CORS | Backend, cuando el frontend pase la URL | Sí, en producción |
 | B2 | Inercia térmica (THEMIS) → capa y suelo suelto en la ruta «más segura» | Backend | No: hoy las 3 rutas salen casi iguales y la app lo dice |
 | B3 | Ortoimagen HiRISE de 25 cm como capa y textura real del 3D | Backend | No: hoy la textura es relieve sombreado |
@@ -118,7 +148,7 @@ Blender, no la API. Muéstrenlo como avance, nunca como misión planificable.
 | B5 | Fotos de Perseverance en los puntos de interés (`images[]`) | Backend o frontend (ver 8) | No: hoy `images` viene vacío |
 | B6 | Miniatura de Jezero (`thumbnail_url`, hoy `null`) | Backend | No |
 | B7 | Comparar la ruta calculada con la travesía real de Perseverance (CE-5 de la spec 003) | Backend | No: es un extra para la presentación |
-| B8 | Mover los `.glb` de `backend/render/` a `assets/` y optimizarlos (spec 006) | Backend + Blender | No |
+| B8 | Mover los `.glb` de `backend/render/` a `assets/models/originales/` (ya hay versiones optimizadas en `frontend/public/models/`) | Equipo decide; backend lo hace | No |
 
 ## 8. Lo que le toca al frontend y al equipo
 Ver la tabla completa en `frontend/README.md` («Pendientes del equipo»). Lo urgente:
