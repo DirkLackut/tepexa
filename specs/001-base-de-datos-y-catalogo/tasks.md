@@ -14,8 +14,8 @@
 
 ## Bloque D — Publicación y entrega
 - [x] T7 · `render.yaml`, `.github/CODEOWNERS`, documentación actualizada (hosting Vercel + Render + R2)
-- [ ] T8 · Commit en rama `spec/001-base-de-datos` y PR · ⚠ intervención manual (Dirk, VS Code)
+- [x] T8 · Commit en rama `spec/001-base-de-datos` y PR · ⚠ intervención manual (Dirk, VS Code) · Hecho 14-nov: `1571a13`, PR #1 fusionado (`05fce34`)
 - [x] T9 · Aplicar `001_catalogo.sql` y la semilla en Neon (SQL Editor) · ⚠ con visto bueno de Dirk · Hecho 14-nov: 2 regiones, 10 hechos, 11 enlaces hecho-fuente, 6 puntos, 5 enlaces punto-fuente, 3 imágenes, 6 fuentes; `schema_migrations` = `001_catalogo`
-- [ ] T10 · Crear el servicio en Render desde el Blueprint y pegar `DATABASE_URL` · ⚠ intervención manual (Dirk)
-- [ ] T11 · Lista de comprobación manual en la URL de Render · CE-7
-- [ ] T12 · Crear la regla de protección de `main` (hoy no existe): exigir PR y «Require review from Code Owners» · ⚠ intervención manual (Dirk)
+- [x] T10 · Crear el servicio en Render desde el Blueprint y pegar `DATABASE_URL` · ⚠ intervención manual (Dirk) · Hecho 15-nov: `https://tepexa-api.onrender.com`, Live
+- [x] T11 · Lista de comprobación manual en la URL de Render · CE-7 · Hecho 15-nov: `/health` modo live (regions, region, pois = live); 2 regiones; Jezero 4 hechos, Medusae 6; 6 puntos (base en 400,600); 404 `REGION_NOT_FOUND`; 409 `REGION_PREVIEW_ONLY`. Falta probar CORS desde la URL de Vercel
+- [x] T12 · Crear la regla de protección de `main`: exigir PR (1 aprobación) y «Require review from Code Owners» · Hecho 14-nov

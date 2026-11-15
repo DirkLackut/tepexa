@@ -11,7 +11,7 @@ Equipo de 6 (UAM, Managua). Objetivo de esta etapa: **la demo del evento**.
 | Spec | Nombre | Estado |
 |---|---|---|
 | 000 | Contrato API backend↔frontend | Cerrada (14-nov, `cb1975e`). Falta la revisión del frontend (T8) |
-| 001 | Base de datos (Neon + PostGIS), catálogo y publicación en Render | En curso: 71 pruebas pasan en local; migración y semilla aplicadas en Neon (14-nov). Falta: PR, Render, regla de `main` |
+| 001 | Base de datos (Neon + PostGIS), catálogo y publicación en Render | Cerrada (15-nov). API en `https://tepexa-api.onrender.com/api/v1`. Falta solo probar CORS cuando exista la URL de Vercel |
 | 002 | Pipeline de datos (DEM, ortoimagen, inercia térmica, mineralogía) | Pendiente |
 | 003 | Motor de rutas (3 perfiles + regreso) | Pendiente |
 | 004 | Análisis de misión e informe | Pendiente |
@@ -71,11 +71,11 @@ y `plan.md` al abrir cada una. Datos de NASA: `docs/datos/catalogo-de-datos.md`.
 ## Cuentas
 Las crea y administra **Dirk**; el equipo entra como miembro. Ninguna clave va al repo ni al chat.
 - GitHub: `DirkLackut/tepexa`, público; colaboradores IsraDev29, Quokka-JOne, Gasparin-12,
-  Alejandro17Cast, G-Yasid. Regla de protección de `main`: **pendiente de crear** (spec 001, T12).
+  Alejandro17Cast, G-Yasid. `main` protegida: todo entra por PR con 1 aprobación de Code Owners (Dirk aprueba backend; `contracts/` Dirk o IsraDev29; `frontend/` y `assets/` el equipo).
 - Neon: organización `TEPEXA`, proyecto `tepexa` (`floral-king-93600340`), rama `production`,
   AWS US East 1.
 - Cloudflare: cuenta de Dirk (R2 para archivos pesados).
-- Render: cuenta de Dirk con GitHub (servicio `tepexa-api`, región Virginia).
+- Render: cuenta de Dirk con GitHub (Blueprint `tepexa`, servicio `tepexa-api`, región Virginia, publica solo en cada merge a `main`). URL: `https://tepexa-api.onrender.com`.
 - Vercel y dominio: los maneja el equipo de frontend y diseño.
 
 ## Dónde corre cada cosa
@@ -94,4 +94,6 @@ Las crea y administra **Dirk**; el equipo entra como miembro. Ninguna clave va a
 - Video grabado del flujo completo y la app corriendo en una laptop.
 
 ## Lecciones
-(Se llenan al cerrar cada spec.)
+- Spec 001: en el SQL Editor de Neon el clic sintético no siempre ejecuta; verificar siempre con una consulta de conteo después de correr.
+- Spec 001: los modelos 3D del equipo entraron en `backend/render/` (Crater, mars, Medusa: ~28 MB). Se moverán a `assets/` y R2 en la spec 006, con acuerdo del equipo.
+- Render vuelve a publicar en cada merge, aunque solo cambien assets: falta `buildFilter` en `render.yaml`.
