@@ -125,6 +125,8 @@ Blender, no la API. Muéstrenlo como avance, nunca como misión planificable.
      simple mientras llega.
   3. Aceptar el aviso.
   Lo mismo vale para cualquier modelo nuevo de Tripo: si el script avisa en `movil`, reexporten con menos caras.
+- **Revisión automática:** cada PR pasa por `pipeline/checks/revisar-archivos.mjs`; un archivo de más de 10 MB, un
+  `.blend` o un modelo sin `pc`/`movil`/manifiesto bloquean el PR. Por qué y cómo cumplirla de otra forma: `AGENTS.md`.
 - **No los pongan en `backend/`**: ahí Render se vuelve a publicar con cada modelo.
 - `Crater.glb` es artístico: úsenlo en la entrada. El simulador usa el heightmap real de la API (las rutas
   solo coinciden con ese terreno).

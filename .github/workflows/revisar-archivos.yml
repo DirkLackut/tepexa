@@ -1,0 +1,20 @@
+# Bloquea archivos pesados o modelos sin optimizar en los PR hacia main (spec 006).
+# Explicación y cómo cumplirla: AGENTS.md, «Obligatorio si agregas o cambias un modelo 3D».
+name: revisar-archivos
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  revisar-archivos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Revisar archivos del PR
+        run: node pipeline/checks/revisar-archivos.mjs origin/${{ github.base_ref }}
