@@ -103,3 +103,5 @@ class Health(Model):
     mode: Literal["example", "live"]
     app_version: str
     dataset_versions: dict[str, str]
+    endpoints: dict[str, Literal["live", "example"]] = Field(
+        default_factory=dict, description="Por endpoint: si ya responde con datos reales (live) o de ejemplo (spec 001)")

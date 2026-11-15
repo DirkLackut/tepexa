@@ -1,0 +1,10 @@
+# Revisión obligatoria por carpeta (constitución, principio 5). Requiere activar
+# "Require review from Code Owners" en la regla de la rama main.
+*               @DirkLackut
+/backend/       @DirkLackut
+/contracts/     @DirkLackut @IsraDev29
+/specs/         @DirkLackut
+/docs/          @DirkLackut
+/render.yaml    @DirkLackut
+/frontend/      @IsraDev29 @Quokka-JOne @Gasparin-12 @Alejandro17Cast @G-Yasid
+/assets/        @IsraDev29 @Quokka-JOne @Gasparin-12 @Alejandro17Cast @G-Yasid

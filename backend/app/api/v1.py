@@ -1,7 +1,8 @@
-"""Endpoints /api/v1 (spec 000, modo ejemplo)."""
+"""Endpoints /api/v1. Modo ejemplo (spec 000) y modo live por endpoint (spec 001)."""
 from fastapi import APIRouter
 
 from .. import example_store as store
+from .. import repository
 from ..contract import (
     ErrorResponse,
     Health,
@@ -18,7 +19,7 @@ from ..contract import (
     TerrainManifest,
 )
 from ..errors import mission_not_found, out_of_bounds, region_not_found, region_preview_only
-from ..settings import APP_VERSION, mode
+from ..settings import APP_VERSION, endpoint_modes, is_live, mode
 
 router = APIRouter(prefix="/api/v1")
 
@@ -28,7 +29,7 @@ E422 = {422: {"model": ErrorResponse, "description": "Petición inválida, fuera
 
 
 def _region(region_id: str) -> RegionDetail:
-    r = store.region(region_id)
+    r = repository.get_region(region_id) if is_live("region") else store.region(region_id)
     if r is None:
         raise region_not_found(region_id)
     return r
@@ -50,13 +51,14 @@ def _check_points(req: RouteRequest, region: RegionDetail) -> None:
 
 @router.get("/health", response_model=Health, tags=["sistema"])
 def health() -> Health:
-    return Health(mode=mode(), app_version=APP_VERSION,
-                  dataset_versions={r.id: store.region(r.id).dataset_version for r in store.regions().items})
+    regions = list_regions().items
+    return Health(mode=mode(), app_version=APP_VERSION, endpoints=endpoint_modes(),
+                  dataset_versions={r.id: _region(r.id).dataset_version for r in regions})
 
 
 @router.get("/regions", response_model=RegionList, tags=["regiones"])
 def list_regions() -> RegionList:
-    return store.regions()
+    return repository.list_regions() if is_live("regions") else store.regions()
 
 
 @router.get("/regions/{region_id}", response_model=RegionDetail, responses=E404, tags=["regiones"])
@@ -76,7 +78,7 @@ def get_pois(region_id: str) -> PoiCollection:
     if region.status != RegionStatus.active:
         return PoiCollection(region_id=region_id, coordinate_frame=region.coordinate_frame.id,
                              is_example=region.is_example, features=[])
-    return store.pois(region_id)
+    return repository.get_pois(region) if is_live("pois") else store.pois(region_id)
 
 
 @router.get("/regions/{region_id}/terrain", response_model=TerrainManifest, responses={**E404, **E409}, tags=["regiones"])

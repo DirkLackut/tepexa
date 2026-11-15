@@ -22,7 +22,9 @@ también va en móvil, en versión liviana (`lods[].recommended_for = "mobile"`)
    `npx openapi-typescript ../contracts/openapi.json -o src/shared/api/types.ts`
    Vuelvan a generarlos cada vez que cambie `contracts/openapi.json`.
 2. **Una sola URL base configurable:** `VITE_API_URL`. Mientras no haya API publicada, lean los
-   archivos de `contracts/examples/`.
+   archivos de `contracts/examples/`. Cuando esté en Render, `GET /api/v1/health` → `endpoints`
+   dice qué partes ya son datos reales (`live`) y cuáles siguen de ejemplo.
+   Render gratis tarda unos 50 s en despertar si nadie lo usó en 15 min: muestren un estado de carga.
 3. **Lector tolerante:** ignoren campos que no conozcan y muestren `message` aunque llegue un
    código de advertencia nuevo.
 4. **`is_example: true`** → mostrar una etiqueta visible «Datos de ejemplo / Example data».
@@ -46,8 +48,8 @@ también va en móvil, en versión liviana (`lods[].recommended_for = "mobile"`)
 | 4 | Exportar los modelos de Blender a `.glb` con las reglas de abajo y entregarlos a Dirk | Blender | Pipeline de assets |
 | 5 | Entregar los avatares `.riv` (exportados para la web, no el archivo del editor) | Diseño | Selección de tripulación y HUD |
 | 6 | Producir el video de entrada (MP4 o WebM, menos de 10 MB) | Blender | Pantalla de entrada |
-| 7 | Indicar la URL del servidor de desarrollo (normalmente `http://localhost:5173`) y el dominio final | Frontend | CORS de la API |
-| 8 | Crear las cuentas de Cloudflare y Google Cloud (créditos del evento) y el dominio en Porkbun | Israel (respaldo: Jasury) | Hosting y API |
+| 7 | Publicar en Vercel y pasarle a Dirk la URL de producción y el patrón de las vistas previas | Frontend | CORS de la API |
+| 8 | Decidir el dominio (subdominio gratis de Vercel o uno propio) | Diseño | Dirección pública de la app |
 | 9 | Medir FPS en laptop, iPhone y Android con el simulador | Frontend | Ajustar calidad del 3D |
 | 10 | Preparar la laptop con Blender MCP para la prueba de modelos | Blender | Verificar modelos y optimización |
 | 11 | Preparar el envío a Space Apps: textos en inglés, video de hasta 30 s o 7 diapositivas, declaración de uso de IA, marca de agua en imágenes generadas con IA, sin logos de NASA | Todo el equipo | Requisitos de la entrega |

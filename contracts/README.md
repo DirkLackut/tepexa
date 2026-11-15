@@ -3,7 +3,9 @@
 Todo lo que el backend va a responder ya está aquí. Pueden programar las pantallas contra los
 archivos de `examples/` desde hoy; cuando la API esté publicada, solo cambian la URL base.
 
-- **Base:** `/api/v1` (local: `http://localhost:8000/api/v1`; la URL de Cloud Run se anota aquí).
+- **Base:** `/api/v1` (local: `http://localhost:8000/api/v1`; publicada en Render: se anota aquí
+  cuando esté lista).
+- **Qué es real y qué es ejemplo:** `GET /api/v1/health` → `endpoints` (`live` o `example`).
 - **Definición completa:** `openapi.json` (sirve para generar tipos de TypeScript, por ejemplo
   con `npx openapi-typescript contracts/openapi.json -o frontend/src/shared/api/types.ts`).
 - **Ejemplos:** `examples/*.json`. Son datos **de ejemplo** (`is_example: true`): el terreno es
@@ -58,6 +60,19 @@ terreno ni rutas; muestra ficha y hechos).
 
 6. **Advertencias** (`warnings[].code`): `EXAMPLE_DATA`, `CONCEPTUAL_ONLY`, `SOFT_SOIL`,
    `STEEP_SEGMENT`, `EVA_LIMIT_EXCEEDED`, `LOW_DATA_RESOLUTION`. Muéstrenlas con su `message`.
+
+## Compatibilidad (reglas de v1)
+**El backend se compromete a:**
+1. Dentro de `/api/v1` solo hacer cambios que **agregan**: campos nuevos opcionales o valores nuevos
+   en listas de códigos. Nunca renombrar, quitar ni cambiar el tipo de un campo.
+2. Si algún día hiciera falta un cambio que rompe, publicarlo como `/api/v2` sin apagar v1.
+3. Anotar cada cambio en `contracts/CHANGELOG.md` y regenerar `openapi.json`.
+
+**El frontend se compromete a:**
+1. Generar los tipos de TypeScript desde `openapi.json`, no escribirlos a mano.
+2. Ignorar campos que no conozca y mostrar `message` aunque llegue un código de advertencia nuevo.
+3. Usar una sola URL base configurable (`VITE_API_URL`).
+4. Mostrar una etiqueta «Datos de ejemplo» cuando `is_example` sea `true`.
 
 ## Cómo pedir un cambio
 El contrato solo cambia por Pull Request revisado por el backend. Escriban la duda o el campo que

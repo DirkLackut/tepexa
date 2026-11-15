@@ -19,9 +19,11 @@ científicos, comparando rutas calculadas sobre un modelo de elevación real.
 
 ## Comandos (backend)
 - Instalar: `pip install -r backend/requirements-dev.txt`
-- Pruebas: `pytest -q backend/tests`
+- Pruebas: `pytest -q backend/tests` (las de base de datos necesitan `TEST_DATABASE_URL`)
 - Servidor local (modo ejemplo): `uvicorn app.main:app --reload --app-dir backend`
 - Regenerar ejemplos y OpenAPI: `python contracts/tools/generar_ejemplos.py`
+- Regenerar la semilla del catálogo: `python backend/db/tools/generar_semilla.py`
+- Migraciones: archivos nuevos en `backend/db/migrations/`; las aplicadas no se editan.
 
 ## Reglas
 - Identificadores de código en inglés. Documentos en español. Textos para el usuario siempre

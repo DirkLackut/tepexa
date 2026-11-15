@@ -1,0 +1,25 @@
+# Render Blueprint de la API de TEPEXA (spec 001, D-18).
+# En Render: New > Blueprint > elegir este repo. Las variables con sync: false se llenan a mano
+# en el panel de Render (nunca en este archivo).
+services:
+  - type: web
+    name: tepexa-api
+    runtime: python
+    plan: free
+    region: virginia
+    branch: main
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/v1/health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.15
+      - key: TEPEXA_MODE
+        value: live
+      - key: DATABASE_URL
+        sync: false
+      - key: TEPEXA_CORS_ORIGINS
+        sync: false
+      - key: TEPEXA_CORS_ORIGIN_REGEX
+        sync: false

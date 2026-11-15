@@ -288,6 +288,18 @@
             "title": "Dataset Versions",
             "type": "object"
           },
+          "endpoints": {
+            "additionalProperties": {
+              "enum": [
+                "live",
+                "example"
+              ],
+              "type": "string"
+            },
+            "description": "Por endpoint: si ya responde con datos reales (live) o de ejemplo (spec 001)",
+            "title": "Endpoints",
+            "type": "object"
+          },
           "mode": {
             "enum": [
               "example",
@@ -2000,7 +2012,7 @@
     "description": "Contrato definido en la spec 000. Todas las coordenadas están en metros en el marco local de cada región. Los textos para el usuario vienen como {es, en}. Las respuestas de ejemplo llevan is_example: true y no son datos de NASA.",
     "summary": "Explore the Unknown — mapa, rutas y simulación de EVA en Marte (NASA Space Apps 2026).",
     "title": "TEPEXA API",
-    "version": "0.1.0-spec000"
+    "version": "0.2.0-spec001"
   },
   "openapi": "3.1.0",
   "paths": {
