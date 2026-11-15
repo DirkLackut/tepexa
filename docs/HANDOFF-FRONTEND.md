@@ -106,6 +106,25 @@ Blender, no la API. Muéstrenlo como avance, nunca como misión planificable.
   `<Suspense>` y en un *error boundary* con un reemplazo simple: si un modelo no está, falla o pesa
   demasiado, la app sigue. `useGLTF` de drei ya descomprime meshopt.
 - **Presupuesto (aviso, no error):** ≤ 4 MB por modelo en PC y ≤ 1.5 MB en móvil. El script avisa.
+- **Modelos que hay hoy** (`manifest.json` tiene los datos exactos):
+
+  | Modelo | PC | Móvil | Nota |
+  |---|---|---|---|
+  | `mars`, `crater`, `medusa` | 0.5–1.8 MB | 0.2–0.6 MB | `crater` usa transmisión (agua): apáguenla en móvil |
+  | `alejandro`, `dirk`, `dylan`, `israel`, `yasid` (avatares Tripo) | ~2.8 MB | 1.2–1.4 MB | Consentimiento de las 5 personas confirmado (15-nov) |
+  | `china` (Tripo, de Israel) | 2.91 MB | 1.49 MB | Justo en el límite de móvil |
+  | `drone` (Tripo) | 2.87 MB | **1.77 MB** ⚠ | Ver «Problema en celular» |
+
+- **Problema en celular (dron):** la versión móvil del dron pesa 1.77 MB y el límite es 1.5 MB. Los escaneos
+  de Tripo tienen muchas costuras de textura y el optimizador no baja de ~190 mil triángulos aunque se le
+  permita perder más calidad. No rompe nada (es un aviso), pero en un celular con datos móviles tarda más.
+  Opciones, de mejor a peor:
+  1. **Reexportar el dron desde Tripo con menos caras** (opción de baja poligonización o *face limit* de unas
+     50 mil caras), ponerlo en `assets/models/originales/drone.glb` y correr `npm run modelos -- drone.glb`.
+  2. En móvil, cargar el dron solo cuando se vaya a ver (no en la pantalla de inicio) y mostrar un reemplazo
+     simple mientras llega.
+  3. Aceptar el aviso.
+  Lo mismo vale para cualquier modelo nuevo de Tripo: si el script avisa en `movil`, reexporten con menos caras.
 - **No los pongan en `backend/`**: ahí Render se vuelve a publicar con cada modelo.
 - `Crater.glb` es artístico: úsenlo en la entrada. El simulador usa el heightmap real de la API (las rutas
   solo coinciden con ese terreno).

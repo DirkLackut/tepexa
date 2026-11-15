@@ -344,9 +344,45 @@
           "KHR_mesh_quantization"
         ]
       }
+    },
+    "china": {
+      "source_file": "china.glb",
+      "source": {
+        "bytes": 60517440,
+        "triangles": 1930022,
+        "textures": 3,
+        "animations": 0,
+        "extensions": []
+      },
+      "warnings": [],
+      "ok": true,
+      "pc": {
+        "url": "/models/china/pc.glb",
+        "bytes": 2911040,
+        "triangles": 299924,
+        "textures": 3,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "EXT_texture_webp",
+          "KHR_mesh_quantization"
+        ]
+      },
+      "movil": {
+        "url": "/models/china/movil.glb",
+        "bytes": 1488704,
+        "triangles": 150284,
+        "textures": 3,
+        "animations": 0,
+        "extensions": [
+          "EXT_meshopt_compression",
+          "EXT_texture_webp",
+          "KHR_mesh_quantization"
+        ]
+      }
     }
   },
-  "generated_at": "2026-11-15T09:55:07.846Z",
+  "generated_at": "2026-11-15T10:20:05.787Z",
   "budget_bytes": {
     "pc": 4000000,
     "movil": 1500000

@@ -29,6 +29,7 @@
 | `dylan` (Tripo) | 60.78 MB | 2.77 MB (300 051 tri) | 1.26 MB (125 743 tri) |
 | `israel` (Tripo) | 59.85 MB | 2.72 MB (300 090 tri) | 1.15 MB (113 304 tri) |
 | `yasid` (Tripo) | 59.87 MB | 2.78 MB (299 899 tri) | 1.30 MB (130 442 tri) |
+| `china` (Tripo) | 60.52 MB | 2.91 MB (299 924 tri) | 1.49 MB (150 284 tri) |
 | `drone` (Tripo) | 62.29 MB | 2.87 MB (299 982 tri) | 1.77 MB (~190 mil tri) — ⚠ supera 1.5 MB |
 
 Los escaneos de Tripo tienen muchas costuras de UV: el simplificador no baja de ~10 % de los triángulos aunque se le
