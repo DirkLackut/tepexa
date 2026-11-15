@@ -115,8 +115,12 @@ def _build_graph(t: Terrain, p: RouteParams, profile: RouteProfile) -> csr_matri
     return csr_matrix((np.maximum(w, 1e-12), (src, dst)), shape=(n, n))
 
 
-def _paths(g: csr_matrix, stops: list[int], pairs: list[tuple[int, int]], profile: RouteProfile, p: RouteParams):
-    """Camino de nodos para cada par (posición en stops). Un Dijkstra por cada origen distinto."""
+WINDOW_MARGIN_M = 400.0      # D-35: margen alrededor de base y objetivos
+WINDOW_MARGIN_FRACTION = 0.25
+
+
+def _dijkstra_paths(g: csr_matrix, stops: list[int], pairs: list[tuple[int, int]]):
+    """Camino de nodos por par, o None si algún par no tiene ruta en este grafo."""
     sources = sorted({a for a, _ in pairs})
     dist, pred = dijkstra(g, directed=True, indices=[stops[a] for a in sources], return_predecessors=True)
     row = {a: k for k, a in enumerate(sources)}
@@ -124,12 +128,42 @@ def _paths(g: csr_matrix, stops: list[int], pairs: list[tuple[int, int]], profil
     for a, b in pairs:
         k, target = row[a], stops[b]
         if not np.isfinite(dist[k, target]):
-            raise no_route(profile.value, a, b, p.max_slope_deg)
+            return None, (a, b)
         nodes = [target]
         while nodes[-1] != stops[a]:
             nodes.append(int(pred[k, nodes[-1]]))
         out.append(nodes[::-1])
-    return out
+    return out, None
+
+
+def _window(t: Terrain, stops: list[int]) -> np.ndarray | None:
+    """Nodos del rectángulo que contiene las paradas más un margen; None si es toda la rejilla."""
+    rows, cols = t.shape
+    i, j = np.divmod(np.array(stops), cols)
+    span = max(i.max() - i.min(), j.max() - j.min())
+    m = int(max(WINDOW_MARGIN_M / t.cell_m, WINDOW_MARGIN_FRACTION * span))
+    i0, i1 = max(0, i.min() - m), min(rows, i.max() + m + 1)
+    j0, j1 = max(0, j.min() - m), min(cols, j.max() + m + 1)
+    if i0 == 0 and j0 == 0 and i1 == rows and j1 == cols:
+        return None
+    return (np.arange(i0, i1)[:, None] * cols + np.arange(j0, j1)[None, :]).ravel()
+
+
+def _paths(t: Terrain, g: csr_matrix, stops: list[int], pairs: list[tuple[int, int]], profile: RouteProfile,
+           p: RouteParams):
+    """Busca primero dentro de la ventana de las paradas (D-35); si ahí no hay ruta, en toda la región."""
+    idx = _window(t, stops)
+    if idx is not None:
+        local = np.full(t.z.size, -1, dtype=np.int64)
+        local[idx] = np.arange(idx.size)
+        sub = g[idx][:, idx]
+        found, _ = _dijkstra_paths(sub, [int(local[s]) for s in stops], pairs)
+        if found is not None:
+            return [[int(idx[n]) for n in path] for path in found]
+    found, failed = _dijkstra_paths(g, stops, pairs)
+    if found is None:
+        raise no_route(profile.value, failed[0], failed[1], p.max_slope_deg)
+    return found
 
 
 # ---------------------------------------------------------------- métricas y segmentos
@@ -212,7 +246,7 @@ def plan_routes(t: Terrain, start, targets, params: RouteParams) -> list[Route]:
     routes = []
     for profile in p.profiles:
         g = _graph(t, p, profile)
-        legs = _paths(g, stops, pairs, profile, p)
+        legs = _paths(t, g, stops, pairs, profile, p)
         outbound = _segment(t, legs[:n], out_pairs)
         back = _segment(t, [legs[n]], [(n, 0)]) if p.include_return else None
         total = _total(outbound.metrics, back.metrics if back else None)

@@ -14,7 +14,7 @@ Equipo de 6 (UAM, Managua). Objetivo de esta etapa: **la demo del evento**.
 | 001 | Base de datos (Neon + PostGIS), catálogo y publicación en Render | Cerrada (15-nov). API en `https://tepexa-api.onrender.com/api/v1`. Falta solo probar CORS cuando exista la URL de Vercel |
 | 002 | Pipeline de datos (DEM, ortoimagen, inercia térmica, mineralogía) | Parte 1 lista (15-nov): DTM HiRISE real de la Margin Unit, 5 sitios reales de Perseverance, terreno 3D real. Semilla 002 aplicada en Neon. Falta: ortoimagen, inercia térmica, `/layers` |
 | 003 | Motor de rutas (3 perfiles + regreso) | Listo sobre el DTM real (falta medir en Render y comparar con la travesía) |
-| 004 | Análisis de misión e informe | Lista en el código (misiones, informe, límite por IP). Falta aplicar la migración 002 en Neon |
+| 004 | Análisis de misión e informe | Cerrada (15-nov): misiones, informe y límite por IP verificados en Render v0.5.0 |
 | 005 | Manifiesto del terreno 3D | Pendiente |
 | 006 | Pipeline de assets 3D (Blender) y Rive | Pendiente |
 
