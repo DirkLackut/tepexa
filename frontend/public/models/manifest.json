@@ -75,43 +75,36 @@
     "mars": {
       "source_file": "mars.glb",
       "source": {
-        "bytes": 5254404,
-        "triangles": 129072,
-        "textures": 1,
+        "bytes": 1621364,
+        "triangles": 18916,
+        "textures": 3,
         "animations": 0,
-        "extensions": [
-          "KHR_materials_emissive_strength",
-          "KHR_texture_transform"
-        ]
+        "extensions": []
       },
       "warnings": [],
       "ok": true,
       "pc": {
         "url": "/models/mars/pc.glb",
-        "bytes": 962644,
-        "triangles": 129072,
-        "textures": 1,
+        "bytes": 389760,
+        "triangles": 18916,
+        "textures": 3,
         "animations": 0,
         "extensions": [
           "EXT_meshopt_compression",
           "EXT_texture_webp",
-          "KHR_materials_emissive_strength",
-          "KHR_mesh_quantization",
-          "KHR_texture_transform"
+          "KHR_mesh_quantization"
         ]
       },
       "movil": {
         "url": "/models/mars/movil.glb",
-        "bytes": 260748,
-        "triangles": 32268,
-        "textures": 1,
+        "bytes": 239920,
+        "triangles": 18916,
+        "textures": 3,
         "animations": 0,
         "extensions": [
           "EXT_meshopt_compression",
           "EXT_texture_webp",
-          "KHR_materials_emissive_strength",
-          "KHR_mesh_quantization",
-          "KHR_texture_transform"
+          "KHR_mesh_quantization"
         ]
       }
     },
@@ -370,7 +363,7 @@
       }
     }
   },
-  "generated_at": "2026-11-15T12:41:42.865Z",
+  "generated_at": "2026-11-15T13:08:51.830Z",
   "budget_bytes": {
     "pc": 4000000,
     "movil": 1500000
