@@ -1,5 +1,7 @@
 # Frontend de TEPEXA
 
+**En vivo:** https://tepexa-ruby.vercel.app
+
 App en React 18 + TypeScript + Vite, con OpenLayers (mapa 2D) y React Three Fiber (3D).
 Es el diseño del equipo de frontend con los datos reales de la API dentro, módulo por módulo.
 **Antes de cambiar algo lean `docs/HANDOFF-FRONTEND.md`** y después `contracts/README.md` y `docs/constitucion.md`.
