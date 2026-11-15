@@ -14,7 +14,18 @@ científicos, comparando rutas calculadas sobre un modelo de elevación real.
 
 ## Si trabajas en el frontend
 Lee **primero** `docs/HANDOFF-FRONTEND.md`: estado de la API, datos reales, cómo usarlos, qué falta y
-quién lo hace. No modifiques `backend/` ni `contracts/`.
+quién lo hace. No modifiques `backend/` ni `contracts/`. Cómo se aprueba y se une un PR sin esperar a Dirk,
+y qué servicio es de quién: sección 6b de ese archivo.
+
+## Obligatorio si agregas o cambias un modelo 3D
+1. El original va en `assets/models/originales/<nombre>.glb` (nombre corto, en minúsculas). Esa carpeta no se sube.
+2. Una sola vez por PC: `cd pipeline/assets && npm install`. Luego: `npm run modelos -- <nombre>.glb`.
+3. Sube solo `frontend/public/models/<nombre>/` y `frontend/public/models/manifest.json`, en una rama con su PR.
+4. Si el script muestra ⚠ en `movil` (más de 1.5 MB), reexporta con menos caras (en Tripo, unas 50 mil) y
+   vuelve a correrlo. Si no se puede, dilo en el PR. Hoy el `drone` está en ese caso (HANDOFF, sección 5b).
+5. En la app, carga los modelos desde `/models/manifest.json`, usa `movil` en celulares y envuelve cada modelo en
+   `<Suspense>` y en un *error boundary* con un reemplazo: si un modelo falla, la página sigue.
+6. Nunca en `backend/`. Nunca subas `.blend` ni los originales. Los avatares de personas, solo con su consentimiento.
 
 ## Antes de tocar código
 1. Lee `docs/constitucion.md`.
