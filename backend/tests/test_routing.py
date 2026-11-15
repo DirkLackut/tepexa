@@ -206,3 +206,28 @@ def test_graphs_are_reused_between_requests():
     plan_routes(t, (500, 500), [(3000, 2500)], p)
     assert len(t._graphs) == n  # mismos parámetros: no se reconstruye ningún grafo
     assert time.perf_counter() - t0 < 1.0
+
+
+def test_window_search_falls_back_to_full_grid_for_long_detours():
+    """D-35: si la única ruta sale de la ventana de búsqueda, se usa toda la región."""
+    from app.routing import engine
+
+    t = flat(n=201, cell=10.0)
+    t.z[:, 100] = np.nan          # muro de NoData en x = 1000 m …
+    t.z[195, 100] = 0.0           # … con el único paso arriba, en y = 1950 m (fuera del margen de 400 m)
+    r = plan_routes(t, (900, 0), [(1100, 0)], params(profiles=[RouteProfile.shortest]))[0]
+    assert (1000.0, 1950.0) in path_xy(r.outbound)
+    assert engine._window(t, [t.node(900, 0), t.node(1100, 0)]) is not None  # sí se intentó la ventana
+
+
+def test_window_gives_same_route_as_full_search_on_example_terrain():
+    from app.routing import engine
+
+    t = example_terrain()
+    p = params(include_return=True)
+    stops = [t.node(400, 600), t.node(1400, 900), t.node(2100, 1500)]
+    pairs = [(0, 1), (1, 2), (2, 0)]
+    for prof in ALL:
+        g = engine._graph(t, p, prof)
+        full, _ = engine._dijkstra_paths(g, stops, pairs)
+        assert engine._paths(t, g, stops, pairs, prof, p) == full

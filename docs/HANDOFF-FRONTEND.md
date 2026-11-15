@@ -74,7 +74,7 @@ el **terreno sintético**; los `id` y las coordenadas de los puntos de interés 
 3. **Rutas:** cada perfil trae `outbound.polyline` como `[x, y, z]`. **La misma polilínea** se dibuja en
    el mapa, el minimapa, el 3D y el informe; nadie recalcula rutas en el navegador. `legs[]` dice en qué
    vértice empieza y termina cada tramo. `elevation_profile` sirve para el gráfico.
-4. **Tiempos:** `/routes/compare` tarda 3–5 s en Render. Muestren «calculando…» y no permitan doble envío.
+4. **Tiempos:** `/routes/compare` tarda unos 2 s en Render (más si se piden muchos objetivos lejanos). Muestren «calculando…» y no permitan doble envío.
    **Primera llamada:** si nadie usó la API en 15 min, Render tarda ~50 s en despertar. Llamen a
    `/health` al abrir la app y muestren un estado de carga.
 5. **Guardar y ver el informe:** `POST /missions` con `{name, route_request, selected_profile, crew}`
@@ -110,6 +110,7 @@ Blender, no la API. Muéstrenlo como avance, nunca como misión planificable.
 
 | # | Pendiente | Quién | Bloquea al frontend |
 |---|---|---|---|
+| B0 | Bajar el tiempo de `/routes/compare` (búsqueda por ventana, D-35) | Backend | Hecho en código; se mide al publicar |
 | B1 | Agregar la URL de Vercel al CORS | Backend, cuando el frontend pase la URL | Sí, en producción |
 | B2 | Inercia térmica (THEMIS) → capa y suelo suelto en la ruta «más segura» | Backend | No: hoy las 3 rutas salen casi iguales y la app lo dice |
 | B3 | Ortoimagen HiRISE de 25 cm como capa y textura real del 3D | Backend | No: hoy la textura es relieve sombreado |

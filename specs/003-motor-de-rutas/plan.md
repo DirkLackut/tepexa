@@ -31,6 +31,7 @@ Módulos nuevos, en `backend/app/routing/`:
 | D-24 | Costo por perfil. **Más corta:** distancia 3D. **Más rápida:** tiempo. **Más segura:** tiempo × (1 + p · suelo suelto) × (1 + (θ/θmáx)²) | La más segura evita suelo suelto y pendientes cercanas al límite |
 | D-25 | Advertencias: `STEEP_SEGMENT` si la pendiente máxima ≥ 75 % del límite; `SOFT_SOIL` si hay suelo suelto; `EVA_LIMIT_EXCEEDED` si ida + vuelta superan el límite; `EXAMPLE_DATA` con terreno sintético; `CONCEPTUAL_ONLY` siempre | Principio 2: nunca afirmar que una ruta es segura |
 | D-26 | Recomendación: «más segura» si cabe en el límite de EVA; si no, «más rápida» si cabe; si no, ninguna | Prioriza seguridad dentro del tiempo disponible |
+| D-35 | La búsqueda corre primero en el rectángulo de base y objetivos más un margen (400 m o 25 % del tamaño); si ahí no hay ruta, en toda la región | En Render gratis el límite es la CPU: la misión de 4 objetivos baja de 0.49 a 0.17 s en local con la misma ruta. Una ruta que necesite rodear más allá del margen se encuentra igual con la búsqueda completa |
 | D-27 | Los ejemplos de `contracts/` se regeneran con el motor (misma forma, valores nuevos) | El ejemplo y la API en vivo dan lo mismo para la misma petición |
 
 ## Dependencias nuevas
