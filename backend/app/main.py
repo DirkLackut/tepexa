@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from . import errors
 from .api.v1 import router
-from .settings import APP_VERSION, cors_origins
+from .settings import APP_VERSION, cors_origin_regex, cors_origins
 
 app = FastAPI(
     title="TEPEXA API",
@@ -17,5 +17,6 @@ app = FastAPI(
     ),
 )
 errors.install(app)
-app.add_middleware(CORSMiddleware, allow_origins=cors_origins(), allow_methods=["GET", "POST"], allow_headers=["*"])
+app.add_middleware(CORSMiddleware, allow_origins=cors_origins(), allow_origin_regex=cors_origin_regex(),
+                   allow_methods=["GET", "POST"], allow_headers=["*"])
 app.include_router(router)

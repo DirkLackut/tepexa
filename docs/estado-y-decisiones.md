@@ -10,12 +10,16 @@ Equipo de 6 (UAM, Managua). Objetivo de esta etapa: **la demo del evento**.
 
 | Spec | Nombre | Estado |
 |---|---|---|
-| 000 | Contrato API backend↔frontend | Lista: 55 pruebas pasan. Falta subirla (T7) y la revisión del frontend (T8) |
-| 001 | Base de datos (Neon + PostGIS) y catálogo | Pendiente |
+| 000 | Contrato API backend↔frontend | Cerrada (14-nov, `cb1975e`). Falta la revisión del frontend (T8) |
+| 001 | Base de datos (Neon + PostGIS), catálogo y publicación en Render | En curso: 71 pruebas pasan en local; migración y semilla aplicadas en Neon (14-nov). Falta: PR, Render, regla de `main` |
 | 002 | Pipeline de datos (DEM, ortoimagen, inercia térmica, mineralogía) | Pendiente |
 | 003 | Motor de rutas (3 perfiles + regreso) | Pendiente |
 | 004 | Análisis de misión e informe | Pendiente |
 | 005 | Manifiesto del terreno 3D | Pendiente |
+| 006 | Pipeline de assets 3D (Blender) y Rive | Pendiente |
+
+Las specs 002 a 006 tienen `spec.md` y `tasks.md` en borrador; se completan con `clarificacion.md`
+y `plan.md` al abrir cada una. Datos de NASA: `docs/datos/catalogo-de-datos.md`.
 
 ## Decisiones de producto
 
@@ -50,8 +54,9 @@ Equipo de 6 (UAM, Managua). Objetivo de esta etapa: **la demo del evento**.
 | D-3 | Textos para el usuario como `{es, en}` | App bilingüe sin segunda llamada |
 | D-4 | Marco local en metros por región; origen en la esquina suroeste del recorte | Medir en Marte sin geodesia terrestre |
 | D-5 | Respuestas de ejemplo con `is_example: true` | Principio 1: nada sintético se confunde con dato real |
-| D-6 | Neon (PostgreSQL 17 + PostGIS), AWS US East 1 | Gratis, cerca de Cloud Run |
-| D-7 | Cloudflare (frontend) + R2 (assets) + Cloud Run (API) + dominio de Porkbun | Gratis o con créditos del evento |
+| D-6 | Neon (PostgreSQL 18.7 + PostGIS 3.6.4), AWS US East 1 | Gratis, cerca de Render Virginia |
+| D-7 | Vercel (frontend, equipo) + Render (API) + Cloudflare R2 (archivos pesados). Google Cloud y Porkbun descartados (14-nov) | Gratis; lo decidió el equipo |
+| D-11 a D-19 | Ver `specs/001-base-de-datos-y-catalogo/plan.md` | Migraciones SQL, psycopg, textos jsonb, modo live por endpoint, Render, CORS |
 
 ## Assets de Blender y Rive
 - **Formato de trabajo:** `.blend` (lo sigue usando el equipo en Blender; no va a Git).
@@ -64,18 +69,29 @@ Equipo de 6 (UAM, Managua). Objetivo de esta etapa: **la demo del evento**.
 - El terreno de las rutas **siempre** sale del DEM (principio 3).
 
 ## Cuentas
-Dueño: **Israel**. Respaldo: **Jasury**.
+Las crea y administra **Dirk**; el equipo entra como miembro. Ninguna clave va al repo ni al chat.
+- GitHub: `DirkLackut/tepexa`, público; colaboradores IsraDev29, Quokka-JOne, Gasparin-12,
+  Alejandro17Cast, G-Yasid. Regla de protección de `main`: **pendiente de crear** (spec 001, T12).
 - Neon: organización `TEPEXA`, proyecto `tepexa` (`floral-king-93600340`), rama `production`,
-  AWS US East 1. Creado por Dirk el 14-nov.
-- Cloudflare, Google Cloud (créditos de US$300 por 90 días), dominio en Porkbun: pendientes.
+  AWS US East 1.
+- Cloudflare: cuenta de Dirk (R2 para archivos pesados).
+- Render: cuenta de Dirk con GitHub (servicio `tepexa-api`, región Virginia).
+- Vercel y dominio: los maneja el equipo de frontend y diseño.
 
 ## Dónde corre cada cosa
 - **En el entorno de trabajo en la nube:** specs, código del backend, pruebas, procesamiento
   de datos.
 - **En la PC de Dirk** (`C:\Users\ALUMNO\Desktop\TEPEXA`): descarga de datos de NASA, commits y
-  push (desde VS Code), pegar secretos en `.env.local`.
-- **Frontend:** PCs del equipo; fase 1 con los JSON de `contracts/examples`, fase 2 con la API en
-  Cloud Run.
+  push (desde VS Code), pegar secretos en `.env.local` y en Render.
+- **Neon:** las migraciones y semillas se pegan en el SQL Editor de la consola (la nube de
+  desarrollo no llega a Neon por red).
+- **Render:** la API publicada; lee la cadena de conexión de sus variables de entorno.
+- **Frontend:** PCs del equipo y Vercel; fase 1 con los JSON de `contracts/examples`, fase 2 con
+  la URL de Render.
+
+## Plan B de la defensa
+- Render gratis se duerme tras 15 min sin uso: abrir `/api/v1/health` un minuto antes de presentar.
+- Video grabado del flujo completo y la app corriendo en una laptop.
 
 ## Lecciones
 (Se llenan al cerrar cada spec.)

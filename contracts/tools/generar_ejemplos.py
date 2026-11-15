@@ -25,6 +25,7 @@ from app.contract import (  # noqa: E402
     TerrainManifest, TerrainTexture, TileSource, WarningCode,
 )
 from app.openapi_export import build_openapi  # noqa: E402
+from app.settings import ALL_ENDPOINTS, APP_VERSION  # noqa: E402
 
 OUT = REPO / "contracts" / "examples"
 NOW = datetime(2026, 11, 14, 0, 0, tzinfo=timezone.utc)
@@ -474,8 +475,9 @@ def main():
               en="Radiation, power, communications and weather are not modelled."),
         ],
         disclaimer=DISCLAIMER, generated_at=NOW)
-    health = Health(mode="example", app_version="0.1.0-spec000",
-                    dataset_versions={"jezero-margin": DATASET, "medusae-fossae": DATASET})
+    health = Health(mode="example", app_version=APP_VERSION,
+                    dataset_versions={"jezero-margin": DATASET, "medusae-fossae": DATASET},
+                    endpoints={e: "example" for e in ALL_ENDPOINTS})
 
     files = {
         "health.json": health, "regions.json": regions, "region-jezero.json": jezero,

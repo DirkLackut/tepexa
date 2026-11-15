@@ -29,8 +29,20 @@ pip install -r backend/requirements-dev.txt
 pytest -q backend/tests
 uvicorn app.main:app --reload --app-dir backend
 ```
-Con `TEPEXA_MODE=example` (por defecto) la API sirve los ejemplos del contrato.
-Documentación interactiva en `http://localhost:8000/docs`.
+Con `TEPEXA_MODE=example` (por defecto) la API sirve los ejemplos del contrato. Con
+`TEPEXA_MODE=live` y `DATABASE_URL`, los endpoints ya implementados leen de la base
+(`/api/v1/health` → `endpoints`). Documentación interactiva en `http://localhost:8000/docs`.
+
+- **Base de datos:** migraciones en `backend/db/migrations/`, semillas en `backend/db/seeds/`.
+- **Publicación:** Render, con `render.yaml` (Blueprint).
+- **Pruebas de base:** definir `TEST_DATABASE_URL` (PostgreSQL con PostGIS que se pueda vaciar).
+
+| Pieza | Dónde |
+|---|---|
+| Frontend | Vercel |
+| API | Render |
+| Base de datos | Neon (PostgreSQL + PostGIS) |
+| Archivos pesados | Cloudflare R2 |
 
 ## Método
 Spec-Driven Development (`docs/METODO-SDD.md`). Lee `AGENTS.md` antes de pedirle algo a una IA.
