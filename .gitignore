@@ -31,6 +31,10 @@ data/processed/
 *.blend
 *.blend1
 
+# Modelos originales del equipo (Blender, Tripo…): pesan decenas de MB y no van a Git.
+# Se optimizan con pipeline/assets y solo se suben las versiones de frontend/public/models/.
+assets/models/originales/
+
 # Sistema
 .DS_Store
 Thumbs.db

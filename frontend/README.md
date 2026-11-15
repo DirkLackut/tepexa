@@ -55,6 +55,12 @@ también va en móvil, en versión liviana (`lods[].recommended_for = "mobile"`)
 | 10 | Preparar la laptop con Blender MCP para la prueba de modelos | Blender | Verificar modelos y optimización |
 | 11 | Preparar el envío a Space Apps: textos en inglés, video de hasta 30 s o 7 diapositivas, declaración de uso de IA, marca de agua en imágenes generadas con IA, sin logos de NASA | Todo el equipo | Requisitos de la entrega |
 
+## Modelos 3D: cómo entregarlos
+1. Exporten el `.glb` (reglas abajo) y déjenlo en `assets/models/originales/` (no se sube a Git).
+2. `cd pipeline/assets && npm install` (una vez) y `npm run modelos`.
+3. Suban solo lo que cambió en `frontend/public/models/` (con su `manifest.json`), en una rama con PR.
+Si el script avisa que un modelo pesa de más, ustedes deciden: simplificarlo en Blender o usarlo igual.
+
 ## Reglas para exportar desde Blender
 - Material *Principled BSDF* únicamente; texturas horneadas (nada procedural).
 - Mallas con UVs; transformaciones aplicadas; escala en metros; eje Y arriba (el exportador glTF lo hace).
