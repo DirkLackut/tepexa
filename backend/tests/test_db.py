@@ -142,10 +142,8 @@ def test_health_endpoints_status(live_client):
     assert h["endpoints"]["regions"] == "live"
     assert h["endpoints"]["region"] == "live"
     assert h["endpoints"]["pois"] == "live"
-    assert h["endpoints"]["routes"] == "live"
-    assert h["endpoints"]["terrain"] == "live"
-    for name in ["layers", "missions"]:
-        assert h["endpoints"][name] == "example"
+    for name in ["routes", "terrain", "layers", "missions"]:
+        assert h["endpoints"][name] == "live"
     assert live_client.get("/api/v1/regions/jezero-margin/layers").json()["is_example"] is True
 
 

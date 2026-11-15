@@ -2,7 +2,7 @@
   "status": "ok",
   "api_version": "v1",
   "mode": "example",
-  "app_version": "0.4.0-spec002",
+  "app_version": "0.5.0-spec004",
   "dataset_versions": {
     "jezero-margin": "example-v0",
     "medusae-fossae": "example-v0"

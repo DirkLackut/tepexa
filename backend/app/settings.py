@@ -1,10 +1,10 @@
 """Configuración por variables de entorno (ver .env.example)."""
 import os
 
-APP_VERSION = "0.4.0-spec002"
+APP_VERSION = "0.5.0-spec004"
 
 # Endpoints que ya leen datos reales en modo «live» (D-15). El resto sigue en ejemplo.
-LIVE_ENDPOINTS = {"regions", "region", "pois", "routes", "terrain"}  # routes: spec 003; terrain: spec 002
+LIVE_ENDPOINTS = {"regions", "region", "pois", "routes", "terrain", "missions", "layers"}  # 003, 002, 004
 ALL_ENDPOINTS = ["regions", "region", "pois", "layers", "terrain", "routes", "missions"]
 
 

@@ -86,8 +86,14 @@ def main():
     hs = hillshade(z, cell)
     rgb = (np.clip(0.25 + 0.85 * hs, 0, 1)[..., None] * MARS_TINT * 255).astype(np.uint8)
     Image.fromarray(np.ascontiguousarray(rgb[::-1])).save(WEB / "texture-relief.webp", quality=85)
+    # Capas 2D (OpenLayers ImageStatic): relieve sombreado y elevación en color, fila 0 = norte.
+    Image.fromarray(np.ascontiguousarray((hs[::-1] * 255).astype(np.uint8))).save(WEB / "layer-hillshade.webp", quality=85)
+    t = np.clip((z - zmin) / (zmax - zmin), 0, 1)[..., None]
+    stops = np.array([[0x1B, 0x3A, 0x4B], [0x8C, 0x6B, 0x4F], [0xE8, 0xD9, 0xB5]], dtype=float)
+    rgb_e = np.where(t < 0.5, stops[0] + (stops[1] - stops[0]) * (t / 0.5), stops[1] + (stops[2] - stops[1]) * ((t - 0.5) / 0.5))
+    Image.fromarray(np.ascontiguousarray(rgb_e[::-1].astype(np.uint8))).save(WEB / "layer-elevation.webp", quality=85)
     web_files = {}
-    for name in ("heightmap-lod0.png", "heightmap-lod1.png", "texture-relief.webp"):
+    for name in ("heightmap-lod0.png", "heightmap-lod1.png", "texture-relief.webp", "layer-hillshade.webp", "layer-elevation.webp"):
         path = WEB / name
         w, h = Image.open(path).size
         web_files[name] = {"bytes": path.stat().st_size, "sha256": sha256(path), "width_px": w, "height_px": h}

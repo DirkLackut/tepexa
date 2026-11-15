@@ -18,6 +18,6 @@
 ## Bloque D — Publicación
 - [x] T9 · Assets del terreno servidos por la API en `/assets` (D-29)
 - [x] T10 · Semilla `002_jezero_hirise.sql` (región y 6 puntos reales) · generada y probada en local
-- [ ] T10b · Correr la semilla 002 en Neon · ⚠ visto bueno de Dirk
-- [ ] T11 · `/layers` en modo live · CE-3
+- [x] T10b · Correr la semilla 002 en Neon · Hecho 15-nov con visto bueno de Dirk; la API publicada responde Jezero real (`hirise-v1`)
+- [x] T11 · `/layers` en modo live con las capas que salen del DTM (relieve sombreado y elevación, formato `image`). Ortoimagen, inercia térmica y mineralogía se agregan cuando existan · CE-3 parcial
 - [x] T12 · Catálogo de datos y créditos actualizados

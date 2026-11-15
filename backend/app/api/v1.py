@@ -1,8 +1,8 @@
 """Endpoints /api/v1. Modo ejemplo (spec 000) y modo live por endpoint (spec 001)."""
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 
 from .. import example_store as store
-from .. import repository, terrain_store
+from .. import missions, repository, terrain_store
 from ..contract import (
     ErrorResponse,
     Health,
@@ -16,6 +16,7 @@ from ..contract import (
     RegionStatus,
     RouteRequest,
     RouteResponse,
+    Source,
     TerrainManifest,
 )
 from ..errors import dataset_unavailable, mission_not_found, out_of_bounds, region_not_found, region_preview_only
@@ -26,6 +27,7 @@ router = APIRouter(prefix="/api/v1")
 
 E404 = {404: {"model": ErrorResponse, "description": "No existe"}}
 E409 = {409: {"model": ErrorResponse, "description": "Región en modo avance (preview)"}}
+E429 = {429: {"model": ErrorResponse, "description": "Demasiadas misiones guardadas seguidas"}}
 E422 = {422: {"model": ErrorResponse, "description": "Petición inválida, fuera de cobertura o sin ruta"}}
 
 
@@ -69,8 +71,13 @@ def get_region(region_id: str) -> RegionDetail:
 
 @router.get("/regions/{region_id}/layers", response_model=LayerList, responses={**E404, **E409}, tags=["regiones"])
 def get_layers(region_id: str) -> LayerList:
-    _active_region(region_id)
-    return store.layers(region_id)
+    region = _active_region(region_id)
+    if not is_live("layers") or region.is_example:
+        return store.layers(region_id)
+    layers = terrain_store.layers(region.id, region.dataset_version)
+    if layers is None:
+        raise dataset_unavailable()
+    return layers
 
 
 @router.get("/regions/{region_id}/pois", response_model=PoiCollection, responses=E404, tags=["regiones"])
@@ -105,21 +112,56 @@ def compare_routes(req: RouteRequest) -> RouteResponse:
     return engine.compare(provider.terrain_for(region), req, params, region.coordinate_frame.id)
 
 
-@router.post("/missions", response_model=Mission, status_code=201, responses={**E404, **E409, **E422}, tags=["misiones"])
-def create_mission(body: MissionCreate) -> Mission:
-    _check_points(body.route_request, _active_region(body.route_request.region_id))
-    return store.mission()
+def _client(request: Request) -> str:
+    fwd = request.headers.get("x-forwarded-for")
+    return fwd.split(",")[0].strip() if fwd else (request.client.host if request.client else "?")
+
+
+def _terrain_source(t) -> Source | None:
+    src = t.notes.get("source") or {}
+    keys = ("mission", "instrument", "product_id", "url", "attribution")
+    return Source(**{k: src.get(k) for k in keys}) if src.get("url") else None
+
+
+@router.post("/missions", response_model=Mission, status_code=201,
+             responses={**E404, **E409, **E422, **E429}, tags=["misiones"])
+def create_mission(body: MissionCreate, request: Request) -> Mission:
+    region = _active_region(body.route_request.region_id)
+    _check_points(body.route_request, region)
+    if not is_live("missions"):
+        return store.mission()
+    if (body.route_request.params or region.route_defaults) is None:
+        raise dataset_unavailable()
+    missions.check_rate(_client(request))
+    mission, req = missions.build(body, region, provider.terrain_for(region))
+    missions.save(mission, req)
+    return mission
+
+
+def _load_mission(mission_id: str):
+    found = missions.load(mission_id) if is_live("missions") else None
+    if found is None:
+        raise mission_not_found(mission_id)
+    return found
 
 
 @router.get("/missions/{mission_id}", response_model=Mission, responses=E404, tags=["misiones"])
 def get_mission(mission_id: str) -> Mission:
-    if mission_id != store.EXAMPLE_MISSION_ID:
-        raise mission_not_found(mission_id)
-    return store.mission()
+    if not is_live("missions") or mission_id == store.EXAMPLE_MISSION_ID:
+        if mission_id != store.EXAMPLE_MISSION_ID:
+            raise mission_not_found(mission_id)
+        return store.mission()
+    return _load_mission(mission_id)[0]
 
 
 @router.get("/missions/{mission_id}/report", response_model=MissionReport, responses=E404, tags=["misiones"])
 def get_mission_report(mission_id: str) -> MissionReport:
-    if mission_id != store.EXAMPLE_MISSION_ID:
-        raise mission_not_found(mission_id)
-    return store.mission_report()
+    if not is_live("missions") or mission_id == store.EXAMPLE_MISSION_ID:
+        if mission_id != store.EXAMPLE_MISSION_ID:
+            raise mission_not_found(mission_id)
+        return store.mission_report()
+    mission, req = _load_mission(mission_id)
+    region = _region(mission.region_id)
+    t = provider.terrain_for(region)
+    return missions.report(mission, req, region, get_pois(region.id), _terrain_source(t),
+                           bool(t.notes.get("soft_soil_data", t.is_example)))

@@ -137,3 +137,55 @@ def test_real_terrain_manifest_and_assets(live_real):
 def test_route_responses_are_gzipped(live):
     r = live.post("/api/v1/routes/compare", json=REQUEST, headers={"Accept-Encoding": "gzip"})
     assert r.status_code == 200 and r.headers.get("content-encoding") == "gzip"
+
+
+def test_real_layers_and_assets(live_real):
+    r = live_real.get("/api/v1/regions/jezero-margin/layers")
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["is_example"] is False and [l["id"] for l in body["items"]] == ["hillshade", "elevation"]
+    for layer in body["items"]:
+        assert layer["tiles"]["format"] == "image"
+        got = live_real.get(layer["tiles"]["url"].replace("https://api.test", ""))
+        assert got.status_code == 200 and len(got.content) > 5_000
+
+
+# ---------------------------------------------------------------- spec 004 sin base: informe y límites
+def test_mission_report_without_db():
+    from app import missions
+    from app.contract import MissionCreate, PoiCollection, Source
+    from app.routing.provider import terrain_for
+
+    region = _real_region()
+    body = MissionCreate(name="EVA 01", route_request={
+        "region_id": "jezero-margin", "start": [2950.0, 1100.0],
+        "targets": [[3444.4, 1289.1], [3239.2, 1601.6]], "params": None}, selected_profile="safest", crew=["crew-01"])
+    t = terrain_for(region)
+    m, req = missions.build(body, region, t)
+    assert m.id.startswith("m-") and m.is_example is False and m.route.profile.value == "safest"
+    pois = PoiCollection(region_id="jezero-margin", coordinate_frame="jezero-margin-local-m", is_example=False, features=[
+        {"id": "pelican-point", "geometry": {"coordinates": [3444.4, 1289.1]},
+         "properties": {"id": "pelican-point", "name": {"es": "Pelican Point", "en": "Pelican Point"},
+                        "category": "science_target", "description": {"es": "x", "en": "x"},
+                        "evidence": [], "images": []}}])
+    rep = missions.report(m, req.model_dump(mode="json"), region, pois,
+                          Source(mission="MRO", url="https://example.org/dtm", attribution="USGS"), False)
+    assert [v.es for v in rep.objectives_visited] == ["Pelican Point", "Objetivo 2 (3239, 1602 m)"]
+    assert rep.metrics == m.route.total
+    assert any("inercia térmica" in l.es for l in rep.limitations)
+    assert rep.sources[0].url == "https://example.org/dtm"
+
+
+def test_mission_rate_limit():
+    from app import missions
+    from app.errors import ApiError
+
+    missions.reset_rate_limits()
+    for k in range(missions.RATE_MAX):
+        missions.check_rate("1.2.3.4", now=1000.0 + k)
+    with pytest.raises(ApiError) as e:
+        missions.check_rate("1.2.3.4", now=1000.0 + missions.RATE_MAX)
+    assert e.value.status == 429 and e.value.body.error.code.value == "RATE_LIMITED"
+    missions.check_rate("5.6.7.8", now=1000.0)  # otra IP no se ve afectada
+    missions.check_rate("1.2.3.4", now=1000.0 + missions.RATE_WINDOW_S + 1)  # pasa la ventana
+    missions.reset_rate_limits()

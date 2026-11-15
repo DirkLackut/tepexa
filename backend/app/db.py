@@ -36,5 +36,6 @@ def connection():
     try:
         with _get_pool().connection() as conn:
             yield conn
-    except (psycopg.OperationalError, PoolTimeout):
+    except (psycopg.OperationalError, PoolTimeout, psycopg.errors.UndefinedTable):
+        # UndefinedTable: falta una migración en la base (p. ej. 002_misiones) → 503, no 500
         raise dataset_unavailable() from None
