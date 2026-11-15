@@ -9,3 +9,5 @@
 - [ ] T4 · Acordar con el equipo mover `backend/render/*.glb` a `assets/models/originales/` (sin borrar nada hasta que digan) · ⚠ equipo
 - [x] T5 · Consentimiento de las personas en los avatares de Tripo · confirmado por Dirk (15-nov): alejandro, dirk, dylan, israel, yasid
 - [ ] T6 · Prueba con Blender MCP en la laptop del equipo · ⚠ equipo
+- [x] T7 · Revisión automática en cada PR (`pipeline/checks/revisar-archivos.mjs` + GitHub Actions): bloquea archivos > 10 MB, `.blend`, originales y modelos fuera de lugar o sin manifiesto; avisa sobre el presupuesto · CE-1
+- [ ] T7b · Marcar `revisar-archivos` como obligatoria en la regla de `main` · ⚠ Dirk

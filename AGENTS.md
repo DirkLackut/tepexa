@@ -27,6 +27,30 @@ y qué servicio es de quién: sección 6b de ese archivo.
    `<Suspense>` y en un *error boundary* con un reemplazo: si un modelo falla, la página sigue.
 6. Nunca en `backend/`. Nunca subas `.blend` ni los originales. Los avatares de personas, solo con su consentimiento.
 
+**Por qué no se sube el archivo original (60 MB de Tripo, o lo que salga de Blender):**
+- **Celulares:** el visitante descarga el modelo entero antes de verlo. Con datos móviles, 60 MB son minutos de
+  pantalla en blanco. Además, 2 millones de triángulos con texturas 4K pueden agotar la memoria gráfica y cerrar
+  la pestaña: para esa persona la página «se cayó». Los jueces de Space Apps abren la página en cualquier equipo.
+- **El repo:** todo archivo que entra a Git se queda en el historial **para siempre**, aunque luego se borre. Cada
+  clon y cada publicación de Vercel lo vuelve a descargar. GitHub avisa desde 50 MB y rechaza desde 100 MB.
+- **Optimizado no se nota la diferencia en pantalla:** el dron pasa de 62 MB a 2.9 MB (PC) y 1.8 MB (celular).
+
+**Revisión automática:** cada PR hacia `main` pasa por `pipeline/checks/revisar-archivos.mjs` (GitHub Actions).
+Si falla, el PR no se puede unir. Pruébala antes en tu PC: `node pipeline/checks/revisar-archivos.mjs`.
+
+| Bloquea el PR | Solo avisa |
+|---|---|
+| Un archivo de más de 10 MB (cualquiera: modelos, imágenes, videos) | `pc.glb` de más de 4 MB |
+| `.blend` u originales de `assets/models/originales/` | `movil.glb` de más de 1.5 MB |
+| Un `.glb` fuera de `frontend/public/models/<nombre>/` | |
+| Un modelo sin `pc.glb` y `movil.glb`, o que no está en `manifest.json` | |
+
+**Si encuentran otra forma, está bien.** Se exige el resultado, no la herramienta: pueden optimizar en Blender
+(*Decimate*, exportar con Draco), en gltf.report o con otro programa. Basta con que cada archivo pese menos de
+10 MB, que haya `pc.glb` y `movil.glb` en `frontend/public/models/<nombre>/` y que el modelo esté en
+`manifest.json` con la misma forma que los demás (si no usan el optimizador, se agrega a mano). Un video o una
+imagen grande para la presentación va fuera del repo (YouTube, Drive) y se enlaza.
+
 ## Antes de tocar código
 1. Lee `docs/constitucion.md`.
 2. Lee la spec activa en `specs/` (spec.md → clarificacion.md → plan.md → tasks.md).
