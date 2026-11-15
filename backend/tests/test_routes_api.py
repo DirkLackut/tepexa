@@ -132,3 +132,8 @@ def test_real_terrain_manifest_and_assets(live_real):
         path = url.replace("https://api.test", "")
         got = live_real.get(path)
         assert got.status_code == 200 and len(got.content) > 10_000, path
+
+
+def test_route_responses_are_gzipped(live):
+    r = live.post("/api/v1/routes/compare", json=REQUEST, headers={"Accept-Encoding": "gzip"})
+    assert r.status_code == 200 and r.headers.get("content-encoding") == "gzip"

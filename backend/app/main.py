@@ -1,6 +1,7 @@
 """API de TEPEXA."""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from . import errors, terrain_store
@@ -18,6 +19,7 @@ app = FastAPI(
     ),
 )
 errors.install(app)
+app.add_middleware(GZipMiddleware, minimum_size=1000)  # las rutas pesan ~200 KB sin comprimir
 app.add_middleware(CORSMiddleware, allow_origins=cors_origins(), allow_origin_regex=cors_origin_regex(),
                    allow_methods=["GET", "POST"], allow_headers=["*"])
 app.include_router(router)

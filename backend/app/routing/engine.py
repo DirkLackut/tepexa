@@ -85,7 +85,23 @@ def _all_edges(t: Terrain):
     return t._edges
 
 
+GRAPH_CACHE_SIZE = 12  # (perfil, pendiente, penalización) por terreno; casi siempre se usan los valores por defecto
+
+
 def _graph(t: Terrain, p: RouteParams, profile: RouteProfile) -> csr_matrix:
+    key = (profile.value, round(p.max_slope_deg, 6), round(p.soft_soil_penalty, 6) if profile == RouteProfile.safest else 0.0)
+    cache = t._graphs
+    if key in cache:
+        cache[key] = cache.pop(key)  # más reciente al final
+        return cache[key]
+    g = _build_graph(t, p, profile)
+    cache[key] = g
+    while len(cache) > GRAPH_CACHE_SIZE:
+        cache.pop(next(iter(cache)))
+    return g
+
+
+def _build_graph(t: Terrain, p: RouteParams, profile: RouteProfile) -> csr_matrix:
     src, dst, d3, slope, minutes, soft_frac = _all_edges(t)
     ok = slope <= p.max_slope_deg + 1e-9
     src, dst, d3, slope, minutes, soft_frac = src[ok], dst[ok], d3[ok], slope[ok], minutes[ok], soft_frac[ok]
