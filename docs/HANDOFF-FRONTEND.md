@@ -189,7 +189,7 @@ que el proyecto de Vercel se llame empezando con `tepexa`.
 | B8 | ~~Mover los `.glb` de `backend/render/`~~ **Hecho (15-nov)**: salen del repo; `crater`, `medusa` y `mars` tienen versión nueva | Backend | Ya no |
 
 ## 8. Lo que le toca al frontend y al equipo
-**Estado (15-nov):** el frontend ya está integrado en `frontend/`: el diseño del equipo con los datos reales
+**Estado (15-nov):** publicado en **https://tepexa-ruby.vercel.app** (Vercel, proyecto `tepexa`, raíz `frontend`). El frontend está integrado en `frontend/`: el diseño del equipo con los datos reales
 dentro. Módulos, cómo correrlo y cómo publicarlo en Vercel: `frontend/README.md`. Pendientes del equipo: la
 tabla de ese mismo archivo.
 

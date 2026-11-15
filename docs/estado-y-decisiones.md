@@ -17,7 +17,7 @@ Equipo de 6 (UAM, Managua). Objetivo de esta etapa: **la demo del evento**.
 | 004 | Análisis de misión e informe | Cerrada (15-nov): misiones, informe y límite por IP verificados en Render v0.5.0 |
 | 005 | Manifiesto del terreno 3D | Cerrada (15-nov): `/terrain` en vivo con 2 niveles y escena de referencia en `frontend/ejemplos/escena-3d/`. Extra: textura con la ortoimagen real |
 | 006 | Pipeline de assets 3D (Blender) y Rive | Cerrada (15-nov): optimizador, revisión automática en cada PR, 10 modelos optimizados y comparación de calidad; `backend/render/` sale del repo; el dron se queda con su aviso en móvil; la prueba con Blender MCP se descarta |
-| — | Frontend integrado | 15-nov: diseño del equipo con los datos reales en `frontend/` (Atlas, Planificador, Análisis e informe, Simulador, Tripulación, Asistente, Medusae, Perfil). La simulación 3D es un módulo aislado; es posible que cambie (no está decidido) (`frontend/src/simulador/LEEME.md`); mapas: Jezero (real) y Medusae Fossae (ilustrativo). Falta: publicar en Vercel y medir FPS |
+| — | Frontend integrado | 15-nov: diseño del equipo con los datos reales en `frontend/` (Atlas, Planificador, Análisis e informe, Simulador, Tripulación, Asistente, Medusae, Perfil). La simulación 3D es un módulo aislado; es posible que cambie (no está decidido) (`frontend/src/simulador/LEEME.md`); mapas: Jezero (real) y Medusae Fossae (ilustrativo). Publicado en https://tepexa-ruby.vercel.app (15-nov). Falta: medir FPS en celulares |
 
 Las specs 002 a 006 tienen `spec.md` y `tasks.md` en borrador; se completan con `clarificacion.md`
 y `plan.md` al abrir cada una. Datos de NASA: `docs/datos/catalogo-de-datos.md`.
