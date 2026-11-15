@@ -195,3 +195,14 @@ def test_three_profiles_with_return_in_under_three_seconds():
     t0 = time.perf_counter()
     plan_routes(t, (400, 600), [(1400, 900), (2100, 1500), (3300, 1700), (3500, 2600)], params(include_return=True))
     assert time.perf_counter() - t0 < 3.0
+
+
+def test_graphs_are_reused_between_requests():
+    t = example_terrain()
+    p = params(include_return=True)
+    plan_routes(t, (400, 600), [(1400, 900)], p)
+    n = len(t._graphs)
+    t0 = time.perf_counter()
+    plan_routes(t, (500, 500), [(3000, 2500)], p)
+    assert len(t._graphs) == n  # mismos parámetros: no se reconstruye ningún grafo
+    assert time.perf_counter() - t0 < 1.0
