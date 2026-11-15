@@ -1,0 +1,64 @@
+# Contrato de la API — guía para el frontend
+
+Todo lo que el backend va a responder ya está aquí. Pueden programar las pantallas contra los
+archivos de `examples/` desde hoy; cuando la API esté publicada, solo cambian la URL base.
+
+- **Base:** `/api/v1` (local: `http://localhost:8000/api/v1`; la URL de Cloud Run se anota aquí).
+- **Definición completa:** `openapi.json` (sirve para generar tipos de TypeScript, por ejemplo
+  con `npx openapi-typescript contracts/openapi.json -o frontend/src/shared/api/types.ts`).
+- **Ejemplos:** `examples/*.json`. Son datos **de ejemplo** (`is_example: true`): el terreno es
+  sintético. No los muestren como datos de NASA; los hechos científicos sí son reales y traen su
+  fuente.
+
+## Qué usa cada pantalla
+
+| Pantalla | Endpoint | Ejemplo |
+|---|---|---|
+| Lista de regiones / próxima misión | `GET /regions` | `regions.json` |
+| Ficha de la región (objetivo, hechos con certeza, parámetros por defecto) | `GET /regions/{id}` | `region-jezero.json`, `region-medusae-fossae.json` |
+| Explorar: capas y leyendas | `GET /regions/{id}/layers` | `layers-jezero.json` |
+| Explorar: puntos de interés (GeoJSON) | `GET /regions/{id}/pois` | `pois-jezero.json` |
+| Planificar: comparar rutas | `POST /routes/compare` con `route-request.json` | `route-response.json` |
+| Simular: terreno 3D | `GET /regions/{id}/terrain` | `terrain-jezero.json` |
+| Guardar misión | `POST /missions` con `mission-create.json` | `mission.json` |
+| Resultados: informe | `GET /missions/{id}/report` | `mission-report.json` |
+| Estado del servicio | `GET /health` | `health.json` |
+
+Regiones: `jezero-margin` (activa) y `medusae-fossae` (avance de próxima misión: no tiene capas,
+terreno ni rutas; muestra ficha y hechos).
+
+## Reglas para leer los datos
+
+1. **Textos:** todo texto para el usuario viene como `{ "es": "...", "en": "..." }`. Elijan el
+   idioma en el frontend; no hace falta otra llamada.
+2. **Coordenadas:** metros en el marco local de la región. `x` al este, `y` al norte, origen en la
+   esquina suroeste (`bounds`). `z` es la elevación en metros. No son latitud/longitud.
+   - En OpenLayers: definan una proyección propia con unidades `m` y `extent = [min_x, min_y, max_x, max_y]`.
+   - En la escena 3D usen `terrain.scene_transform` (eje Y arriba).
+3. **Rutas:** `routes[]` trae un elemento por perfil (`shortest`, `fastest`, `safest`). Cada uno
+   tiene `outbound` (ida), `return_trip` (vuelta), `total`, `within_eva_limit` y `warnings`.
+   `outbound.legs[]` indica en qué vértices de la polilínea empieza y termina cada tramo entre
+   objetivos. `elevation_profile` sirve para el gráfico de perfil.
+   **El simulador 3D, el minimapa y el mapa deben usar la misma polilínea** (constitución, principio 4).
+4. **Terreno 3D:** `heightmap` es un PNG de 16 bits:
+   `z = z_min_m + (valor / 65535) · (z_max_m − z_min_m)`. Usen `lods[]` con `recommended_for`
+   para elegir resolución en PC o en móvil.
+5. **Errores:** siempre `{ "error": { "code", "message": {es, en}, "details" } }`.
+
+| Código | HTTP | Cuándo |
+|---|---|---|
+| `REGION_NOT_FOUND` | 404 | La región no existe |
+| `REGION_PREVIEW_ONLY` | 409 | Capas, terreno o rutas de una región en avance |
+| `OUT_OF_BOUNDS` | 422 | Un punto está fuera de los límites |
+| `NODATA` | 422 | Un punto cae donde no hay datos |
+| `NO_ROUTE` | 422 | Ninguna ruta respeta la pendiente máxima |
+| `BAD_REQUEST` | 422 | La petición no tiene el formato esperado |
+| `MISSION_NOT_FOUND` | 404 | La misión no existe |
+| `DATASET_UNAVAILABLE` | 503 | Los datos no están disponibles en el servidor |
+
+6. **Advertencias** (`warnings[].code`): `EXAMPLE_DATA`, `CONCEPTUAL_ONLY`, `SOFT_SOIL`,
+   `STEEP_SEGMENT`, `EVA_LIMIT_EXCEEDED`, `LOW_DATA_RESOLUTION`. Muéstrenlas con su `message`.
+
+## Cómo pedir un cambio
+El contrato solo cambia por Pull Request revisado por el backend. Escriban la duda o el campo que
+falta en `specs/000-contrato-api/clarificacion.md` o avísenle a Dirk.

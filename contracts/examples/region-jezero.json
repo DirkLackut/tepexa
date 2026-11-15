@@ -1,0 +1,131 @@
+{
+  "id": "jezero-margin",
+  "name": {
+    "es": "Cráter Jezero — Margin Unit",
+    "en": "Jezero Crater — Margin Unit"
+  },
+  "status": "active",
+  "summary": {
+    "es": "La antigua orilla de un lago donde Perseverance halló rastros de tres sistemas de agua distintos.",
+    "en": "The ancient shoreline of a lake where Perseverance found traces of three distinct water systems."
+  },
+  "center": {
+    "lat_deg": 18.38,
+    "lon_east_deg": 77.58,
+    "approximate": true
+  },
+  "thumbnail_url": "https://assets.example.invalid/jezero-margin/example-v0/thumbnail.webp",
+  "is_example": true,
+  "dataset_version": "example-v0",
+  "coordinate_frame": {
+    "id": "jezero-margin-local-m",
+    "units": "m",
+    "description": {
+      "es": "Metros desde la esquina suroeste del recorte: x al este, y al norte, z elevación.",
+      "en": "Metres from the south-west corner of the crop: x east, y north, z elevation."
+    },
+    "source_crs": null
+  },
+  "bounds": {
+    "min_x": 0.0,
+    "min_y": 0.0,
+    "max_x": 4000.0,
+    "max_y": 3000.0
+  },
+  "elevation_range": {
+    "min_m": -2440.0,
+    "max_m": -2273.7
+  },
+  "mission_objective": {
+    "es": "Recorrer la Margin Unit desde la base y visitar las rocas de los tres episodios de agua, en orden.",
+    "en": "Walk the Margin Unit from the base and visit the rocks of the three water episodes, in order."
+  },
+  "facts": [
+    {
+      "text": {
+        "es": "La Margin Unit es roca ígnea rica en olivino, no sedimento del lago como se creía desde órbita.",
+        "en": "The Margin Unit is olivine-rich igneous rock, not lake sediment as orbital data suggested."
+      },
+      "certainty": "confirmed",
+      "sources": [
+        {
+          "mission": "Mars 2020 (Perseverance)",
+          "instrument": "SuperCam, PIXL, Mastcam-Z",
+          "product_id": null,
+          "url": "https://www.jpl.nasa.gov/news/nasa-discovery-reveals-complex-water-systems-on-early-mars/",
+          "attribution": "NASA/JPL-Caltech; Bedford et al. (2026), Communications Earth & Environment",
+          "license_note": null
+        }
+      ]
+    },
+    {
+      "text": {
+        "es": "Episodio 1: agua subterránea con CO₂ formó crestas de carbonato en las fracturas de las zonas bajas.",
+        "en": "Episode 1: CO₂-rich groundwater formed carbonate ridges in fractures at lower elevations."
+      },
+      "certainty": "interpretation",
+      "sources": [
+        {
+          "mission": "Mars 2020 (Perseverance)",
+          "instrument": "SuperCam, PIXL, Mastcam-Z",
+          "product_id": null,
+          "url": "https://www.jpl.nasa.gov/news/nasa-discovery-reveals-complex-water-systems-on-early-mars/",
+          "attribution": "NASA/JPL-Caltech; Bedford et al. (2026), Communications Earth & Environment",
+          "license_note": null
+        }
+      ]
+    },
+    {
+      "text": {
+        "es": "Episodio 2: el lago dejó sílice en las rocas que quedaron bajo la línea de agua.",
+        "en": "Episode 2: the lake left silica in rocks below the water line."
+      },
+      "certainty": "interpretation",
+      "sources": [
+        {
+          "mission": "Mars 2020 (Perseverance)",
+          "instrument": "SuperCam, PIXL, Mastcam-Z",
+          "product_id": null,
+          "url": "https://www.jpl.nasa.gov/news/nasa-discovery-reveals-complex-water-systems-on-early-mars/",
+          "attribution": "NASA/JPL-Caltech; Bedford et al. (2026), Communications Earth & Environment",
+          "license_note": null
+        }
+      ]
+    },
+    {
+      "text": {
+        "es": "Episodio 3: agua caliente dejó venas con sulfato de calcio y fluorita en la parte este.",
+        "en": "Episode 3: hot water left veins with calcium sulfate and fluorite in the eastern part."
+      },
+      "certainty": "interpretation",
+      "sources": [
+        {
+          "mission": "Mars 2020 (Perseverance)",
+          "instrument": "SuperCam, PIXL, Mastcam-Z",
+          "product_id": null,
+          "url": "https://www.jpl.nasa.gov/news/nasa-discovery-reveals-complex-water-systems-on-early-mars/",
+          "attribution": "NASA/JPL-Caltech; Bedford et al. (2026), Communications Earth & Environment",
+          "license_note": null
+        }
+      ]
+    }
+  ],
+  "route_defaults": {
+    "max_slope_deg": 25.0,
+    "eva_time_limit_min": 240.0,
+    "profiles": [
+      "shortest",
+      "fastest",
+      "safest"
+    ],
+    "include_return": true,
+    "soft_soil_penalty": 2.0,
+    "walking_model": "tobler-mars-v1"
+  },
+  "available": {
+    "layers": true,
+    "pois": true,
+    "routes": true,
+    "terrain_3d": true
+  }
+}

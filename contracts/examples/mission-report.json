@@ -1,0 +1,94 @@
+{
+  "mission_id": "example-mission-0001",
+  "is_example": true,
+  "title": {
+    "es": "Informe de misión — EVA Margin Unit 01",
+    "en": "Mission report — EVA Margin Unit 01"
+  },
+  "summary": {
+    "es": "Caminata de ida y vuelta desde la base por los tres episodios de agua de la Margin Unit.",
+    "en": "Round-trip walk from the base through the three water episodes of the Margin Unit."
+  },
+  "metrics": {
+    "distance_m": 7193.0,
+    "ascent_m": 99.04,
+    "descent_m": 99.04,
+    "max_slope_deg": 4.709,
+    "mean_slope_deg": 1.578,
+    "est_duration_min": 108.6,
+    "soft_soil_m": 0.0
+  },
+  "objectives_visited": [
+    {
+      "es": "Crestas de carbonato",
+      "en": "Carbonate ridges"
+    },
+    {
+      "es": "Rocas con sílice bajo la antigua orilla",
+      "en": "Silica-bearing rocks below the old shoreline"
+    },
+    {
+      "es": "Venas de fluorita",
+      "en": "Fluorite veins"
+    }
+  ],
+  "sources": [
+    {
+      "mission": "Mars 2020 (Perseverance)",
+      "instrument": "SuperCam, PIXL, Mastcam-Z",
+      "product_id": null,
+      "url": "https://www.jpl.nasa.gov/news/nasa-discovery-reveals-complex-water-systems-on-early-mars/",
+      "attribution": "NASA/JPL-Caltech; Bedford et al. (2026), Communications Earth & Environment",
+      "license_note": null
+    },
+    {
+      "mission": "Mars Reconnaissance Orbiter",
+      "instrument": "HiRISE",
+      "product_id": "PENDIENTE (spec 002)",
+      "url": "https://www.uahirise.org/",
+      "attribution": "Ejemplo: producto real por definir en la spec 002",
+      "license_note": null
+    },
+    {
+      "mission": "2001 Mars Odyssey",
+      "instrument": "THEMIS",
+      "product_id": "PENDIENTE (spec 002)",
+      "url": "https://themis.mars.asu.edu/",
+      "attribution": "Ejemplo: producto real por definir en la spec 002",
+      "license_note": null
+    },
+    {
+      "mission": "Mars Reconnaissance Orbiter",
+      "instrument": "CRISM",
+      "product_id": "PENDIENTE (spec 002)",
+      "url": "https://pds-geosciences.wustl.edu/missions/mro/crism.htm",
+      "attribution": "Ejemplo: producto real por definir en la spec 002",
+      "license_note": null
+    }
+  ],
+  "assumptions": [
+    {
+      "es": "Velocidad según pendiente: función de Tobler con un factor de 0.8 por el traje (provisional).",
+      "en": "Speed by slope: Tobler's function with a 0.8 suit factor (provisional)."
+    },
+    {
+      "es": "Pendiente máxima de 25° y límite de EVA de 240 min (provisionales).",
+      "en": "Maximum slope of 25° and EVA limit of 240 min (provisional)."
+    }
+  ],
+  "limitations": [
+    {
+      "es": "La inercia térmica tiene píxeles de unos 100 m: no detecta rocas individuales.",
+      "en": "Thermal inertia has pixels of about 100 m: it does not detect individual rocks."
+    },
+    {
+      "es": "No se modelan radiación, energía, comunicaciones ni el clima.",
+      "en": "Radiation, power, communications and weather are not modelled."
+    }
+  ],
+  "disclaimer": {
+    "es": "Planificación conceptual y educativa. No es una ruta certificada para operaciones reales.",
+    "en": "Conceptual, educational planning. Not a route certified for real operations."
+  },
+  "generated_at": "2026-11-14T00:00:00Z"
+}

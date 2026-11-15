@@ -1,0 +1,2504 @@
+{
+  "components": {
+    "schemas": {
+      "Advisory": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/WarningCode"
+          },
+          "message": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/Severity"
+          }
+        },
+        "required": [
+          "code",
+          "severity",
+          "message"
+        ],
+        "title": "Advisory",
+        "type": "object"
+      },
+      "Availability": {
+        "additionalProperties": false,
+        "properties": {
+          "layers": {
+            "title": "Layers",
+            "type": "boolean"
+          },
+          "pois": {
+            "title": "Pois",
+            "type": "boolean"
+          },
+          "routes": {
+            "title": "Routes",
+            "type": "boolean"
+          },
+          "terrain_3d": {
+            "title": "Terrain 3D",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "layers",
+          "pois",
+          "routes",
+          "terrain_3d"
+        ],
+        "title": "Availability",
+        "type": "object"
+      },
+      "Bounds": {
+        "additionalProperties": false,
+        "properties": {
+          "max_x": {
+            "title": "Max X",
+            "type": "number"
+          },
+          "max_y": {
+            "title": "Max Y",
+            "type": "number"
+          },
+          "min_x": {
+            "title": "Min X",
+            "type": "number"
+          },
+          "min_y": {
+            "title": "Min Y",
+            "type": "number"
+          }
+        },
+        "required": [
+          "min_x",
+          "min_y",
+          "max_x",
+          "max_y"
+        ],
+        "title": "Bounds",
+        "type": "object"
+      },
+      "Certainty": {
+        "enum": [
+          "confirmed",
+          "interpretation",
+          "hypothesis"
+        ],
+        "title": "Certainty",
+        "type": "string"
+      },
+      "CoordinateFrame": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "id": {
+            "description": "Identificador del marco local, p. ej. jezero-margin-local-m",
+            "title": "Id",
+            "type": "string"
+          },
+          "source_crs": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Proyección marciana de origen; se fija en la spec 002",
+            "title": "Source Crs"
+          },
+          "units": {
+            "const": "m",
+            "default": "m",
+            "title": "Units",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "description"
+        ],
+        "title": "CoordinateFrame",
+        "type": "object"
+      },
+      "CostModel": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "parameters": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Parameters",
+            "type": "object"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "version",
+          "parameters"
+        ],
+        "title": "CostModel",
+        "type": "object"
+      },
+      "ElevationRange": {
+        "additionalProperties": false,
+        "properties": {
+          "max_m": {
+            "title": "Max M",
+            "type": "number"
+          },
+          "min_m": {
+            "title": "Min M",
+            "type": "number"
+          }
+        },
+        "required": [
+          "min_m",
+          "max_m"
+        ],
+        "title": "ElevationRange",
+        "type": "object"
+      },
+      "ErrorBody": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/ErrorCode"
+          },
+          "details": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Details"
+          },
+          "message": {
+            "$ref": "#/components/schemas/LocalizedText"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "ErrorBody",
+        "type": "object"
+      },
+      "ErrorCode": {
+        "enum": [
+          "BAD_REQUEST",
+          "REGION_NOT_FOUND",
+          "REGION_PREVIEW_ONLY",
+          "OUT_OF_BOUNDS",
+          "NODATA",
+          "NO_ROUTE",
+          "MISSION_NOT_FOUND",
+          "DATASET_UNAVAILABLE",
+          "INTERNAL"
+        ],
+        "title": "ErrorCode",
+        "type": "string"
+      },
+      "ErrorResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorBody"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "title": "ErrorResponse",
+        "type": "object"
+      },
+      "Fact": {
+        "additionalProperties": false,
+        "properties": {
+          "certainty": {
+            "$ref": "#/components/schemas/Certainty"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/Source"
+            },
+            "minItems": 1,
+            "title": "Sources",
+            "type": "array"
+          },
+          "text": {
+            "$ref": "#/components/schemas/LocalizedText"
+          }
+        },
+        "required": [
+          "text",
+          "certainty",
+          "sources"
+        ],
+        "title": "Fact",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "Health": {
+        "additionalProperties": false,
+        "properties": {
+          "api_version": {
+            "const": "v1",
+            "default": "v1",
+            "title": "Api Version",
+            "type": "string"
+          },
+          "app_version": {
+            "title": "App Version",
+            "type": "string"
+          },
+          "dataset_versions": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Dataset Versions",
+            "type": "object"
+          },
+          "mode": {
+            "enum": [
+              "example",
+              "live"
+            ],
+            "title": "Mode",
+            "type": "string"
+          },
+          "status": {
+            "const": "ok",
+            "default": "ok",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "mode",
+          "app_version",
+          "dataset_versions"
+        ],
+        "title": "Health",
+        "type": "object"
+      },
+      "Heightmap": {
+        "additionalProperties": false,
+        "properties": {
+          "format": {
+            "const": "png16",
+            "description": "z = z_min + (valor / 65535) * (z_max - z_min)",
+            "title": "Format",
+            "type": "string"
+          },
+          "height_px": {
+            "exclusiveMinimum": 1.0,
+            "title": "Height Px",
+            "type": "integer"
+          },
+          "meters_per_px": {
+            "exclusiveMinimum": 0.0,
+            "title": "Meters Per Px",
+            "type": "number"
+          },
+          "sha256": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sha256"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          },
+          "width_px": {
+            "exclusiveMinimum": 1.0,
+            "title": "Width Px",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "url",
+          "format",
+          "width_px",
+          "height_px",
+          "meters_per_px"
+        ],
+        "title": "Heightmap",
+        "type": "object"
+      },
+      "Layer": {
+        "additionalProperties": false,
+        "properties": {
+          "default_opacity": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Default Opacity",
+            "type": "number"
+          },
+          "default_visible": {
+            "title": "Default Visible",
+            "type": "boolean"
+          },
+          "description": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/LayerKind"
+          },
+          "legend": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Legend"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "limitations": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "resolution_m": {
+            "exclusiveMinimum": 0.0,
+            "title": "Resolution M",
+            "type": "number"
+          },
+          "source": {
+            "$ref": "#/components/schemas/Source"
+          },
+          "tiles": {
+            "$ref": "#/components/schemas/TileSource"
+          },
+          "title": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "units": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Units"
+          },
+          "used_in_routing": {
+            "title": "Used In Routing",
+            "type": "boolean"
+          },
+          "z_order": {
+            "title": "Z Order",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "title",
+          "description",
+          "source",
+          "resolution_m",
+          "tiles",
+          "default_visible",
+          "default_opacity",
+          "z_order",
+          "used_in_routing",
+          "limitations"
+        ],
+        "title": "Layer",
+        "type": "object"
+      },
+      "LayerKind": {
+        "enum": [
+          "orthoimage",
+          "elevation",
+          "hillshade",
+          "thermal_inertia",
+          "mineralogy",
+          "geology"
+        ],
+        "title": "LayerKind",
+        "type": "string"
+      },
+      "LayerList": {
+        "additionalProperties": false,
+        "properties": {
+          "dataset_version": {
+            "title": "Dataset Version",
+            "type": "string"
+          },
+          "is_example": {
+            "title": "Is Example",
+            "type": "boolean"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Layer"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "region_id": {
+            "title": "Region Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "region_id",
+          "is_example",
+          "dataset_version",
+          "items"
+        ],
+        "title": "LayerList",
+        "type": "object"
+      },
+      "Legend": {
+        "additionalProperties": false,
+        "properties": {
+          "stops": {
+            "items": {
+              "$ref": "#/components/schemas/LegendStop"
+            },
+            "minItems": 2,
+            "title": "Stops",
+            "type": "array"
+          },
+          "type": {
+            "enum": [
+              "continuous",
+              "categorical"
+            ],
+            "title": "Type",
+            "type": "string"
+          },
+          "units": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Units"
+          }
+        },
+        "required": [
+          "type",
+          "stops"
+        ],
+        "title": "Legend",
+        "type": "object"
+      },
+      "LegendStop": {
+        "additionalProperties": false,
+        "properties": {
+          "color": {
+            "pattern": "^#[0-9A-Fa-f]{6}$",
+            "title": "Color",
+            "type": "string"
+          },
+          "label": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Valor numérico (continua) o null (categórica)",
+            "title": "Value"
+          }
+        },
+        "required": [
+          "color",
+          "label"
+        ],
+        "title": "LegendStop",
+        "type": "object"
+      },
+      "LocalizedText": {
+        "additionalProperties": false,
+        "description": "Texto para el usuario en los dos idiomas de la app.",
+        "properties": {
+          "en": {
+            "minLength": 1,
+            "title": "En",
+            "type": "string"
+          },
+          "es": {
+            "minLength": 1,
+            "title": "Es",
+            "type": "string"
+          }
+        },
+        "required": [
+          "es",
+          "en"
+        ],
+        "title": "LocalizedText",
+        "type": "object"
+      },
+      "MarsLocation": {
+        "additionalProperties": false,
+        "description": "Centro de la región para el globo: latitud planetocéntrica y longitud este.",
+        "properties": {
+          "approximate": {
+            "title": "Approximate",
+            "type": "boolean"
+          },
+          "lat_deg": {
+            "maximum": 90.0,
+            "minimum": -90.0,
+            "title": "Lat Deg",
+            "type": "number"
+          },
+          "lon_east_deg": {
+            "exclusiveMaximum": 360.0,
+            "minimum": 0.0,
+            "title": "Lon East Deg",
+            "type": "number"
+          }
+        },
+        "required": [
+          "lat_deg",
+          "lon_east_deg",
+          "approximate"
+        ],
+        "title": "MarsLocation",
+        "type": "object"
+      },
+      "Mission": {
+        "additionalProperties": false,
+        "properties": {
+          "algorithm_version": {
+            "title": "Algorithm Version",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "crew": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Crew",
+            "type": "array"
+          },
+          "dataset_version": {
+            "title": "Dataset Version",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "is_example": {
+            "title": "Is Example",
+            "type": "boolean"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "params_used": {
+            "$ref": "#/components/schemas/RouteParams"
+          },
+          "region_id": {
+            "title": "Region Id",
+            "type": "string"
+          },
+          "route": {
+            "$ref": "#/components/schemas/Route"
+          },
+          "selected_profile": {
+            "$ref": "#/components/schemas/RouteProfile"
+          }
+        },
+        "required": [
+          "id",
+          "is_example",
+          "created_at",
+          "name",
+          "region_id",
+          "selected_profile",
+          "crew",
+          "params_used",
+          "route",
+          "dataset_version",
+          "algorithm_version"
+        ],
+        "title": "Mission",
+        "type": "object"
+      },
+      "MissionCreate": {
+        "additionalProperties": false,
+        "properties": {
+          "crew": {
+            "description": "Identificadores de avatares (Rive, frontend)",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 6,
+            "title": "Crew",
+            "type": "array"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "maxLength": 80,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "route_request": {
+            "$ref": "#/components/schemas/RouteRequest"
+          },
+          "selected_profile": {
+            "$ref": "#/components/schemas/RouteProfile"
+          }
+        },
+        "required": [
+          "route_request",
+          "selected_profile"
+        ],
+        "title": "MissionCreate",
+        "type": "object"
+      },
+      "MissionReport": {
+        "additionalProperties": false,
+        "properties": {
+          "assumptions": {
+            "items": {
+              "$ref": "#/components/schemas/LocalizedText"
+            },
+            "title": "Assumptions",
+            "type": "array"
+          },
+          "disclaimer": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "generated_at": {
+            "format": "date-time",
+            "title": "Generated At",
+            "type": "string"
+          },
+          "is_example": {
+            "title": "Is Example",
+            "type": "boolean"
+          },
+          "limitations": {
+            "items": {
+              "$ref": "#/components/schemas/LocalizedText"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/RouteMetrics"
+          },
+          "mission_id": {
+            "title": "Mission Id",
+            "type": "string"
+          },
+          "objectives_visited": {
+            "items": {
+              "$ref": "#/components/schemas/LocalizedText"
+            },
+            "title": "Objectives Visited",
+            "type": "array"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/Source"
+            },
+            "title": "Sources",
+            "type": "array"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "title": {
+            "$ref": "#/components/schemas/LocalizedText"
+          }
+        },
+        "required": [
+          "mission_id",
+          "is_example",
+          "title",
+          "summary",
+          "metrics",
+          "objectives_visited",
+          "sources",
+          "assumptions",
+          "limitations",
+          "disclaimer",
+          "generated_at"
+        ],
+        "title": "MissionReport",
+        "type": "object"
+      },
+      "PoiCategory": {
+        "enum": [
+          "base",
+          "science_target",
+          "hazard",
+          "waypoint"
+        ],
+        "title": "PoiCategory",
+        "type": "string"
+      },
+      "PoiCollection": {
+        "additionalProperties": false,
+        "properties": {
+          "coordinate_frame": {
+            "title": "Coordinate Frame",
+            "type": "string"
+          },
+          "features": {
+            "items": {
+              "$ref": "#/components/schemas/PoiFeature"
+            },
+            "title": "Features",
+            "type": "array"
+          },
+          "is_example": {
+            "title": "Is Example",
+            "type": "boolean"
+          },
+          "region_id": {
+            "title": "Region Id",
+            "type": "string"
+          },
+          "type": {
+            "const": "FeatureCollection",
+            "default": "FeatureCollection",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "region_id",
+          "coordinate_frame",
+          "is_example",
+          "features"
+        ],
+        "title": "PoiCollection",
+        "type": "object"
+      },
+      "PoiFeature": {
+        "additionalProperties": false,
+        "properties": {
+          "geometry": {
+            "$ref": "#/components/schemas/PointGeometry"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "properties": {
+            "$ref": "#/components/schemas/PoiProperties"
+          },
+          "type": {
+            "const": "Feature",
+            "default": "Feature",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "geometry",
+          "properties"
+        ],
+        "title": "PoiFeature",
+        "type": "object"
+      },
+      "PoiImage": {
+        "additionalProperties": false,
+        "properties": {
+          "caption": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "credit": {
+            "title": "Credit",
+            "type": "string"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url",
+          "credit",
+          "caption"
+        ],
+        "title": "PoiImage",
+        "type": "object"
+      },
+      "PoiProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "category": {
+            "$ref": "#/components/schemas/PoiCategory"
+          },
+          "confidence_note": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LocalizedText"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "description": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "elevation_m": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Elevation M"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Source"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "images": {
+            "items": {
+              "$ref": "#/components/schemas/PoiImage"
+            },
+            "title": "Images",
+            "type": "array"
+          },
+          "name": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "water_episode": {
+            "anyOf": [
+              {
+                "maximum": 3.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Episodio de agua de la Margin Unit (1, 2 o 3)",
+            "title": "Water Episode"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "category",
+          "description",
+          "evidence",
+          "images"
+        ],
+        "title": "PoiProperties",
+        "type": "object"
+      },
+      "PointGeometry": {
+        "additionalProperties": false,
+        "properties": {
+          "coordinates": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Coordinates",
+            "type": "array"
+          },
+          "type": {
+            "const": "Point",
+            "default": "Point",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "coordinates"
+        ],
+        "title": "PointGeometry",
+        "type": "object"
+      },
+      "ProfilePoint": {
+        "additionalProperties": false,
+        "properties": {
+          "s_m": {
+            "description": "Distancia recorrida",
+            "minimum": 0.0,
+            "title": "S M",
+            "type": "number"
+          },
+          "slope_deg": {
+            "title": "Slope Deg",
+            "type": "number"
+          },
+          "z_m": {
+            "title": "Z M",
+            "type": "number"
+          }
+        },
+        "required": [
+          "s_m",
+          "z_m",
+          "slope_deg"
+        ],
+        "title": "ProfilePoint",
+        "type": "object"
+      },
+      "RegionDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "available": {
+            "$ref": "#/components/schemas/Availability"
+          },
+          "bounds": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Bounds"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Límites del recorte en metros; null en regiones preview"
+          },
+          "center": {
+            "$ref": "#/components/schemas/MarsLocation"
+          },
+          "coordinate_frame": {
+            "$ref": "#/components/schemas/CoordinateFrame"
+          },
+          "dataset_version": {
+            "title": "Dataset Version",
+            "type": "string"
+          },
+          "elevation_range": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ElevationRange"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "facts": {
+            "items": {
+              "$ref": "#/components/schemas/Fact"
+            },
+            "title": "Facts",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "is_example": {
+            "title": "Is Example",
+            "type": "boolean"
+          },
+          "mission_objective": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "name": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "route_defaults": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RouteParams"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "null si la región no calcula rutas"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RegionStatus"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "thumbnail_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thumbnail Url"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "status",
+          "summary",
+          "center",
+          "is_example",
+          "dataset_version",
+          "coordinate_frame",
+          "mission_objective",
+          "facts",
+          "available"
+        ],
+        "title": "RegionDetail",
+        "type": "object"
+      },
+      "RegionList": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/RegionSummary"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "RegionList",
+        "type": "object"
+      },
+      "RegionStatus": {
+        "enum": [
+          "active",
+          "preview"
+        ],
+        "title": "RegionStatus",
+        "type": "string"
+      },
+      "RegionSummary": {
+        "additionalProperties": false,
+        "properties": {
+          "center": {
+            "$ref": "#/components/schemas/MarsLocation"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RegionStatus"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "thumbnail_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thumbnail Url"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "status",
+          "summary",
+          "center"
+        ],
+        "title": "RegionSummary",
+        "type": "object"
+      },
+      "Route": {
+        "additionalProperties": false,
+        "properties": {
+          "cost_model": {
+            "$ref": "#/components/schemas/CostModel"
+          },
+          "outbound": {
+            "$ref": "#/components/schemas/RouteSegment"
+          },
+          "profile": {
+            "$ref": "#/components/schemas/RouteProfile"
+          },
+          "return_trip": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RouteSegment"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "total": {
+            "$ref": "#/components/schemas/RouteMetrics"
+          },
+          "warnings": {
+            "items": {
+              "$ref": "#/components/schemas/Advisory"
+            },
+            "title": "Warnings",
+            "type": "array"
+          },
+          "within_eva_limit": {
+            "title": "Within Eva Limit",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "profile",
+          "outbound",
+          "total",
+          "within_eva_limit",
+          "warnings",
+          "cost_model"
+        ],
+        "title": "Route",
+        "type": "object"
+      },
+      "RouteComparison": {
+        "additionalProperties": false,
+        "properties": {
+          "reason": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "recommended_profile": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RouteProfile"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "recommended_profile",
+          "reason"
+        ],
+        "title": "RouteComparison",
+        "type": "object"
+      },
+      "RouteLeg": {
+        "additionalProperties": false,
+        "properties": {
+          "from_index": {
+            "description": "0 = base; 1..n = objetivos",
+            "minimum": 0.0,
+            "title": "From Index",
+            "type": "integer"
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/RouteMetrics"
+          },
+          "to_index": {
+            "minimum": 0.0,
+            "title": "To Index",
+            "type": "integer"
+          },
+          "vertex_end": {
+            "minimum": 0.0,
+            "title": "Vertex End",
+            "type": "integer"
+          },
+          "vertex_start": {
+            "description": "Índice del primer vértice del tramo en la polilínea",
+            "minimum": 0.0,
+            "title": "Vertex Start",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "from_index",
+          "to_index",
+          "vertex_start",
+          "vertex_end",
+          "metrics"
+        ],
+        "title": "RouteLeg",
+        "type": "object"
+      },
+      "RouteMetrics": {
+        "additionalProperties": false,
+        "properties": {
+          "ascent_m": {
+            "minimum": 0.0,
+            "title": "Ascent M",
+            "type": "number"
+          },
+          "descent_m": {
+            "minimum": 0.0,
+            "title": "Descent M",
+            "type": "number"
+          },
+          "distance_m": {
+            "description": "Longitud sobre el terreno (3D)",
+            "minimum": 0.0,
+            "title": "Distance M",
+            "type": "number"
+          },
+          "est_duration_min": {
+            "minimum": 0.0,
+            "title": "Est Duration Min",
+            "type": "number"
+          },
+          "max_slope_deg": {
+            "minimum": 0.0,
+            "title": "Max Slope Deg",
+            "type": "number"
+          },
+          "mean_slope_deg": {
+            "minimum": 0.0,
+            "title": "Mean Slope Deg",
+            "type": "number"
+          },
+          "soft_soil_m": {
+            "description": "Distancia sobre suelo suelto",
+            "minimum": 0.0,
+            "title": "Soft Soil M",
+            "type": "number"
+          }
+        },
+        "required": [
+          "distance_m",
+          "ascent_m",
+          "descent_m",
+          "max_slope_deg",
+          "mean_slope_deg",
+          "est_duration_min",
+          "soft_soil_m"
+        ],
+        "title": "RouteMetrics",
+        "type": "object"
+      },
+      "RouteParams": {
+        "additionalProperties": false,
+        "properties": {
+          "eva_time_limit_min": {
+            "description": "Tiempo máximo de la caminata, ida y vuelta",
+            "exclusiveMinimum": 0.0,
+            "title": "Eva Time Limit Min",
+            "type": "number"
+          },
+          "include_return": {
+            "title": "Include Return",
+            "type": "boolean"
+          },
+          "max_slope_deg": {
+            "description": "Pendiente máxima transitable (filtro)",
+            "exclusiveMinimum": 0.0,
+            "maximum": 60.0,
+            "title": "Max Slope Deg",
+            "type": "number"
+          },
+          "profiles": {
+            "items": {
+              "$ref": "#/components/schemas/RouteProfile"
+            },
+            "minItems": 1,
+            "title": "Profiles",
+            "type": "array"
+          },
+          "soft_soil_penalty": {
+            "description": "Peso del suelo suelto (inercia térmica) en el perfil safest",
+            "minimum": 0.0,
+            "title": "Soft Soil Penalty",
+            "type": "number"
+          },
+          "walking_model": {
+            "description": "Modelo de velocidad según pendiente, p. ej. tobler-mars-v1",
+            "title": "Walking Model",
+            "type": "string"
+          }
+        },
+        "required": [
+          "max_slope_deg",
+          "eva_time_limit_min",
+          "profiles",
+          "include_return",
+          "soft_soil_penalty",
+          "walking_model"
+        ],
+        "title": "RouteParams",
+        "type": "object"
+      },
+      "RouteProfile": {
+        "enum": [
+          "shortest",
+          "fastest",
+          "safest"
+        ],
+        "title": "RouteProfile",
+        "type": "string"
+      },
+      "RouteRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "params": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RouteParams"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "null = valores por defecto de la región"
+          },
+          "region_id": {
+            "title": "Region Id",
+            "type": "string"
+          },
+          "start": {
+            "description": "Base de partida (x, y) en metros",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Start",
+            "type": "array"
+          },
+          "targets": {
+            "description": "Objetivos en orden de visita",
+            "items": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            "maxItems": 5,
+            "minItems": 1,
+            "title": "Targets",
+            "type": "array"
+          }
+        },
+        "required": [
+          "region_id",
+          "start",
+          "targets"
+        ],
+        "title": "RouteRequest",
+        "type": "object"
+      },
+      "RouteResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "algorithm_version": {
+            "title": "Algorithm Version",
+            "type": "string"
+          },
+          "comparison": {
+            "$ref": "#/components/schemas/RouteComparison"
+          },
+          "computed_at": {
+            "format": "date-time",
+            "title": "Computed At",
+            "type": "string"
+          },
+          "coordinate_frame": {
+            "title": "Coordinate Frame",
+            "type": "string"
+          },
+          "dataset_version": {
+            "title": "Dataset Version",
+            "type": "string"
+          },
+          "disclaimer": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "is_example": {
+            "title": "Is Example",
+            "type": "boolean"
+          },
+          "params_used": {
+            "$ref": "#/components/schemas/RouteParams"
+          },
+          "region_id": {
+            "title": "Region Id",
+            "type": "string"
+          },
+          "request": {
+            "$ref": "#/components/schemas/RouteRequest"
+          },
+          "routes": {
+            "items": {
+              "$ref": "#/components/schemas/Route"
+            },
+            "minItems": 1,
+            "title": "Routes",
+            "type": "array"
+          }
+        },
+        "required": [
+          "region_id",
+          "is_example",
+          "dataset_version",
+          "algorithm_version",
+          "coordinate_frame",
+          "computed_at",
+          "request",
+          "params_used",
+          "routes",
+          "comparison",
+          "disclaimer"
+        ],
+        "title": "RouteResponse",
+        "type": "object"
+      },
+      "RouteSegment": {
+        "additionalProperties": false,
+        "properties": {
+          "elevation_profile": {
+            "items": {
+              "$ref": "#/components/schemas/ProfilePoint"
+            },
+            "minItems": 2,
+            "title": "Elevation Profile",
+            "type": "array"
+          },
+          "legs": {
+            "items": {
+              "$ref": "#/components/schemas/RouteLeg"
+            },
+            "title": "Legs",
+            "type": "array"
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/RouteMetrics"
+          },
+          "polyline": {
+            "items": {
+              "maxItems": 3,
+              "minItems": 3,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            "minItems": 2,
+            "title": "Polyline",
+            "type": "array"
+          }
+        },
+        "required": [
+          "polyline",
+          "metrics",
+          "legs",
+          "elevation_profile"
+        ],
+        "title": "RouteSegment",
+        "type": "object"
+      },
+      "SceneTransform": {
+        "additionalProperties": false,
+        "properties": {
+          "center_x_m": {
+            "title": "Center X M",
+            "type": "number"
+          },
+          "center_y_m": {
+            "title": "Center Y M",
+            "type": "number"
+          },
+          "formula": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "units_per_meter": {
+            "exclusiveMinimum": 0.0,
+            "title": "Units Per Meter",
+            "type": "number"
+          },
+          "up_axis": {
+            "const": "y",
+            "default": "y",
+            "title": "Up Axis",
+            "type": "string"
+          },
+          "z_ref_m": {
+            "title": "Z Ref M",
+            "type": "number"
+          }
+        },
+        "required": [
+          "units_per_meter",
+          "center_x_m",
+          "center_y_m",
+          "z_ref_m",
+          "formula"
+        ],
+        "title": "SceneTransform",
+        "type": "object"
+      },
+      "Severity": {
+        "enum": [
+          "info",
+          "caution",
+          "critical"
+        ],
+        "title": "Severity",
+        "type": "string"
+      },
+      "Source": {
+        "additionalProperties": false,
+        "description": "Procedencia de un dato (constitución, principio 1).",
+        "properties": {
+          "attribution": {
+            "title": "Attribution",
+            "type": "string"
+          },
+          "instrument": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Instrument"
+          },
+          "license_note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "License Note"
+          },
+          "mission": {
+            "title": "Mission",
+            "type": "string"
+          },
+          "product_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Product Id"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "mission",
+          "url",
+          "attribution"
+        ],
+        "title": "Source",
+        "type": "object"
+      },
+      "TerrainLod": {
+        "additionalProperties": false,
+        "properties": {
+          "height_px": {
+            "title": "Height Px",
+            "type": "integer"
+          },
+          "heightmap_url": {
+            "title": "Heightmap Url",
+            "type": "string"
+          },
+          "level": {
+            "description": "0 = mayor detalle",
+            "minimum": 0.0,
+            "title": "Level",
+            "type": "integer"
+          },
+          "recommended_for": {
+            "enum": [
+              "desktop",
+              "mobile",
+              "any"
+            ],
+            "title": "Recommended For",
+            "type": "string"
+          },
+          "width_px": {
+            "title": "Width Px",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "level",
+          "heightmap_url",
+          "width_px",
+          "height_px",
+          "recommended_for"
+        ],
+        "title": "TerrainLod",
+        "type": "object"
+      },
+      "TerrainManifest": {
+        "additionalProperties": false,
+        "properties": {
+          "coordinate_frame": {
+            "title": "Coordinate Frame",
+            "type": "string"
+          },
+          "extent": {
+            "$ref": "#/components/schemas/Bounds"
+          },
+          "heightmap": {
+            "$ref": "#/components/schemas/Heightmap"
+          },
+          "is_example": {
+            "title": "Is Example",
+            "type": "boolean"
+          },
+          "lods": {
+            "items": {
+              "$ref": "#/components/schemas/TerrainLod"
+            },
+            "title": "Lods",
+            "type": "array"
+          },
+          "region_id": {
+            "title": "Region Id",
+            "type": "string"
+          },
+          "scene_transform": {
+            "$ref": "#/components/schemas/SceneTransform"
+          },
+          "texture": {
+            "$ref": "#/components/schemas/TerrainTexture"
+          },
+          "total_size_bytes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Size Bytes"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          },
+          "vertical_exaggeration_default": {
+            "exclusiveMinimum": 0.0,
+            "title": "Vertical Exaggeration Default",
+            "type": "number"
+          },
+          "z_max_m": {
+            "title": "Z Max M",
+            "type": "number"
+          },
+          "z_min_m": {
+            "title": "Z Min M",
+            "type": "number"
+          }
+        },
+        "required": [
+          "region_id",
+          "is_example",
+          "version",
+          "coordinate_frame",
+          "extent",
+          "z_min_m",
+          "z_max_m",
+          "heightmap",
+          "texture",
+          "lods",
+          "vertical_exaggeration_default",
+          "scene_transform"
+        ],
+        "title": "TerrainManifest",
+        "type": "object"
+      },
+      "TerrainTexture": {
+        "additionalProperties": false,
+        "properties": {
+          "format": {
+            "enum": [
+              "webp",
+              "ktx2",
+              "jpg",
+              "png"
+            ],
+            "title": "Format",
+            "type": "string"
+          },
+          "height_px": {
+            "exclusiveMinimum": 0.0,
+            "title": "Height Px",
+            "type": "integer"
+          },
+          "sha256": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sha256"
+          },
+          "source": {
+            "$ref": "#/components/schemas/Source"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          },
+          "width_px": {
+            "exclusiveMinimum": 0.0,
+            "title": "Width Px",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "url",
+          "format",
+          "width_px",
+          "height_px",
+          "source"
+        ],
+        "title": "TerrainTexture",
+        "type": "object"
+      },
+      "TileSource": {
+        "additionalProperties": false,
+        "properties": {
+          "extent": {
+            "$ref": "#/components/schemas/Bounds"
+          },
+          "format": {
+            "enum": [
+              "xyz",
+              "pmtiles",
+              "cog",
+              "image"
+            ],
+            "title": "Format",
+            "type": "string"
+          },
+          "max_zoom": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Zoom"
+          },
+          "min_zoom": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min Zoom"
+          },
+          "tile_size": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tile Size"
+          },
+          "url": {
+            "description": "URL o plantilla {z}/{x}/{y}",
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "format",
+          "url",
+          "extent"
+        ],
+        "title": "TileSource",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "WarningCode": {
+        "enum": [
+          "EXAMPLE_DATA",
+          "STEEP_SEGMENT",
+          "SOFT_SOIL",
+          "EVA_LIMIT_EXCEEDED",
+          "LOW_DATA_RESOLUTION",
+          "CONCEPTUAL_ONLY"
+        ],
+        "title": "WarningCode",
+        "type": "string"
+      }
+    }
+  },
+  "info": {
+    "description": "Contrato definido en la spec 000. Todas las coordenadas están en metros en el marco local de cada región. Los textos para el usuario vienen como {es, en}. Las respuestas de ejemplo llevan is_example: true y no son datos de NASA.",
+    "summary": "Explore the Unknown — mapa, rutas y simulación de EVA en Marte (NASA Space Apps 2026).",
+    "title": "TEPEXA API",
+    "version": "0.1.0-spec000"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health",
+        "tags": [
+          "sistema"
+        ]
+      }
+    },
+    "/api/v1/missions": {
+      "post": {
+        "operationId": "create_mission_api_v1_missions_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MissionCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mission"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "No existe"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Región en modo avance (preview)"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Petición inválida, fuera de cobertura o sin ruta"
+          }
+        },
+        "summary": "Create Mission",
+        "tags": [
+          "misiones"
+        ]
+      }
+    },
+    "/api/v1/missions/{mission_id}": {
+      "get": {
+        "operationId": "get_mission_api_v1_missions__mission_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mission_id",
+            "required": true,
+            "schema": {
+              "title": "Mission Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mission"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "No existe"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Mission",
+        "tags": [
+          "misiones"
+        ]
+      }
+    },
+    "/api/v1/missions/{mission_id}/report": {
+      "get": {
+        "operationId": "get_mission_report_api_v1_missions__mission_id__report_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mission_id",
+            "required": true,
+            "schema": {
+              "title": "Mission Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MissionReport"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "No existe"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Mission Report",
+        "tags": [
+          "misiones"
+        ]
+      }
+    },
+    "/api/v1/regions": {
+      "get": {
+        "operationId": "list_regions_api_v1_regions_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegionList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Regions",
+        "tags": [
+          "regiones"
+        ]
+      }
+    },
+    "/api/v1/regions/{region_id}": {
+      "get": {
+        "operationId": "get_region_api_v1_regions__region_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "region_id",
+            "required": true,
+            "schema": {
+              "title": "Region Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegionDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "No existe"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Region",
+        "tags": [
+          "regiones"
+        ]
+      }
+    },
+    "/api/v1/regions/{region_id}/layers": {
+      "get": {
+        "operationId": "get_layers_api_v1_regions__region_id__layers_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "region_id",
+            "required": true,
+            "schema": {
+              "title": "Region Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LayerList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "No existe"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Región en modo avance (preview)"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Layers",
+        "tags": [
+          "regiones"
+        ]
+      }
+    },
+    "/api/v1/regions/{region_id}/pois": {
+      "get": {
+        "operationId": "get_pois_api_v1_regions__region_id__pois_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "region_id",
+            "required": true,
+            "schema": {
+              "title": "Region Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PoiCollection"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "No existe"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Pois",
+        "tags": [
+          "regiones"
+        ]
+      }
+    },
+    "/api/v1/regions/{region_id}/terrain": {
+      "get": {
+        "operationId": "get_terrain_api_v1_regions__region_id__terrain_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "region_id",
+            "required": true,
+            "schema": {
+              "title": "Region Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TerrainManifest"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "No existe"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Región en modo avance (preview)"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Terrain",
+        "tags": [
+          "regiones"
+        ]
+      }
+    },
+    "/api/v1/routes/compare": {
+      "post": {
+        "operationId": "compare_routes_api_v1_routes_compare_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RouteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RouteResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "No existe"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Región en modo avance (preview)"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Petición inválida, fuera de cobertura o sin ruta"
+          }
+        },
+        "summary": "Compare Routes",
+        "tags": [
+          "rutas"
+        ]
+      }
+    }
+  }
+}

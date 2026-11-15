@@ -1,0 +1,66 @@
+{
+  "region_id": "jezero-margin",
+  "is_example": true,
+  "version": "example-v0",
+  "coordinate_frame": "jezero-margin-local-m",
+  "extent": {
+    "min_x": 0.0,
+    "min_y": 0.0,
+    "max_x": 4000.0,
+    "max_y": 3000.0
+  },
+  "z_min_m": -2440.0,
+  "z_max_m": -2273.7,
+  "heightmap": {
+    "url": "https://assets.example.invalid/jezero-margin/example-v0/terrain/heightmap-lod0.png",
+    "format": "png16",
+    "width_px": 2001,
+    "height_px": 1501,
+    "meters_per_px": 2.0,
+    "sha256": null
+  },
+  "texture": {
+    "url": "https://assets.example.invalid/jezero-margin/example-v0/terrain/ortho-4096.webp",
+    "format": "webp",
+    "width_px": 4096,
+    "height_px": 3072,
+    "source": {
+      "mission": "Mars Reconnaissance Orbiter",
+      "instrument": "HiRISE",
+      "product_id": "PENDIENTE (spec 002)",
+      "url": "https://www.uahirise.org/",
+      "attribution": "Ejemplo: producto real por definir en la spec 002",
+      "license_note": null
+    },
+    "sha256": null
+  },
+  "lods": [
+    {
+      "level": 0,
+      "heightmap_url": "https://assets.example.invalid/jezero-margin/example-v0/terrain/heightmap-lod0.png",
+      "width_px": 2001,
+      "height_px": 1501,
+      "recommended_for": "desktop"
+    },
+    {
+      "level": 1,
+      "heightmap_url": "https://assets.example.invalid/jezero-margin/example-v0/terrain/heightmap-lod1.png",
+      "width_px": 1001,
+      "height_px": 751,
+      "recommended_for": "mobile"
+    }
+  ],
+  "vertical_exaggeration_default": 1.0,
+  "scene_transform": {
+    "up_axis": "y",
+    "units_per_meter": 0.01,
+    "center_x_m": 2000.0,
+    "center_y_m": 1500.0,
+    "z_ref_m": -2440.0,
+    "formula": {
+      "es": "escena.x = (x − centro_x)·u; escena.y = (z − z_ref)·u·exageración; escena.z = −(y − centro_y)·u",
+      "en": "scene.x = (x − center_x)·u; scene.y = (z − z_ref)·u·exaggeration; scene.z = −(y − center_y)·u"
+    }
+  },
+  "total_size_bytes": null
+}

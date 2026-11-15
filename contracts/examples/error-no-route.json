@@ -1,0 +1,13 @@
+{
+  "error": {
+    "code": "NO_ROUTE",
+    "message": {
+      "es": "No existe una ruta que respete la pendiente máxima entre esos puntos.",
+      "en": "No route respects the maximum slope between those points."
+    },
+    "details": {
+      "max_slope_deg": 25,
+      "blocked_target_index": 2
+    }
+  }
+}

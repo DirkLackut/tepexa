@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": "REGION_NOT_FOUND",
+    "message": {
+      "es": "La región «olympus» no existe.",
+      "en": "Region 'olympus' does not exist."
+    },
+    "details": {
+      "region_id": "olympus"
+    }
+  }
+}

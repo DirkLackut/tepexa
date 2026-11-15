@@ -1,0 +1,41 @@
+{
+  "name": "EVA Margin Unit 01",
+  "route_request": {
+    "region_id": "jezero-margin",
+    "start": [
+      400.0,
+      600.0
+    ],
+    "targets": [
+      [
+        1400.0,
+        900.0
+      ],
+      [
+        2100.0,
+        1500.0
+      ],
+      [
+        3300.0,
+        1700.0
+      ]
+    ],
+    "params": {
+      "max_slope_deg": 25.0,
+      "eva_time_limit_min": 240.0,
+      "profiles": [
+        "shortest",
+        "fastest",
+        "safest"
+      ],
+      "include_return": true,
+      "soft_soil_penalty": 2.0,
+      "walking_model": "tobler-mars-v1"
+    }
+  },
+  "selected_profile": "safest",
+  "crew": [
+    "crew-01",
+    "crew-02"
+  ]
+}

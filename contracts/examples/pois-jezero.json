@@ -1,0 +1,266 @@
+{
+  "type": "FeatureCollection",
+  "region_id": "jezero-margin",
+  "coordinate_frame": "jezero-margin-local-m",
+  "is_example": true,
+  "features": [
+    {
+      "type": "Feature",
+      "id": "base",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          400.0,
+          600.0
+        ]
+      },
+      "properties": {
+        "id": "base",
+        "name": {
+          "es": "Base de la misión",
+          "en": "Mission base"
+        },
+        "category": "base",
+        "description": {
+          "es": "Punto de salida y regreso de la caminata.",
+          "en": "Start and return point of the walk."
+        },
+        "water_episode": null,
+        "elevation_m": -2423.67,
+        "evidence": [],
+        "images": [],
+        "confidence_note": {
+          "es": "Ubicación de ejemplo: se fija con la travesía de Perseverance en la spec 002.",
+          "en": "Example location: fixed from Perseverance's traverse in spec 002."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "carbonate-ridges",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1400.0,
+          900.0
+        ]
+      },
+      "properties": {
+        "id": "carbonate-ridges",
+        "name": {
+          "es": "Crestas de carbonato",
+          "en": "Carbonate ridges"
+        },
+        "category": "science_target",
+        "description": {
+          "es": "Episodio 1: agua subterránea con CO₂ precipitó carbonato en las fracturas del olivino.",
+          "en": "Episode 1: CO₂-rich groundwater precipitated carbonate in olivine fractures."
+        },
+        "water_episode": 1,
+        "elevation_m": -2378.91,
+        "evidence": [
+          {
+            "mission": "Mars 2020 (Perseverance)",
+            "instrument": "SuperCam, PIXL, Mastcam-Z",
+            "product_id": null,
+            "url": "https://www.jpl.nasa.gov/news/nasa-discovery-reveals-complex-water-systems-on-early-mars/",
+            "attribution": "NASA/JPL-Caltech; Bedford et al. (2026), Communications Earth & Environment",
+            "license_note": null
+          }
+        ],
+        "images": [
+          {
+            "url": "https://assets.example.invalid/jezero-margin/example-v0/photos/carbonate-ridges.webp",
+            "credit": "NASA/JPL-Caltech (imagen real por definir en la spec 002)",
+            "caption": {
+              "es": "Crestas de carbonato vistas por el rover.",
+              "en": "Carbonate ridges seen by the rover."
+            }
+          }
+        ],
+        "confidence_note": {
+          "es": "Ubicación de ejemplo: se fija con la travesía de Perseverance en la spec 002.",
+          "en": "Example location: fixed from Perseverance's traverse in spec 002."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "silica-shoreline",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2100.0,
+          1500.0
+        ]
+      },
+      "properties": {
+        "id": "silica-shoreline",
+        "name": {
+          "es": "Rocas con sílice bajo la antigua orilla",
+          "en": "Silica-bearing rocks below the old shoreline"
+        },
+        "category": "science_target",
+        "description": {
+          "es": "Episodio 2: el lago dejó sílice en las rocas que cubría.",
+          "en": "Episode 2: the lake left silica in the rocks it covered."
+        },
+        "water_episode": 2,
+        "elevation_m": -2365.26,
+        "evidence": [
+          {
+            "mission": "Mars 2020 (Perseverance)",
+            "instrument": "SuperCam, PIXL, Mastcam-Z",
+            "product_id": null,
+            "url": "https://www.jpl.nasa.gov/news/nasa-discovery-reveals-complex-water-systems-on-early-mars/",
+            "attribution": "NASA/JPL-Caltech; Bedford et al. (2026), Communications Earth & Environment",
+            "license_note": null
+          }
+        ],
+        "images": [
+          {
+            "url": "https://assets.example.invalid/jezero-margin/example-v0/photos/silica-shoreline.webp",
+            "credit": "NASA/JPL-Caltech (imagen real por definir en la spec 002)",
+            "caption": {
+              "es": "Roca alterada bajo la línea de agua.",
+              "en": "Altered rock below the water line."
+            }
+          }
+        ],
+        "confidence_note": {
+          "es": "Ubicación de ejemplo: se fija con la travesía de Perseverance en la spec 002.",
+          "en": "Example location: fixed from Perseverance's traverse in spec 002."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fluorite-veins",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3300.0,
+          1700.0
+        ]
+      },
+      "properties": {
+        "id": "fluorite-veins",
+        "name": {
+          "es": "Venas de fluorita",
+          "en": "Fluorite veins"
+        },
+        "category": "science_target",
+        "description": {
+          "es": "Episodio 3: agua caliente dejó venas de unos 25 cm con sulfato de calcio y fluorita.",
+          "en": "Episode 3: hot water left veins about 25 cm wide with calcium sulfate and fluorite."
+        },
+        "water_episode": 3,
+        "elevation_m": -2325.73,
+        "evidence": [
+          {
+            "mission": "Mars 2020 (Perseverance)",
+            "instrument": "SuperCam, PIXL, Mastcam-Z",
+            "product_id": null,
+            "url": "https://www.jpl.nasa.gov/news/nasa-discovery-reveals-complex-water-systems-on-early-mars/",
+            "attribution": "NASA/JPL-Caltech; Bedford et al. (2026), Communications Earth & Environment",
+            "license_note": null
+          }
+        ],
+        "images": [
+          {
+            "url": "https://assets.example.invalid/jezero-margin/example-v0/photos/fluorite-veins.webp",
+            "credit": "NASA/JPL-Caltech (imagen real por definir en la spec 002)",
+            "caption": {
+              "es": "Venas minerales en el sector este.",
+              "en": "Mineral veins in the eastern sector."
+            }
+          }
+        ],
+        "confidence_note": {
+          "es": "Ubicación de ejemplo: se fija con la travesía de Perseverance en la spec 002.",
+          "en": "Example location: fixed from Perseverance's traverse in spec 002."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "upper-olivine",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3500.0,
+          2600.0
+        ]
+      },
+      "properties": {
+        "id": "upper-olivine",
+        "name": {
+          "es": "Olivino intacto en la parte alta",
+          "en": "Pristine upper olivine"
+        },
+        "category": "waypoint",
+        "description": {
+          "es": "Roca ígnea casi sin alteración por agua: la referencia de cómo era antes.",
+          "en": "Igneous rock with almost no water alteration: the reference for how it was before."
+        },
+        "water_episode": null,
+        "elevation_m": -2312.88,
+        "evidence": [
+          {
+            "mission": "Mars 2020 (Perseverance)",
+            "instrument": "SuperCam, PIXL, Mastcam-Z",
+            "product_id": null,
+            "url": "https://www.jpl.nasa.gov/news/nasa-discovery-reveals-complex-water-systems-on-early-mars/",
+            "attribution": "NASA/JPL-Caltech; Bedford et al. (2026), Communications Earth & Environment",
+            "license_note": null
+          }
+        ],
+        "images": [],
+        "confidence_note": {
+          "es": "Ubicación de ejemplo: se fija con la travesía de Perseverance en la spec 002.",
+          "en": "Example location: fixed from Perseverance's traverse in spec 002."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "loose-soil",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1800.0,
+          1150.0
+        ]
+      },
+      "properties": {
+        "id": "loose-soil",
+        "name": {
+          "es": "Zona de suelo suelto",
+          "en": "Loose-soil area"
+        },
+        "category": "hazard",
+        "description": {
+          "es": "Inercia térmica baja: posible arena o polvo donde se camina con dificultad.",
+          "en": "Low thermal inertia: possible sand or dust that is hard to walk on."
+        },
+        "water_episode": null,
+        "elevation_m": -2371.18,
+        "evidence": [
+          {
+            "mission": "2001 Mars Odyssey",
+            "instrument": "THEMIS",
+            "product_id": "PENDIENTE (spec 002)",
+            "url": "https://themis.mars.asu.edu/",
+            "attribution": "Ejemplo: producto real por definir en la spec 002",
+            "license_note": null
+          }
+        ],
+        "images": [],
+        "confidence_note": {
+          "es": "Ubicación de ejemplo: se fija con la travesía de Perseverance en la spec 002.",
+          "en": "Example location: fixed from Perseverance's traverse in spec 002."
+        }
+      }
+    }
+  ]
+}

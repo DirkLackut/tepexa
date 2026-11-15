@@ -1,0 +1,154 @@
+{
+  "id": "medusae-fossae",
+  "name": {
+    "es": "Medusae Fossae — próxima misión",
+    "en": "Medusae Fossae — next mission"
+  },
+  "status": "preview",
+  "summary": {
+    "es": "Depósito ecuatorial que podría guardar hielo bajo cientos de metros de polvo.",
+    "en": "Equatorial deposit that may hold ice beneath hundreds of metres of dust."
+  },
+  "center": {
+    "lat_deg": -2.0,
+    "lon_east_deg": 190.0,
+    "approximate": true
+  },
+  "thumbnail_url": "https://assets.example.invalid/medusae-fossae/example-v0/thumbnail.webp",
+  "is_example": true,
+  "dataset_version": "example-v0",
+  "coordinate_frame": {
+    "id": "medusae-fossae-local-m",
+    "units": "m",
+    "description": {
+      "es": "Sin marco local: región en modo avance.",
+      "en": "No local frame: preview region."
+    },
+    "source_crs": null
+  },
+  "bounds": null,
+  "elevation_range": null,
+  "mission_objective": {
+    "es": "Próxima misión: estudiar el sitio como posible fuente de agua para una base humana ecuatorial.",
+    "en": "Next mission: study the site as a possible water source for an equatorial human base."
+  },
+  "facts": [
+    {
+      "text": {
+        "es": "El radar MARSIS detectó depósitos de hasta 3.7 km de espesor compatibles con capas de hielo.",
+        "en": "MARSIS radar detected deposits up to 3.7 km thick consistent with layered ice."
+      },
+      "certainty": "interpretation",
+      "sources": [
+        {
+          "mission": "Mars Express (ESA)",
+          "instrument": "MARSIS",
+          "product_id": null,
+          "url": "https://esa.int/Science_Exploration/Space_Science/Buried_water_ice_at_Mars_s_equator",
+          "attribution": "ESA; Watters et al. (2024), Geophysical Research Letters",
+          "license_note": null
+        }
+      ]
+    },
+    {
+      "text": {
+        "es": "Si fuera hielo y se fundiera, cubriría Marte con 1.5 a 2.7 m de agua.",
+        "en": "If it is ice and melted, it would cover Mars with 1.5 to 2.7 m of water."
+      },
+      "certainty": "interpretation",
+      "sources": [
+        {
+          "mission": "Mars Express (ESA)",
+          "instrument": "MARSIS",
+          "product_id": null,
+          "url": "https://esa.int/Science_Exploration/Space_Science/Buried_water_ice_at_Mars_s_equator",
+          "attribution": "ESA; Watters et al. (2024), Geophysical Research Letters",
+          "license_note": null
+        }
+      ]
+    },
+    {
+      "text": {
+        "es": "Estaría bajo una capa seca de varios cientos de metros: inaccesible por décadas.",
+        "en": "It would lie under a dry layer several hundred metres thick: out of reach for decades."
+      },
+      "certainty": "interpretation",
+      "sources": [
+        {
+          "mission": "Mars Express (ESA)",
+          "instrument": "MARSIS",
+          "product_id": null,
+          "url": "https://esa.int/Science_Exploration/Space_Science/Buried_water_ice_at_Mars_s_equator",
+          "attribution": "ESA; Watters et al. (2024), Geophysical Research Letters",
+          "license_note": null
+        }
+      ]
+    },
+    {
+      "text": {
+        "es": "Otra interpretación sostiene que es roca volcánica muy porosa, sin hielo.",
+        "en": "Another interpretation holds it is highly porous volcanic rock, without ice."
+      },
+      "certainty": "hypothesis",
+      "sources": [
+        {
+          "mission": "Varias misiones orbitales (gravedad y radar)",
+          "instrument": null,
+          "product_id": null,
+          "url": "https://www.sci.news/space/volcanic-eruptions-medusae-fossae-formation-mars-06112.html",
+          "attribution": "Ojha y Lewis (2018), Journal of Geophysical Research: Planets",
+          "license_note": null
+        },
+        {
+          "mission": "Mars Express (ESA) / NASA JPL",
+          "instrument": "MARSIS",
+          "product_id": null,
+          "url": "https://www.jpl.nasa.gov/news/mars-express-probes-red-planets-unusual-deposits/",
+          "attribution": "NASA/JPL; Watters et al. (2007), Science",
+          "license_note": null
+        }
+      ]
+    },
+    {
+      "text": {
+        "es": "Es la mayor fuente individual del polvo de Marte.",
+        "en": "It is the largest single source of dust on Mars."
+      },
+      "certainty": "confirmed",
+      "sources": [
+        {
+          "mission": "2001 Mars Odyssey",
+          "instrument": "GRS",
+          "product_id": null,
+          "url": "https://hub.jhu.edu/2018/07/31/mars-dust-medusae-fossae",
+          "attribution": "Johns Hopkins University; Ojha et al. (2018), Nature Communications",
+          "license_note": null
+        }
+      ]
+    },
+    {
+      "text": {
+        "es": "Se formó por erupciones volcánicas explosivas hace más de 3,000 millones de años.",
+        "en": "It formed through explosive volcanic eruptions more than 3 billion years ago."
+      },
+      "certainty": "interpretation",
+      "sources": [
+        {
+          "mission": "Varias misiones orbitales (gravedad y radar)",
+          "instrument": null,
+          "product_id": null,
+          "url": "https://www.sci.news/space/volcanic-eruptions-medusae-fossae-formation-mars-06112.html",
+          "attribution": "Ojha y Lewis (2018), Journal of Geophysical Research: Planets",
+          "license_note": null
+        }
+      ]
+    }
+  ],
+  "route_defaults": null,
+  "available": {
+    "layers": false,
+    "pois": false,
+    "routes": false,
+    "terrain_3d": false
+  }
+}

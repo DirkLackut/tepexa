@@ -1,0 +1,37 @@
+# Secretos
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Datos pesados (van a almacenamiento externo, no a Git)
+data/raw/
+data/processed/
+*.tif
+*.tiff
+*.IMG
+*.img
+*.jp2
+*.pmtiles
+
+# Proyectos de Blender (binarios pesados; se comparten aparte)
+*.blend
+*.blend1
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini

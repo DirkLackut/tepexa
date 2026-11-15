@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": "REGION_PREVIEW_ONLY",
+    "message": {
+      "es": "Esta región es un avance de la próxima misión: no tiene capas, terreno 3D ni rutas.",
+      "en": "This region is a preview of the next mission: it has no layers, 3D terrain or routes."
+    },
+    "details": {
+      "region_id": "medusae-fossae"
+    }
+  }
+}

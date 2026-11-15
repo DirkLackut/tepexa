@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "id": "jezero-margin",
+      "name": {
+        "es": "Cráter Jezero — Margin Unit",
+        "en": "Jezero Crater — Margin Unit"
+      },
+      "status": "active",
+      "summary": {
+        "es": "La antigua orilla de un lago donde Perseverance halló rastros de tres sistemas de agua distintos.",
+        "en": "The ancient shoreline of a lake where Perseverance found traces of three distinct water systems."
+      },
+      "center": {
+        "lat_deg": 18.38,
+        "lon_east_deg": 77.58,
+        "approximate": true
+      },
+      "thumbnail_url": "https://assets.example.invalid/jezero-margin/example-v0/thumbnail.webp"
+    },
+    {
+      "id": "medusae-fossae",
+      "name": {
+        "es": "Medusae Fossae — próxima misión",
+        "en": "Medusae Fossae — next mission"
+      },
+      "status": "preview",
+      "summary": {
+        "es": "Depósito ecuatorial que podría guardar hielo bajo cientos de metros de polvo.",
+        "en": "Equatorial deposit that may hold ice beneath hundreds of metres of dust."
+      },
+      "center": {
+        "lat_deg": -2.0,
+        "lon_east_deg": 190.0,
+        "approximate": true
+      },
+      "thumbnail_url": "https://assets.example.invalid/medusae-fossae/example-v0/thumbnail.webp"
+    }
+  ]
+}

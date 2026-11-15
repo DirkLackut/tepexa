@@ -1,0 +1,290 @@
+{
+  "region_id": "jezero-margin",
+  "is_example": true,
+  "dataset_version": "example-v0",
+  "items": [
+    {
+      "id": "ortho",
+      "kind": "orthoimage",
+      "title": {
+        "es": "Imagen orbital",
+        "en": "Orbital image"
+      },
+      "description": {
+        "es": "Fotografía de alta resolución tomada desde órbita.",
+        "en": "High-resolution photograph taken from orbit."
+      },
+      "source": {
+        "mission": "Mars Reconnaissance Orbiter",
+        "instrument": "HiRISE",
+        "product_id": "PENDIENTE (spec 002)",
+        "url": "https://www.uahirise.org/",
+        "attribution": "Ejemplo: producto real por definir en la spec 002",
+        "license_note": null
+      },
+      "resolution_m": 0.25,
+      "units": null,
+      "legend": null,
+      "tiles": {
+        "format": "xyz",
+        "url": "https://assets.example.invalid/jezero-margin/example-v0/ortho/{z}/{x}/{y}.webp",
+        "extent": {
+          "min_x": 0.0,
+          "min_y": 0.0,
+          "max_x": 4000.0,
+          "max_y": 3000.0
+        },
+        "tile_size": 256,
+        "min_zoom": 0,
+        "max_zoom": 6
+      },
+      "default_visible": true,
+      "default_opacity": 1.0,
+      "z_order": 0,
+      "used_in_routing": false,
+      "limitations": {
+        "es": "Ejemplo: el producto HiRISE real se elige en la spec 002.",
+        "en": "Example: the real HiRISE product is chosen in spec 002."
+      }
+    },
+    {
+      "id": "elevation",
+      "kind": "elevation",
+      "title": {
+        "es": "Elevación",
+        "en": "Elevation"
+      },
+      "description": {
+        "es": "Altura del terreno; base del cálculo de rutas y del terreno 3D.",
+        "en": "Terrain height; basis for route computation and the 3D terrain."
+      },
+      "source": {
+        "mission": "Mars Reconnaissance Orbiter",
+        "instrument": "HiRISE",
+        "product_id": "PENDIENTE (spec 002)",
+        "url": "https://www.uahirise.org/",
+        "attribution": "Ejemplo: producto real por definir en la spec 002",
+        "license_note": null
+      },
+      "resolution_m": 1.0,
+      "units": "m",
+      "legend": {
+        "type": "continuous",
+        "units": "m",
+        "stops": [
+          {
+            "value": -2440.0,
+            "color": "#1B3A4B",
+            "label": {
+              "es": "Más bajo",
+              "en": "Lowest"
+            }
+          },
+          {
+            "value": -2273.7,
+            "color": "#E8D9B5",
+            "label": {
+              "es": "Más alto",
+              "en": "Highest"
+            }
+          }
+        ]
+      },
+      "tiles": {
+        "format": "xyz",
+        "url": "https://assets.example.invalid/jezero-margin/example-v0/elevation/{z}/{x}/{y}.webp",
+        "extent": {
+          "min_x": 0.0,
+          "min_y": 0.0,
+          "max_x": 4000.0,
+          "max_y": 3000.0
+        },
+        "tile_size": 256,
+        "min_zoom": 0,
+        "max_zoom": 6
+      },
+      "default_visible": false,
+      "default_opacity": 0.7,
+      "z_order": 1,
+      "used_in_routing": true,
+      "limitations": {
+        "es": "Ejemplo: el producto HiRISE real se elige en la spec 002.",
+        "en": "Example: the real HiRISE product is chosen in spec 002."
+      }
+    },
+    {
+      "id": "hillshade",
+      "kind": "hillshade",
+      "title": {
+        "es": "Relieve sombreado",
+        "en": "Hillshade"
+      },
+      "description": {
+        "es": "Sombras calculadas de la elevación para leer la forma del terreno.",
+        "en": "Shading computed from elevation to read the shape of the terrain."
+      },
+      "source": {
+        "mission": "Mars Reconnaissance Orbiter",
+        "instrument": "HiRISE",
+        "product_id": "PENDIENTE (spec 002)",
+        "url": "https://www.uahirise.org/",
+        "attribution": "Ejemplo: producto real por definir en la spec 002",
+        "license_note": null
+      },
+      "resolution_m": 1.0,
+      "units": null,
+      "legend": null,
+      "tiles": {
+        "format": "xyz",
+        "url": "https://assets.example.invalid/jezero-margin/example-v0/hillshade/{z}/{x}/{y}.webp",
+        "extent": {
+          "min_x": 0.0,
+          "min_y": 0.0,
+          "max_x": 4000.0,
+          "max_y": 3000.0
+        },
+        "tile_size": 256,
+        "min_zoom": 0,
+        "max_zoom": 6
+      },
+      "default_visible": true,
+      "default_opacity": 0.5,
+      "z_order": 2,
+      "used_in_routing": false,
+      "limitations": {
+        "es": "Ejemplo: el producto HiRISE real se elige en la spec 002.",
+        "en": "Example: the real HiRISE product is chosen in spec 002."
+      }
+    },
+    {
+      "id": "thermal-inertia",
+      "kind": "thermal_inertia",
+      "title": {
+        "es": "Inercia térmica",
+        "en": "Thermal inertia"
+      },
+      "description": {
+        "es": "Valores bajos indican polvo o arena suelta; altos, roca firme.",
+        "en": "Low values indicate dust or loose sand; high values, solid rock."
+      },
+      "source": {
+        "mission": "2001 Mars Odyssey",
+        "instrument": "THEMIS",
+        "product_id": "PENDIENTE (spec 002)",
+        "url": "https://themis.mars.asu.edu/",
+        "attribution": "Ejemplo: producto real por definir en la spec 002",
+        "license_note": null
+      },
+      "resolution_m": 100.0,
+      "units": "J m⁻² K⁻¹ s⁻½",
+      "legend": {
+        "type": "continuous",
+        "units": "J m⁻² K⁻¹ s⁻½",
+        "stops": [
+          {
+            "value": 150.0,
+            "color": "#C9A66B",
+            "label": {
+              "es": "Suelo suelto",
+              "en": "Loose soil"
+            }
+          },
+          {
+            "value": 600.0,
+            "color": "#3E5C76",
+            "label": {
+              "es": "Roca firme",
+              "en": "Solid rock"
+            }
+          }
+        ]
+      },
+      "tiles": {
+        "format": "xyz",
+        "url": "https://assets.example.invalid/jezero-margin/example-v0/thermal-inertia/{z}/{x}/{y}.webp",
+        "extent": {
+          "min_x": 0.0,
+          "min_y": 0.0,
+          "max_x": 4000.0,
+          "max_y": 3000.0
+        },
+        "tile_size": 256,
+        "min_zoom": 0,
+        "max_zoom": 6
+      },
+      "default_visible": false,
+      "default_opacity": 0.6,
+      "z_order": 3,
+      "used_in_routing": true,
+      "limitations": {
+        "es": "Píxeles de unos 100 m: identifica zonas, no rocas individuales.",
+        "en": "Pixels of about 100 m: identifies areas, not individual rocks."
+      }
+    },
+    {
+      "id": "mineralogy",
+      "kind": "mineralogy",
+      "title": {
+        "es": "Mineralogía orbital",
+        "en": "Orbital mineralogy"
+      },
+      "description": {
+        "es": "Minerales detectados desde órbita: compárelos con lo que encontró el rover.",
+        "en": "Minerals detected from orbit: compare them with what the rover found."
+      },
+      "source": {
+        "mission": "Mars Reconnaissance Orbiter",
+        "instrument": "CRISM",
+        "product_id": "PENDIENTE (spec 002)",
+        "url": "https://pds-geosciences.wustl.edu/missions/mro/crism.htm",
+        "attribution": "Ejemplo: producto real por definir en la spec 002",
+        "license_note": null
+      },
+      "resolution_m": 18.0,
+      "units": null,
+      "legend": {
+        "type": "categorical",
+        "units": null,
+        "stops": [
+          {
+            "value": null,
+            "color": "#6FA287",
+            "label": {
+              "es": "Olivino",
+              "en": "Olivine"
+            }
+          },
+          {
+            "value": null,
+            "color": "#D0E67A",
+            "label": {
+              "es": "Carbonato",
+              "en": "Carbonate"
+            }
+          }
+        ]
+      },
+      "tiles": {
+        "format": "xyz",
+        "url": "https://assets.example.invalid/jezero-margin/example-v0/mineralogy/{z}/{x}/{y}.webp",
+        "extent": {
+          "min_x": 0.0,
+          "min_y": 0.0,
+          "max_x": 4000.0,
+          "max_y": 3000.0
+        },
+        "tile_size": 256,
+        "min_zoom": 0,
+        "max_zoom": 6
+      },
+      "default_visible": false,
+      "default_opacity": 0.6,
+      "z_order": 4,
+      "used_in_routing": false,
+      "limitations": {
+        "es": "Detección desde órbita: el rover mostró que su origen era distinto al supuesto.",
+        "en": "Orbital detection: the rover showed its origin differed from what was assumed."
+      }
+    }
+  ]
+}

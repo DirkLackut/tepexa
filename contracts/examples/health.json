@@ -1,0 +1,10 @@
+{
+  "status": "ok",
+  "api_version": "v1",
+  "mode": "example",
+  "app_version": "0.1.0-spec000",
+  "dataset_versions": {
+    "jezero-margin": "example-v0",
+    "medusae-fossae": "example-v0"
+  }
+}
