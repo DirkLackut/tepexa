@@ -1,85 +1,73 @@
 {
   "models": {
     "crater": {
-      "source_file": "Crater.glb",
+      "source_file": "crater.glb",
       "source": {
-        "bytes": 4307976,
-        "triangles": 178804,
-        "textures": 0,
+        "bytes": 2252464,
+        "triangles": 19672,
+        "textures": 3,
         "animations": 0,
-        "extensions": [
-          "KHR_materials_transmission",
-          "KHR_materials_specular",
-          "KHR_materials_ior"
-        ]
+        "extensions": []
       },
-      "warnings": [
-        "usa transmisión (vidrio/agua): costosa en celulares; el frontend puede apagarla en móvil"
-      ],
+      "warnings": [],
       "ok": true,
       "pc": {
         "url": "/models/crater/pc.glb",
-        "bytes": 496584,
-        "triangles": 178804,
-        "textures": 0,
+        "bytes": 595984,
+        "triangles": 19672,
+        "textures": 3,
         "animations": 0,
         "extensions": [
           "EXT_meshopt_compression",
-          "KHR_materials_ior",
-          "KHR_materials_specular",
-          "KHR_materials_transmission",
+          "EXT_texture_webp",
           "KHR_mesh_quantization"
         ]
       },
       "movil": {
         "url": "/models/crater/movil.glb",
-        "bytes": 177376,
-        "triangles": 44701,
-        "textures": 0,
+        "bytes": 320684,
+        "triangles": 19672,
+        "textures": 3,
         "animations": 0,
         "extensions": [
           "EXT_meshopt_compression",
-          "KHR_materials_ior",
-          "KHR_materials_specular",
-          "KHR_materials_transmission",
+          "EXT_texture_webp",
           "KHR_mesh_quantization"
         ]
       }
     },
     "medusa": {
-      "source_file": "Medusa.glb",
+      "source_file": "medusa.glb",
       "source": {
-        "bytes": 18790600,
-        "triangles": 624962,
-        "textures": 0,
+        "bytes": 1537548,
+        "triangles": 17193,
+        "textures": 3,
         "animations": 0,
-        "extensions": [
-          "KHR_materials_specular"
-        ]
+        "extensions": []
       },
       "warnings": [],
       "ok": true,
       "pc": {
         "url": "/models/medusa/pc.glb",
-        "bytes": 1816812,
-        "triangles": 624962,
-        "textures": 0,
+        "bytes": 380672,
+        "triangles": 17193,
+        "textures": 3,
         "animations": 0,
         "extensions": [
           "EXT_meshopt_compression",
-          "KHR_materials_specular",
+          "EXT_texture_webp",
           "KHR_mesh_quantization"
         ]
       },
       "movil": {
         "url": "/models/medusa/movil.glb",
-        "bytes": 630272,
-        "triangles": 156240,
-        "textures": 0,
+        "bytes": 226812,
+        "triangles": 17193,
+        "textures": 3,
         "animations": 0,
         "extensions": [
           "EXT_meshopt_compression",
-          "KHR_materials_specular",
+          "EXT_texture_webp",
           "KHR_mesh_quantization"
         ]
       }
@@ -348,8 +336,8 @@
     "china": {
       "source_file": "china.glb",
       "source": {
-        "bytes": 60517440,
-        "triangles": 1930022,
+        "bytes": 9377432,
+        "triangles": 19127,
         "textures": 3,
         "animations": 0,
         "extensions": []
@@ -358,8 +346,8 @@
       "ok": true,
       "pc": {
         "url": "/models/china/pc.glb",
-        "bytes": 2911040,
-        "triangles": 299924,
+        "bytes": 1640420,
+        "triangles": 19127,
         "textures": 3,
         "animations": 0,
         "extensions": [
@@ -370,8 +358,8 @@
       },
       "movil": {
         "url": "/models/china/movil.glb",
-        "bytes": 1488704,
-        "triangles": 150284,
+        "bytes": 811288,
+        "triangles": 19127,
         "textures": 3,
         "animations": 0,
         "extensions": [
@@ -382,7 +370,7 @@
       }
     }
   },
-  "generated_at": "2026-11-15T10:20:05.787Z",
+  "generated_at": "2026-11-15T12:41:42.865Z",
   "budget_bytes": {
     "pc": 4000000,
     "movil": 1500000

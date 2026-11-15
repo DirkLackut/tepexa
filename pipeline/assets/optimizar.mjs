@@ -31,7 +31,9 @@ const MOVIL_TARGET_TRIS = 75_000;
 
 function profilesFor(tris) {
   const pcRatio = tris > PC_SIMPLIFY_ABOVE ? PC_TARGET_TRIS / tris : 1;
-  const movilRatio = Math.min(0.25, MOVIL_TARGET_TRIS / Math.max(tris, 1));
+  // Un modelo que ya viene liviano (p. ej. Smart Mesh o Retopology de Tripo, ~10-20 mil triángulos) no se
+  // simplifica: quitarle triángulos solo dañaría la textura. El celular recibe la misma geometría con texturas de 1024 px.
+  const movilRatio = Math.min(1, MOVIL_TARGET_TRIS / Math.max(tris, 1));
   const simplify = (r) => (r >= 1 ? ["--simplify", "false"]
     : ["--simplify", "true", "--simplify-ratio", r.toFixed(4), "--simplify-error", "0.01"]);
   return {

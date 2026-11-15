@@ -49,7 +49,7 @@ también va en móvil, en versión liviana (`lods[].recommended_for = "mobile"`)
 | 4 | Exportar los modelos de Blender a `.glb` con las reglas de abajo y entregarlos a Dirk | Blender | Pipeline de assets |
 | 5 | Entregar los avatares `.riv` (exportados para la web, no el archivo del editor) | Diseño | Selección de tripulación y HUD |
 | 6 | Producir el video de entrada (MP4 o WebM, menos de 10 MB) | Blender | Pantalla de entrada |
-| 7 | Publicar en Vercel y pasarle a Dirk la URL de producción y el patrón de las vistas previas | Frontend | CORS de la API |
+| 7 | Publicar en Vercel con un nombre de proyecto que empiece con `tepexa` (la API ya acepta `https://tepexa….vercel.app`) | Frontend | Que la página publicada pueda leer la API |
 | 8 | Decidir el dominio (subdominio gratis de Vercel o uno propio) | Diseño | Dirección pública de la app |
 | 9 | Medir FPS en laptop, iPhone y Android con el simulador | Frontend | Ajustar calidad del 3D |
 | 10 | Preparar la laptop con Blender MCP para la prueba de modelos | Blender | Verificar modelos y optimización |
