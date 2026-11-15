@@ -112,10 +112,10 @@ Blender, no la API. Muéstrenlo como avance, nunca como misión planificable.
   |---|---|---|---|
   | `crater` (Jezero con su lago antiguo, Smart Mesh) | 0.6 MB | 0.3 MB | Reconstrucción artística: no coincide con el DTM |
   | `medusa` (Medusae Fossae, Smart Mesh) | 0.4 MB | 0.2 MB | Reconstrucción artística |
-  | `mars` | 1.0 MB | 0.3 MB | |
+  | `mars` (Marte, Smart Mesh) | 0.4 MB | 0.2 MB | |
   | `china` (avatar, Smart Mesh) | 1.6 MB | 0.8 MB | Limpio también de cerca |
   | `alejandro`, `dirk`, `dylan`, `israel`, `yasid` (avatares HD) | ~2.8 MB | 1.2–1.4 MB | De cerca la cara se mancha: ver «Calidad». Consentimiento de las 5 personas confirmado (15-nov) |
-  | `drone` (HD) | 2.9 MB | **1.8 MB** ⚠ | Ver «Problema en celular» |
+  | `drone` (HD) | 2.9 MB | **1.8 MB** ⚠ | Se queda así (decisión del equipo, 15-nov). Ver «Problema en celular» |
 
 - **Calidad de los avatares HD:** de cuerpo entero se ven igual al original; de cerca, la cara se mancha porque al
   reducir de ~2 millones a 300 mil triángulos se corren los bordes de la textura. Si un avatar se va a ver de cerca,
@@ -186,23 +186,23 @@ que el proyecto de Vercel se llame empezando con `tepexa`.
 | B5 | Fotos de Perseverance en los puntos de interés (`images[]`) | Backend o frontend (ver 8) | No: hoy `images` viene vacío |
 | B6 | Miniatura de Jezero (`thumbnail_url`, hoy `null`) | Backend | No |
 | B7 | Comparar la ruta calculada con la travesía real de Perseverance (CE-5 de la spec 003) | Backend | No: es un extra para la presentación |
-| B8 | Mover los `.glb` de `backend/render/` a `assets/models/originales/` (ya hay versiones optimizadas en `frontend/public/models/`) | Equipo decide; backend lo hace | No |
+| B8 | ~~Mover los `.glb` de `backend/render/`~~ **Hecho (15-nov)**: salen del repo; `crater`, `medusa` y `mars` tienen versión nueva | Backend | Ya no |
 
 ## 8. Lo que le toca al frontend y al equipo
-Ver la tabla completa en `frontend/README.md` («Pendientes del equipo»).
+**Estado (15-nov):** el frontend ya está integrado en `frontend/`: el diseño del equipo con los datos reales
+dentro. Módulos, cómo correrlo y cómo publicarlo en Vercel: `frontend/README.md`. Pendientes del equipo: la
+tabla de ese mismo archivo.
 
-**Punto de partida para el 3D:** `frontend/ejemplos/escena-3d/` es una app pequeña que ya funciona: terreno real de
-Jezero desde la API, las 3 rutas y los puntos de la misión encima, y la galería de modelos del equipo. Las piezas de
-`src/tepexa3d/` (`TerrenoJezero`, `RutaEnTerreno`, `PuntoDeInteres`, `ModeloDelEquipo`) se copian tal cual a la app.
-Cómo correrla: su `README.md`.
-
-Lo urgente:
-1. Leer `/health`, `/regions`, `/pois`, `/layers` y armar Explorar (2D).
-2. Planificar: elegir base y objetivos (por defecto, la misión sugerida), llamar `/routes/compare`,
-   mostrar las 3 rutas, el perfil de elevación y las advertencias.
-3. Simular (3D) con el heightmap real y la polilínea de la ruta elegida.
-4. Guardar la misión y mostrar el informe.
-5. Publicar en Vercel con un nombre de proyecto que empiece con `tepexa` (CORS, B1).
+- Atlas, Planificador, Análisis (guarda la misión y muestra el informe imprimible), Tripulación, Asistente
+  (sin IA, con datos reales), Medusae (hechos y modelo) y Perfil leen la API publicada.
+- Mapas del simulador: Jezero (DTM real, rutas de la API) y Medusae Fossae (terreno **ilustrativo**, rutas calculadas en
+  el navegador con el mismo modelo de caminata). Si el backend agrega un DTM real de Medusae, ese terreno se reemplaza.
+- **La simulación 3D (`frontend/src/simulador/`) es un módulo aislado: es posible que cambie (no está decidido).** Lo que debe respetar
+  un reemplazo está en `src/simulador/LEEME.md`: misma polilínea de la API y telemetría solo de la ruta.
+- Medusae Fossae se ve dentro del Atlas (`/app?region=medusae`). Las pantallas de cuenta llevan a la app sin crear usuarios
+  (no hay backend de usuarios ni datos personales). Idioma: el del navegador. Responsive revisado en celular (390 px) y PC.
+- Se quitaron Feed, IncidentRadar y GlobalSituation (venían de otro proyecto) y los campos médicos del registro.
+- `frontend/ejemplos/escena-3d/` sigue como referencia del 3D (spec 005).
 
 **Se puede repartir:** B5 (fotos de Perseverance) lo puede tomar el frontend: elegir 1 o 2 fotos por punto
 en `https://mars.nasa.gov/mars2020/multimedia/raw-images/` (filtrar por sol), con crédito
