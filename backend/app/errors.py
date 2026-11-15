@@ -33,6 +33,27 @@ def out_of_bounds(point, bounds) -> ApiError:
                     {"point": list(point), "bounds": bounds.model_dump()})
 
 
+def nodata(point) -> ApiError:
+    return ApiError(422, ErrorCode.NODATA,
+                    "Un punto cae donde no hay datos de elevación.",
+                    "A point falls where there is no elevation data.",
+                    {"point": [float(point[0]), float(point[1])]})
+
+
+def no_route(profile: str, from_index: int, to_index: int, max_slope_deg: float) -> ApiError:
+    return ApiError(422, ErrorCode.NO_ROUTE,
+                    f"No hay ruta que respete la pendiente máxima de {max_slope_deg:g}° entre esos puntos.",
+                    f"No route respects the {max_slope_deg:g}° maximum slope between those points.",
+                    {"profile": profile, "from_index": from_index, "to_index": to_index,
+                     "max_slope_deg": max_slope_deg})
+
+
+def unknown_walking_model(name: str, supported: list[str]) -> ApiError:
+    return ApiError(422, ErrorCode.BAD_REQUEST,
+                    f"El modelo de caminata «{name}» no existe.", f"Walking model '{name}' does not exist.",
+                    {"walking_model": name, "supported": supported})
+
+
 def mission_not_found(mission_id: str) -> ApiError:
     return ApiError(404, ErrorCode.MISSION_NOT_FOUND,
                     f"La misión «{mission_id}» no existe.", f"Mission '{mission_id}' does not exist.",

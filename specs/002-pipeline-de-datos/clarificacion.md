@@ -1,0 +1,14 @@
+# Spec 002 — Clarificaciones
+
+| # | Duda | Respuesta | Fuente | Fecha | Certeza |
+|---|---|---|---|---|---|
+| 1 | ¿El mosaico HiRISE de Mars 2020 cubre la Margin Unit? | Sí. Cubre lat 18.3068–18.6693 N, lon 77.2229–77.584 E. La travesía de la Margin Unit (soles 909–1278) cae entre lat 18.474–18.497 N y lon 77.298–77.358 E | USGS; travesía M20 (NASA/JPL) | 15-nov | Confirmado |
+| 2 | ¿Hace falta descargar los 1.8 GB? | No. El GeoTIFF no está comprimido y el servidor acepta lecturas por rango de bytes: desde el navegador integrado se leyeron solo las 3 001 filas del recorte (columnas 3941–8159, filas 9306–12307) | Encabezado TIFF leído el 15-nov | 15-nov | Confirmado |
+| 3 | ¿Recorte y resolución? | 4 × 3 km de terreno real centrado en 18.487 N, 77.325 E. Rejilla de 2 m para el 3D y de 10 m para las rutas. Alturas con pasos de 10 cm, por debajo de la precisión vertical del DTM | Decisión (D-28) | 15-nov | Decisión |
+| 4 | ¿La proyección deforma las distancias? | Sí: el mosaico es equirectangular con paralelo estándar 0°, así que el eje este-oeste sale estirado 1/cos(18.487°) = 5.4 %. Se corrige al pasar al marco local | Metadatos GeoTIFF (Mars 2000 esfera, R = 3 396 190 m) | 15-nov | Confirmado |
+| 5 | ¿Cómo se verificó el DTM? | En los 5 sitios de muestra, la altura del DTM coincide con la elevación que reportó Perseverance con un error de 0.01 a 0.19 m | Travesía M20 (`elev_geoid`) | 15-nov | Confirmado |
+| 6 | ¿Qué puntos de interés son reales? | Los núcleos Pelican Point (sol 923), Lefroy Bay (sol 942) y Comet Geyser (sol 1088), la abrasión Old Faithful Geyser (sol 1151) y Eremita Mesa (sol 1261). La posición es la del rover ese sol (±10 m) | [NASA, «Carving Into Carbonates at Old Faithful Geyser» (2024)](https://science.nasa.gov/blog/carving-into-carbonates-at-old-faithful-geyser); [NASA, «Margin up the crater rim» (2024)](https://science.nasa.gov/blog/margin-up-the-crater-rim) | 15-nov | Confirmado |
+| 7 | ¿Y los episodios de agua 2 y 3? | Las fuentes públicas no nombran rocas concretas del episodio 2 (sílice) ni del 3 (venas de fluorita, «parte este»). No se inventan puntos: solo se marca el episodio 1 en las rocas con carbonato, y se avisa que esa asociación es interpretación nuestra | Bedford et al. (2026); notas de NASA | 15-nov | Confirmado |
+| 8 | ¿La base de la misión? | La elige el equipo: zona plana del DTM (< 6° en 30 m) en (2950, 1100). Se dice que no es un sitio de NASA | Decisión | 15-nov | Decisión |
+| 9 | ¿Suelo suelto (inercia térmica)? | Pendiente. Sin THEMIS, la máscara de suelo suelto está vacía: el perfil «más segura» solo evita pendientes | Pendiente (T2) | 15-nov | Pendiente |
+| 10 | ¿Dónde viven el heightmap y la textura? | Por ahora los sirve la API en `/assets` (~2.7 MB). R2 queda para archivos más grandes (ortoimagen) | Decisión (D-29) | 15-nov | Decisión |

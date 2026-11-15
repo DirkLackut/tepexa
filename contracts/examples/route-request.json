@@ -19,8 +19,8 @@
     ]
   ],
   "params": {
-    "max_slope_deg": 25.0,
-    "eva_time_limit_min": 240.0,
+    "max_slope_deg": 20.0,
+    "eva_time_limit_min": 360.0,
     "profiles": [
       "shortest",
       "fastest",
@@ -28,6 +28,6 @@
     ],
     "include_return": true,
     "soft_soil_penalty": 2.0,
-    "walking_model": "tobler-mars-v1"
+    "walking_model": "tobler-eva-v1"
   }
 }

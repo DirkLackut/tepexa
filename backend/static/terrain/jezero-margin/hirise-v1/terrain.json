@@ -1,0 +1,46 @@
+{
+  "dataset_version": "hirise-v1",
+  "region_id": "jezero-margin",
+  "z_min_m": -2443.1,
+  "z_max_m": -1995.0,
+  "meters_per_px": {
+    "heightmap-lod0.png": 2.0,
+    "heightmap-lod1.png": 4.0
+  },
+  "width_m": 4000,
+  "height_m": 3000,
+  "source": {
+    "mission": "Mars Reconnaissance Orbiter",
+    "instrument": "HiRISE",
+    "product_id": "JEZ_hirise_soc_006_DTM_MOLAtopography_DeltaGeoid_1m_Eqc_latTs0_lon0_blend40",
+    "url": "https://astrogeology.usgs.gov/search/map/mars_2020_terrain_relative_navigation_hirise_dtm_mosaic",
+    "attribution": "NASA/JPL-Caltech/University of Arizona; USGS Astrogeology — Fergason et al. (2020), doi:10.5066/P9REJ9JN",
+    "pixel_window": {
+      "col0": 3941,
+      "col1": 8159,
+      "row0": 9306,
+      "row1": 12307
+    },
+    "read_on": "2026-11-15"
+  },
+  "files": {
+    "heightmap-lod0.png": {
+      "bytes": 1746525,
+      "sha256": "67ffd17c2594640b341a0985f47cb18b77fc5070acc172386e6dd2c387074ee4",
+      "width_px": 2001,
+      "height_px": 1501
+    },
+    "heightmap-lod1.png": {
+      "bytes": 633364,
+      "sha256": "9ab1d029ad88d732c3dbb7ea241a415ad5ef548a9f094db198602d2209fcb21c",
+      "width_px": 1001,
+      "height_px": 751
+    },
+    "texture-relief.webp": {
+      "bytes": 284692,
+      "sha256": "a5ae927d7d3937dc81bbfbd3bf03e3f969b3ccf339790b75a5cea520cb6caeb8",
+      "width_px": 2001,
+      "height_px": 1501
+    }
+  }
+}

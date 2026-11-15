@@ -30,7 +30,7 @@ def db():
         conn.execute("drop schema if exists public cascade")
         conn.execute("create schema public")
     applied = apply_migrations(DB_URL)
-    apply_seeds(DB_URL)
+    apply_seeds(DB_URL, only=["001_catalogo_ejemplo"])  # el catálogo real (002) se prueba en test_db_hirise.py
     return applied
 
 
@@ -90,7 +90,7 @@ def test_seed_is_idempotent(db):
 
     from db.migrate import apply_seeds
 
-    apply_seeds(DB_URL)
+    apply_seeds(DB_URL, only=["001_catalogo_ejemplo"])
     with psycopg.connect(DB_URL) as conn:
         assert conn.execute("select count(*) from regions").fetchone()[0] == 2
         assert conn.execute("select count(*) from pois").fetchone()[0] == len(load("pois-jezero.json")["features"])
@@ -142,7 +142,9 @@ def test_health_endpoints_status(live_client):
     assert h["endpoints"]["regions"] == "live"
     assert h["endpoints"]["region"] == "live"
     assert h["endpoints"]["pois"] == "live"
-    for name in ["layers", "terrain", "routes", "missions"]:
+    assert h["endpoints"]["routes"] == "live"
+    assert h["endpoints"]["terrain"] == "live"
+    for name in ["layers", "missions"]:
         assert h["endpoints"][name] == "example"
     assert live_client.get("/api/v1/regions/jezero-margin/layers").json()["is_example"] is True
 

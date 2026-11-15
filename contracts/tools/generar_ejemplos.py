@@ -7,7 +7,6 @@ científicos sí son reales y llevan su fuente.
 Uso: python contracts/tools/generar_ejemplos.py
 """
 import json
-import math
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -16,21 +15,21 @@ REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO / "backend"))
 
 from app.contract import (  # noqa: E402
-    Advisory, Availability, Bounds, Certainty, CoordinateFrame, CostModel, ElevationRange, ErrorBody,
+    Availability, Bounds, Certainty, CoordinateFrame, ElevationRange, ErrorBody,
     ErrorCode, ErrorResponse, Fact, Health, Heightmap, Layer, LayerList, Legend, LegendStop,
     LocalizedText as T, MarsLocation, Mission, MissionCreate, MissionReport, PoiCollection, PoiFeature,
-    PoiImage, PoiProperties, PointGeometry, ProfilePoint, RegionDetail, RegionList, RegionStatus,
-    RegionSummary, Route, RouteComparison, RouteLeg, RouteMetrics, RouteParams, RouteProfile,
-    RouteRequest, RouteResponse, RouteSegment, SceneTransform, Severity, Source, TerrainLod,
-    TerrainManifest, TerrainTexture, TileSource, WarningCode,
+    PoiImage, PoiProperties, PointGeometry, RegionDetail, RegionList, RegionStatus, RegionSummary,
+    RouteParams, RouteProfile, RouteRequest, SceneTransform, Source, TerrainLod, TerrainManifest,
+    TerrainTexture, TileSource,
 )
+from app.errors import no_route  # noqa: E402
 from app.openapi_export import build_openapi  # noqa: E402
+from app.routing import engine, synthetic, walking  # noqa: E402
 from app.settings import ALL_ENDPOINTS, APP_VERSION  # noqa: E402
 
 OUT = REPO / "contracts" / "examples"
 NOW = datetime(2026, 11, 14, 0, 0, tzinfo=timezone.utc)
 DATASET = "example-v0"
-ALGO = "example-v0"
 ASSETS = "https://assets.example.invalid"  # dominio reservado: deja claro que no es real
 
 # ---------------------------------------------------------------- fuentes reales
@@ -69,139 +68,22 @@ CRISM = Source(mission="Mars Reconnaissance Orbiter", instrument="CRISM", produc
                url="https://pds-geosciences.wustl.edu/missions/mro/crism.htm", attribution=EX_ATTR)
 PERSEVERANCE_RAW = "https://mars.nasa.gov/mars2020/multimedia/raw-images/"
 
-# ---------------------------------------------------------------- terreno sintético
-W, H = 4000.0, 3000.0
+# ---------------------------------------------------------------- terreno sintético y rutas (spec 003)
+# El terreno vive en backend/app/routing/synthetic.py y las rutas las calcula el motor real (D-27).
+W, H = synthetic.WIDTH_M, synthetic.HEIGHT_M
 BOUNDS = Bounds(min_x=0, min_y=0, max_x=W, max_y=H)
-SOFT = (1800.0, 1150.0, 260.0)  # zona de suelo suelto (x, y, radio)
+SOFT = synthetic.SOFT_CIRCLE
 FRAME_ID = "jezero-margin-local-m"
+z = synthetic.z_scalar
 
-
-def z(x: float, y: float) -> float:
-    # colina entre los objetivos 2 y 3: la ruta más corta la cruza, la más rápida la rodea
-    hill = 70.0 * math.exp(-((x - 2700.0) ** 2 + (y - 1600.0) ** 2) / (2 * 130.0 ** 2))
-    return -2440.0 + 0.03 * x + 0.01 * y + 12.0 * math.sin(x / 300.0) * math.cos(y / 350.0) + hill
-
-
-def soft(x: float, y: float) -> bool:
-    return math.hypot(x - SOFT[0], y - SOFT[1]) <= SOFT[2]
-
-
-# ---------------------------------------------------------------- rutas sintéticas
-PARAMS = RouteParams(max_slope_deg=25, eva_time_limit_min=240,
+PARAMS = RouteParams(max_slope_deg=walking.DEFAULT_MAX_SLOPE_DEG, eva_time_limit_min=walking.DEFAULT_EVA_TIME_LIMIT_MIN,
                      profiles=[RouteProfile.shortest, RouteProfile.fastest, RouteProfile.safest],
-                     include_return=True, soft_soil_penalty=2.0, walking_model="tobler-mars-v1")
-MARS_SPEED_FACTOR = 0.8  # provisional (spec 003 lo investiga con fuente)
-
-
-def tobler_kmh(slope: float) -> float:
-    return 6.0 * math.exp(-3.5 * abs(slope + 0.05)) * MARS_SPEED_FACTOR
-
-
-def densify(waypoints, step=25.0):
-    pts, marks = [], [0]
-    for (x0, y0), (x1, y1) in zip(waypoints, waypoints[1:]):
-        n = max(1, int(math.hypot(x1 - x0, y1 - y0) // step))
-        for i in range(n):
-            t = i / n
-            pts.append((x0 + (x1 - x0) * t, y0 + (y1 - y0) * t))
-        marks.append(len(pts))
-    pts.append(waypoints[-1])
-    return [(round(x, 2), round(y, 2), round(z(x, y), 2)) for x, y in pts], marks
-
-
-def metrics(poly) -> RouteMetrics:
-    dist = asc = desc = maxs = wslope = tmin = softm = 0.0
-    for (x0, y0, z0), (x1, y1, z1) in zip(poly, poly[1:]):
-        h = math.hypot(x1 - x0, y1 - y0)
-        dz = z1 - z0
-        d = math.hypot(h, dz)
-        s = dz / h if h else 0.0
-        sd = math.degrees(math.atan(abs(s)))
-        dist += d
-        asc += max(dz, 0)
-        desc += max(-dz, 0)
-        maxs = max(maxs, sd)
-        wslope += sd * d
-        tmin += d / 1000.0 / tobler_kmh(s) * 60.0
-        if soft((x0 + x1) / 2, (y0 + y1) / 2):
-            softm += d
-    return RouteMetrics(distance_m=round(dist, 2), ascent_m=round(asc, 2), descent_m=round(desc, 2),
-                        max_slope_deg=round(maxs, 3), mean_slope_deg=round(wslope / dist, 3) if dist else 0,
-                        est_duration_min=round(tmin, 1), soft_soil_m=round(softm, 2))
-
-
-def profile(poly):
-    out, s = [ProfilePoint(s_m=0, z_m=poly[0][2], slope_deg=0)], 0.0
-    for (x0, y0, z0), (x1, y1, z1) in zip(poly, poly[1:]):
-        h = math.hypot(x1 - x0, y1 - y0)
-        s += math.hypot(h, z1 - z0)
-        out.append(ProfilePoint(s_m=round(s, 2), z_m=z1,
-                                slope_deg=round(math.degrees(math.atan2(z1 - z0, h)), 3) if h else 0))
-    return out
-
-
-def segment(waypoints, stop_indices) -> RouteSegment:
-    poly, marks = densify(waypoints)
-    legs = []
-    for k in range(len(stop_indices) - 1):
-        a, b = marks[stop_indices[k]], marks[stop_indices[k + 1]]
-        legs.append(RouteLeg(from_index=k, to_index=k + 1, vertex_start=a, vertex_end=b,
-                             metrics=metrics(poly[a:b + 1])))
-    return RouteSegment(polyline=poly, metrics=metrics(poly), legs=legs, elevation_profile=profile(poly))
-
-
-def total(a: RouteMetrics, b: RouteMetrics) -> RouteMetrics:
-    d = a.distance_m + b.distance_m
-    return RouteMetrics(distance_m=round(d, 2), ascent_m=round(a.ascent_m + b.ascent_m, 2),
-                        descent_m=round(a.descent_m + b.descent_m, 2),
-                        max_slope_deg=max(a.max_slope_deg, b.max_slope_deg),
-                        mean_slope_deg=round((a.mean_slope_deg * a.distance_m + b.mean_slope_deg * b.distance_m) / d, 3),
-                        est_duration_min=round(a.est_duration_min + b.est_duration_min, 1),
-                        soft_soil_m=round(a.soft_soil_m + b.soft_soil_m, 2))
-
-
+                     include_return=True, soft_soil_penalty=walking.DEFAULT_SOFT_SOIL_PENALTY,
+                     walking_model=walking.MODEL_NAME)
 BASE = (400.0, 600.0)
 TARGETS = [(1400.0, 900.0), (2100.0, 1500.0), (3300.0, 1700.0)]
 REQUEST = RouteRequest(region_id="jezero-margin", start=BASE, targets=TARGETS, params=PARAMS)
-
-# Cada perfil sigue sus propios puntos intermedios; las paradas (base y objetivos) son las mismas.
-CANDIDATES = {
-    RouteProfile.shortest: [BASE, TARGETS[0], TARGETS[1], TARGETS[2]],
-    RouteProfile.fastest: [BASE, TARGETS[0], TARGETS[1], (2700.0, 1220.0), TARGETS[2]],
-    RouteProfile.safest: [BASE, TARGETS[0], (1450.0, 1350.0), TARGETS[1], (2700.0, 1220.0), TARGETS[2]],
-}
-STOPS = {
-    RouteProfile.shortest: [0, 1, 2, 3],
-    RouteProfile.fastest: [0, 1, 2, 4],
-    RouteProfile.safest: [0, 1, 3, 5],
-}
-
-DISCLAIMER = T(
-    es="Planificación conceptual y educativa. No es una ruta certificada para operaciones reales.",
-    en="Conceptual, educational planning. Not a route certified for real operations.",
-)
-W_EXAMPLE = Advisory(code=WarningCode.EXAMPLE_DATA, severity=Severity.info,
-                     message=T(es="Datos de ejemplo: terreno sintético, no es un dato de NASA.",
-                               en="Example data: synthetic terrain, not NASA data."))
-W_CONCEPT = Advisory(code=WarningCode.CONCEPTUAL_ONLY, severity=Severity.info, message=DISCLAIMER)
-W_SOFT = Advisory(code=WarningCode.SOFT_SOIL, severity=Severity.caution,
-                  message=T(es="La ruta cruza una zona de suelo suelto según la inercia térmica.",
-                            en="The route crosses an area of loose soil according to thermal inertia."))
-
-
-def build_route(p: RouteProfile) -> Route:
-    wps = CANDIDATES[p]
-    out = segment(wps, STOPS[p])
-    back = segment(list(reversed(wps)), [0, len(wps) - 1])
-    tot = total(out.metrics, back.metrics)
-    warnings = [W_EXAMPLE, W_CONCEPT] + ([W_SOFT] if tot.soft_soil_m > 0 else [])
-    cost = CostModel(name={"shortest": "distance", "fastest": "tobler-mars", "safest": "tobler-mars+soft-soil"}[p.value],
-                     version=ALGO,
-                     parameters={"max_slope_deg": PARAMS.max_slope_deg, "mars_speed_factor": MARS_SPEED_FACTOR,
-                                 "soft_soil_penalty": PARAMS.soft_soil_penalty if p == RouteProfile.safest else 0.0})
-    return Route(profile=p, outbound=out, return_trip=back, total=tot,
-                 within_eva_limit=tot.est_duration_min <= PARAMS.eva_time_limit_min,
-                 warnings=warnings, cost_model=cost)
+DISCLAIMER = engine.DISCLAIMER
 
 
 # ---------------------------------------------------------------- regiones
@@ -430,30 +312,20 @@ def errors():
         "error-out-of-bounds.json": e(ErrorCode.OUT_OF_BOUNDS, "Un punto está fuera del área con datos de la región.",
                                       "A point lies outside the region's data coverage.",
                                       {"point": [-50.0, 10.0], "bounds": BOUNDS.model_dump()}),
-        "error-no-route.json": e(ErrorCode.NO_ROUTE,
-                                 "No existe una ruta que respete la pendiente máxima entre esos puntos.",
-                                 "No route respects the maximum slope between those points.",
-                                 {"max_slope_deg": 25, "blocked_target_index": 2}),
+        "error-no-route.json": no_route("fastest", 2, 3, walking.DEFAULT_MAX_SLOPE_DEG).body,
     }
 
 
 def main():
     regions, jezero, medusae = build_regions()
-    routes = [build_route(p) for p in PARAMS.profiles]
+    route_resp = engine.compare(synthetic.example_terrain(), REQUEST, PARAMS, FRAME_ID, now=NOW)
+    routes = route_resp.routes
     safest = next(r for r in routes if r.profile == RouteProfile.safest)
-    route_resp = RouteResponse(
-        region_id="jezero-margin", is_example=True, dataset_version=DATASET, algorithm_version=ALGO,
-        coordinate_frame=FRAME_ID, computed_at=NOW, request=REQUEST, params_used=PARAMS, routes=routes,
-        comparison=RouteComparison(
-            recommended_profile=RouteProfile.safest,
-            reason=T(es="Evita el suelo suelto con poco tiempo extra y queda dentro del límite de la EVA.",
-                     en="It avoids loose soil for little extra time and stays within the EVA limit.")),
-        disclaimer=DISCLAIMER)
     mission_create = MissionCreate(name="EVA Margin Unit 01", route_request=REQUEST,
                                    selected_profile=RouteProfile.safest, crew=["crew-01", "crew-02"])
     mission = Mission(id="example-mission-0001", is_example=True, created_at=NOW, name=mission_create.name,
                       region_id="jezero-margin", selected_profile=RouteProfile.safest, crew=mission_create.crew,
-                      params_used=PARAMS, route=safest, dataset_version=DATASET, algorithm_version=ALGO)
+                      params_used=PARAMS, route=safest, dataset_version=DATASET, algorithm_version=engine.ALGORITHM_VERSION)
     report = MissionReport(
         mission_id=mission.id, is_example=True,
         title=T(es="Informe de misión — EVA Margin Unit 01", en="Mission report — EVA Margin Unit 01"),
@@ -463,10 +335,12 @@ def main():
         objectives_visited=[f.properties.name for f in build_pois().features if f.properties.water_episode],
         sources=[JPL_MARGIN, HIRISE, THEMIS, CRISM],
         assumptions=[
-            T(es="Velocidad según pendiente: función de Tobler con un factor de 0.8 por el traje (provisional).",
-              en="Speed by slope: Tobler's function with a 0.8 suit factor (provisional)."),
-            T(es="Pendiente máxima de 25° y límite de EVA de 240 min (provisionales).",
-              en="Maximum slope of 25° and EVA limit of 240 min (provisional)."),
+            T(es="Velocidad según pendiente: función de Tobler ajustada a 2 km/h en llano, el ritmo con traje que usa NASA.",
+              en="Speed by slope: Tobler's function scaled to 2 km/h on flat ground, the suited pace NASA uses."),
+            T(es="Pendiente máxima de 20° y EVA de 6 h: valores de referencia de NASA para la Luna; no hay límites oficiales para Marte.",
+              en="Maximum slope of 20° and a 6 h EVA: NASA reference values for the Moon; there are no official Mars limits."),
+            T(es="No se ajusta la velocidad a la gravedad de Marte (0.38 g).",
+              en="Speed is not adjusted to Mars gravity (0.38 g)."),
         ],
         limitations=[
             T(es="La inercia térmica tiene píxeles de unos 100 m: no detecta rocas individuales.",

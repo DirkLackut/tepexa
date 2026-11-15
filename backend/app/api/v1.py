@@ -2,7 +2,7 @@
 from fastapi import APIRouter
 
 from .. import example_store as store
-from .. import repository
+from .. import repository, terrain_store
 from ..contract import (
     ErrorResponse,
     Health,
@@ -18,7 +18,8 @@ from ..contract import (
     RouteResponse,
     TerrainManifest,
 )
-from ..errors import mission_not_found, out_of_bounds, region_not_found, region_preview_only
+from ..errors import dataset_unavailable, mission_not_found, out_of_bounds, region_not_found, region_preview_only
+from ..routing import engine, provider
 from ..settings import APP_VERSION, endpoint_modes, is_live, mode
 
 router = APIRouter(prefix="/api/v1")
@@ -83,14 +84,25 @@ def get_pois(region_id: str) -> PoiCollection:
 
 @router.get("/regions/{region_id}/terrain", response_model=TerrainManifest, responses={**E404, **E409}, tags=["regiones"])
 def get_terrain(region_id: str) -> TerrainManifest:
-    _active_region(region_id)
-    return store.terrain(region_id)
+    region = _active_region(region_id)
+    if not is_live("terrain") or region.is_example:
+        return store.terrain(region_id)
+    m = terrain_store.manifest(region.id, region.dataset_version, region.coordinate_frame.id)
+    if m is None:
+        raise dataset_unavailable()
+    return m
 
 
 @router.post("/routes/compare", response_model=RouteResponse, responses={**E404, **E409, **E422}, tags=["rutas"])
 def compare_routes(req: RouteRequest) -> RouteResponse:
-    _check_points(req, _active_region(req.region_id))
-    return store.route_response()
+    region = _active_region(req.region_id)
+    _check_points(req, region)
+    if not is_live("routes"):
+        return store.route_response()
+    params = req.params or region.route_defaults
+    if params is None:
+        raise dataset_unavailable()
+    return engine.compare(provider.terrain_for(region), req, params, region.coordinate_frame.id)
 
 
 @router.post("/missions", response_model=Mission, status_code=201, responses={**E404, **E409, **E422}, tags=["misiones"])

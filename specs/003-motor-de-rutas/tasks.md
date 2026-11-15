@@ -1,20 +1,23 @@
-# Spec 003 — Tareas (borrador)
+# Spec 003 — Tareas
 
 ## Bloque A — Parámetros con fuente
-- [ ] T1 · Investigar pendiente máxima, tiempo de EVA y factor de velocidad con traje · Hecho cuando: cada valor tiene fuente en `clarificacion.md`
+- [x] T1 · Pendiente máxima, tiempo de EVA y velocidad con traje · Hecho 15-nov: 20°, 360 min, 2 km/h en llano (`clarificacion.md` 1–6)
 
 ## Bloque B — Pruebas que fallan
-- [ ] T2 · Grillas sintéticas: camino conocido, NoData, sin ruta, diagonales, pendiente límite · CE-1, CE-3
-- [ ] T3 · Propiedades de los perfiles · CE-2
+- [x] T2 · Grillas sintéticas: camino conocido, NoData, sin ruta, diagonales, pendiente límite · CE-1, CE-3 (`test_routing.py`)
+- [x] T3 · Propiedades de los perfiles · CE-2
 
 ## Bloque C — Motor
-- [ ] T4 · Grafo desde el DTM con máscara NoData y filtro de pendiente
-- [ ] T5 · Funciones de costo: distancia, Tobler-Marte, suelo suelto
-- [ ] T6 · A\* con heurística admisible por perfil
-- [ ] T7 · Métricas, tramos, perfil de elevación y advertencias
-- [ ] T8 · Ruta de regreso y límite de EVA
+- [x] T4 · Grafo desde la rejilla con máscara NoData y filtro de pendiente (`routing/engine.py`)
+- [x] T5 · Funciones de costo: distancia, `tobler-eva-v1`, suelo suelto y pendiente (D-24)
+- [x] T6 · Búsqueda óptima: Dijkstra de SciPy (D-20)
+- [x] T7 · Métricas, tramos, perfil de elevación y advertencias (D-25)
+- [x] T8 · Ruta de regreso, límite de EVA y recomendación (D-26)
 
 ## Bloque D — API y verificación
-- [ ] T9 · `/routes/compare` en modo live · RF-003-01..03
-- [ ] T10 · Medición de tiempo en Render · CE-4
-- [ ] T11 · Comparación con la travesía de Perseverance · CE-5
+- [x] T9 · `/routes/compare` en modo live sobre terreno sintético · RF-003-01..03 (`test_routes_api.py`)
+- [x] T9b · Ejemplos de `contracts/` y semilla regenerados con el motor (D-27)
+- [ ] T9c · Volver a correr la semilla en Neon (nuevos `route_defaults`) · ⚠ con visto bueno de Dirk
+- [ ] T10 · Medición de tiempo en Render · CE-4 (local: 0.45 s para 3 perfiles con regreso)
+- [ ] T11 · Pasar al DTM real cuando la spec 002 lo entregue (`routing/provider.py`)
+- [ ] T12 · Comparación con la travesía de Perseverance · CE-5 (necesita `M20_waypoints.json`)

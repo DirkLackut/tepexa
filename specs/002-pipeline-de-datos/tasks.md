@@ -1,21 +1,23 @@
-# Spec 002 — Tareas (borrador)
+# Spec 002 — Tareas
 
 ## Bloque A — Elegir y verificar los datos
-- [ ] T1 · Confirmar cobertura del mosaico HiRISE de Mars 2020 sobre la Margin Unit · Hecho cuando: hay un recorte con DTM y ortoimagen que cubre los objetivos
-- [ ] T2 · Elegir los productos de THEMIS, CRISM y CTX · Hecho cuando: el catálogo de datos tiene identificadores exactos
-- [ ] T3 · Descargar los productos en la PC de Dirk · ⚠ intervención manual (Dirk da permiso)
+- [x] T1 · Cobertura del mosaico HiRISE sobre la Margin Unit · Hecho 15-nov (clarificación 1)
+- [ ] T2 · Elegir los productos de THEMIS (inercia térmica), CRISM y CTX
+- [x] T3 · Obtener los datos · Hecho 15-nov sin descargar a la PC: lectura por rangos (clarificación 2)
 
-## Bloque B — Pruebas que fallan
-- [ ] T4 · Pruebas del manifiesto, de los puntos de control y de la transformación al marco local · CE-1, CE-2
+## Bloque B — Pruebas
+- [x] T4 · DTM contra la elevación del rover, terreno real en rutas, manifiesto y assets · `test_routes_api.py`, `test_db_hirise.py`
 
 ## Bloque C — Procesamiento
-- [ ] T5 · Recorte, alineación y reproyección al marco local (GDAL/Rasterio)
-- [ ] T6 · Teselas del mapa base, relieve, inercia térmica y mineralogía
-- [ ] T7 · Mapa de alturas PNG de 16 bits y versión liviana para móvil
-- [ ] T8 · Manifiesto con hashes
+- [x] T5 · Recorte y paso al marco local · `pipeline/jezero/procesar_dtm.py`
+- [ ] T6 · Teselas del mapa base, relieve, inercia térmica y mineralogía (`/layers` live)
+- [x] T7 · Heightmap PNG 16 bits (2 m) y versión móvil (4 m)
+- [x] T8 · Manifiesto con hashes (`terrain.json`, `data/processed/.../manifest.json`)
+- [ ] T8b · Ortoimagen HiRISE 25 cm del recorte (lectura por rangos, como el DTM) para la textura real
 
 ## Bloque D — Publicación
-- [ ] T9 · Crear buckets en R2 y subir archivos · ⚠ intervención manual (Dirk, cuenta de Cloudflare)
-- [ ] T10 · Migración 002 si hace falta y semilla real de `sources`, `layers` y `pois` en Neon · ⚠ visto bueno de Dirk
+- [x] T9 · Assets del terreno servidos por la API en `/assets` (D-29)
+- [x] T10 · Semilla `002_jezero_hirise.sql` (región y 6 puntos reales) · generada y probada en local
+- [ ] T10b · Correr la semilla 002 en Neon · ⚠ visto bueno de Dirk
 - [ ] T11 · `/layers` en modo live · CE-3
-- [ ] T12 · Actualizar `docs/datos/catalogo-de-datos.md` y créditos · Cierre
+- [x] T12 · Catálogo de datos y créditos actualizados

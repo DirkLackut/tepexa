@@ -4,7 +4,11 @@ Todo lo que el backend va a responder ya está aquí. Pueden programar las panta
 archivos de `examples/` desde hoy; cuando la API esté publicada, solo cambian la URL base.
 
 - **Base:** `/api/v1` (local: `http://localhost:8000/api/v1`; publicada: `https://tepexa-api.onrender.com/api/v1`).
-  En vivo hoy: `/regions`, `/regions/{id}` y `/regions/{id}/pois`; el resto responde los ejemplos.
+  En vivo hoy, con **datos reales de Jezero** (DTM HiRISE y sitios de Perseverance): `/regions`,
+  `/regions/{id}`, `/regions/{id}/pois`, `/regions/{id}/terrain` y `/routes/compare`. Siguen de ejemplo:
+  `/layers` y `/missions`. Guíense siempre por `is_example` de cada respuesta.
+  Los JSON de `examples/` son el terreno sintético: sirven para trabajar sin la API, pero sus puntos y
+  alturas no son los reales.
   Render gratis se duerme a los 15 min: la primera llamada puede tardar ~50 s.
 - **Qué es real y qué es ejemplo:** `GET /api/v1/health` → `endpoints` (`live` o `example`).
 - **Definición completa:** `openapi.json` (sirve para generar tipos de TypeScript, por ejemplo
