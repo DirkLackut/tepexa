@@ -3,8 +3,9 @@
 Todo lo que el backend va a responder ya está aquí. Pueden programar las pantallas contra los
 archivos de `examples/` desde hoy; cuando la API esté publicada, solo cambian la URL base.
 
-- **Base:** `/api/v1` (local: `http://localhost:8000/api/v1`; publicada en Render: se anota aquí
-  cuando esté lista).
+- **Base:** `/api/v1` (local: `http://localhost:8000/api/v1`; publicada: `https://tepexa-api.onrender.com/api/v1`).
+  En vivo hoy: `/regions`, `/regions/{id}` y `/regions/{id}/pois`; el resto responde los ejemplos.
+  Render gratis se duerme a los 15 min: la primera llamada puede tardar ~50 s.
 - **Qué es real y qué es ejemplo:** `GET /api/v1/health` → `endpoints` (`live` o `example`).
 - **Definición completa:** `openapi.json` (sirve para generar tipos de TypeScript, por ejemplo
   con `npx openapi-typescript contracts/openapi.json -o frontend/src/shared/api/types.ts`).
