@@ -21,7 +21,7 @@
 ## Medición (15-nov)
 | Modelo | Original | PC | Móvil |
 |---|---|---|---|
-| `mars` | 5.25 MB | 0.96 MB (129 072 tri) | 0.26 MB (32 268 tri) |
+| `mars` (Marte, Smart Mesh; reemplaza al de `backend/render`) | 1.62 MB | 0.39 MB (18 916 tri) | 0.24 MB (18 916 tri) |
 | `crater` (Jezero con su lago antiguo, Smart Mesh; reemplaza al de `backend/render`) | 2.25 MB | 0.60 MB (19 672 tri) | 0.32 MB (19 672 tri) |
 | `medusa` (Medusae Fossae, Smart Mesh; reemplaza al de `backend/render`) | 1.54 MB | 0.38 MB (17 193 tri) | 0.23 MB (17 193 tri) |
 | `alejandro` (Tripo) | 59.75 MB | 2.75 MB (299 974 tri) | 1.29 MB (130 902 tri) |

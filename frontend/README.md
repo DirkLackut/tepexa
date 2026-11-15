@@ -1,59 +1,90 @@
-# Frontend — guía y pendientes del equipo
+# Frontend de TEPEXA
 
-App en React + Vite + OpenLayers + React Three Fiber. La construye el equipo de frontend.
-**Empiecen por `docs/HANDOFF-FRONTEND.md`** (estado de la API publicada, datos reales y qué falta).
-Después lean `contracts/README.md` (qué endpoint usa cada pantalla) y
-`docs/constitucion.md`.
+App en React 18 + TypeScript + Vite, con OpenLayers (mapa 2D) y React Three Fiber (3D).
+Es el diseño del equipo de frontend con los datos reales de la API dentro, módulo por módulo.
+**Antes de cambiar algo lean `docs/HANDOFF-FRONTEND.md`** y después `contracts/README.md` y `docs/constitucion.md`.
 
-## Flujo de la app (acordado)
-1. **Entrada:** video de animación automático con el globo (Blender).
-2. **Explorar (2D):** capas científicas y puntos de interés de Jezero, con fuentes. Público: estudiante.
-3. **Planificar (2D + panel):** base y objetivos, pendiente máxima, tiempo de EVA, 3 rutas
-   (más corta, más rápida, más segura) con perfil de elevación y comparación. Público: astronauta.
-4. **Simular EVA (3D):** terreno real, astronauta caminando la ruta elegida, cámara en tercera
-   persona y en primera persona con HUD, fichas al llegar a cada objetivo, minimapa 2D.
-5. **Resultados:** informe en pantalla con métricas, fuentes, supuestos y limitaciones.
-6. **Próxima misión:** Medusae Fossae como avance (ficha y hechos con certeza, sin rutas).
+## Cómo correrla
+Necesitan Node 20 o más nuevo.
 
-PC = consola de planificación con paneles. Móvil = modo campo con controles grandes; el 3D
-también va en móvil, en versión liviana (`lods[].recommended_for = "mobile"`).
+```bash
+cd frontend
+npm install
+npm run dev        # http://localhost:5173 (tiene que ser ese puerto: es el que la API acepta en desarrollo)
+npm run build      # revisa tipos (tsc) y arma dist/
+```
+
+Por defecto usa la API publicada (`https://tepexa-api.onrender.com/api/v1`). Para otra API, copien `.env.example`
+como `.env.local` y cambien `VITE_API_URL`. Render gratis tarda ~50 s en despertar: la app lo avisa y reintenta.
+
+Si cambia `contracts/openapi.json`: `npm run tipos` (regenera `src/shared/api/types.ts`; no se edita a mano).
+
+## Módulos
+| Ruta | Página | Qué usa de la API |
+|---|---|---|
+| `/` | Entrada (`Landing`) | Logo del equipo (el video de entrada va aquí cuando exista) |
+| `/login`, `/register-step-1`, `/forgot-password` | Pantallas de cuenta del diseño del equipo. Llevan a la app; **no crean cuentas** (no hay backend de usuarios) y no guardan datos personales | — |
+| `/role` | Rol: estudiante → Atlas; astronauta → Planificador | — |
+| `/app` | Martian Atlas (Jezero) | `/regions`, `/layers`, `/pois`, `/terrain`; CRISM, THEMIS y la ortoimagen salen deshabilitadas («próximamente») |
+| `/app/planner` | Planificador | `POST /routes/compare`: 3 rutas, perfil de elevación, advertencias |
+| `/app/analysis` | Análisis y resultados | Tabla de rutas, geología, fuentes; **guarda** la misión (`POST /missions`) y muestra el informe (`/missions/{id}/report`), imprimible |
+| `/app/simulator` | Simulación 3D | Dos mapas: **Jezero** (DTM HiRISE real, rutas de la API) y **Medusae Fossae** (`?mapa=medusae`, terreno **ilustrativo** de yardangs con rutas del mismo modelo de caminata). Tripulante que camina (×15) con casco opcional, dron con aleteo, cámara suave. **Módulo aislado: es posible que cambie (no está decidido)**; ver `src/simulador/LEEME.md` |
+| `/app/crew` | Tripulación | Avatares 3D que caminan o están en reposo, con o sin casco; el elegido camina en el simulador, siempre con el dron. |
+| `/app/intelligence` | Asistente | Sin IA: respuestas armadas con los datos reales (puntos, rutas, hechos, fuentes) |
+| `/app?region=medusae` | Martian Atlas (Medusae Fossae) | Ficha de la región, hechos con su certeza y el modelo del equipo; botón para simular en el terreno ilustrativo. `/app/medusae` redirige aquí |
+| `/app/profile` | Perfil | Rol, tripulante, idioma, misiones guardadas en este navegador |
+
+Idioma: el del navegador (español si empieza con `es`, si no inglés); el botón ES/EN lo cambia y se recuerda.
+
+## Estructura
+```
+src/
+  pages/            una página por módulo (diseño del equipo)
+  shared/api/       client.ts (fetch y errores {es,en}), endpoints.ts (funciones y tipos), types.ts (generado)
+  shared/context/   MisionContext (región, puntos, objetivos, parámetros, rutas, tripulante, rol), LanguageContext
+  shared/mapa/      Mapa2D (OpenLayers en metros locales), PerfilElevacion
+  shared/3d/        TerrenoJezero, RutaEnTerreno, PuntoDeInteres, ModeloDelEquipo, AvatarArticulado (caminata y casco),
+                    DronAnimado (aleteo), coordenadas, alturas
+  shared/components/Datos (fuente, certeza, ficha de punto, procedencia), Topbar, VisorModelo…
+  simulador/        escena 3D de la EVA (aislada; puede reemplazarse); simulador/medusae/: terreno ilustrativo y sus rutas
+public/models/      modelos optimizados + manifest.json (los genera pipeline/assets)
+vercel.json         todas las rutas de la app sirven index.html (react-router)
+ejemplos/escena-3d/ app de referencia del 3D (spec 005)
+```
+Sin usar por ahora (del diseño original, se dejan por si el equipo los retoma): `Sidebar`, `StatCard`, `Badge`,
+`LoadingScreen`, `ExampleDataBanner`, `TelemetrySidebar`, `CommandSequenceSidebar`. Si los usan, que muestren
+solo datos de la API: nada de telemetría inventada.
 
 ## Reglas técnicas (para no romper la integración)
-1. **Tipos generados, no escritos a mano:**
-   `npx openapi-typescript ../contracts/openapi.json -o src/shared/api/types.ts`
-   Vuelvan a generarlos cada vez que cambie `contracts/openapi.json`.
-2. **Una sola URL base configurable:** `VITE_API_URL=https://tepexa-api.onrender.com/api/v1`. Sin
-   conexión, lean los archivos de `contracts/examples/` (terreno sintético). Cuando esté en Render, `GET /api/v1/health` → `endpoints`
-   dice qué partes ya son datos reales (`live`) y cuáles siguen de ejemplo.
-   Render gratis tarda unos 50 s en despertar si nadie lo usó en 15 min: muestren un estado de carga.
-3. **Lector tolerante:** ignoren campos que no conozcan y muestren `message` aunque llegue un
-   código de advertencia nuevo.
-4. **`is_example: true`** → mostrar una etiqueta visible «Datos de ejemplo / Example data».
-5. **Una sola polilínea:** mapa, minimapa, simulador 3D e informe usan la misma ruta que entrega
-   la API. Nadie recalcula rutas en el navegador.
-6. **Bilingüe:** todo texto de la API viene `{es, en}`; los textos propios de la interfaz también
-   deben existir en los dos idiomas.
-7. **3D con carga diferida:** nada de three.js ni modelos en la carga inicial; se cargan al entrar
-   al simulador.
-8. **Nunca** usar claves ni la cadena de conexión de la base de datos en el frontend.
-9. El contrato solo cambia por Pull Request revisado por el backend; las dudas van a
-   `specs/000-contrato-api/clarificacion.md`.
+1. **Tipos generados, no escritos a mano** (`npm run tipos`).
+2. **Una sola URL base:** `VITE_API_URL`. Nunca claves ni la cadena de conexión de la base de datos en el frontend.
+3. **Lector tolerante:** ignorar campos desconocidos y mostrar `message` aunque llegue un código nuevo.
+4. **`is_example: true`** → etiqueta visible «Datos de ejemplo / Example data». Los modelos artísticos llevan
+   «artístico: no es dato de NASA».
+5. **Una sola polilínea:** mapa, perfil, simulador e informe usan la ruta que entrega la API. Nadie recalcula rutas.
+6. **Bilingüe:** todo texto propio en `{ es, en }` con `t()` de `useLang()`.
+7. **3D con carga diferida:** three.js y los modelos solo se cargan al entrar a un módulo que los usa
+   (la carga inicial pesa ~250 kB).
+8. Cada modelo va en `<Suspense>` y en un *error boundary* con reemplazo: un modelo roto no tumba la página.
+9. El contrato solo cambia por PR revisado por el backend; las dudas van a `specs/000-contrato-api/clarificacion.md`.
 
-## Pendientes del equipo (lo que el backend necesita o no puede hacer)
+## Publicar en Vercel
+1. En Vercel: **Add New → Project** → importar el repo de GitHub `tepexa`.
+2. **Project Name:** que empiece con `tepexa` (por ejemplo `tepexa` o `tepexa-app`): la API solo acepta
+   `https://tepexa….vercel.app`.
+3. **Root Directory:** `frontend`. Framework: Vite (lo detecta). Build `npm run build`, salida `dist`.
+4. **Environment Variables:** `VITE_API_URL` = `https://tepexa-api.onrender.com/api/v1` (no es un secreto).
+5. **Deploy.** Cada PR recibe su vista previa y cada unión a `main` publica la app.
+6. Prueben `https://<proyecto>.vercel.app/app/planner` y recarguen la página: debe abrir (lo resuelve `vercel.json`).
 
-| # | Pendiente | Responsable | Para qué |
-|---|---|---|---|
-| 1 | Decidir el idioma por defecto (Dirk dijo español, el equipo inglés) | Frontend | La API entrega los dos |
-| 2 | Decidir si el informe solo se ve en pantalla o también se descarga | Frontend | El backend entrega los datos igual |
-| 3 | Pasar los colores HEX del logo a `docs/identidad-visual.md` y subir el logo a `assets/` | Diseño | Paleta oficial |
-| 4 | Exportar los modelos de Blender a `.glb` con las reglas de abajo y entregarlos a Dirk | Blender | Pipeline de assets |
-| 5 | Entregar los avatares `.riv` (exportados para la web, no el archivo del editor) | Diseño | Selección de tripulación y HUD |
-| 6 | Producir el video de entrada (MP4 o WebM, menos de 10 MB) | Blender | Pantalla de entrada |
-| 7 | Publicar en Vercel con un nombre de proyecto que empiece con `tepexa` (la API ya acepta `https://tepexa….vercel.app`) | Frontend | Que la página publicada pueda leer la API |
-| 8 | Decidir el dominio (subdominio gratis de Vercel o uno propio) | Diseño | Dirección pública de la app |
-| 9 | Medir FPS en laptop, iPhone y Android con el simulador | Frontend | Ajustar calidad del 3D |
-| 10 | Preparar la laptop con Blender MCP para la prueba de modelos | Blender | Verificar modelos y optimización |
-| 11 | Preparar el envío a Space Apps: textos en inglés, video de hasta 30 s o 7 diapositivas, declaración de uso de IA, marca de agua en imágenes generadas con IA, sin logos de NASA | Todo el equipo | Requisitos de la entrega |
+## Pendientes del equipo
+| # | Pendiente | Responsable |
+|---|---|---|
+| 1 | Video de entrada (MP4 o WebM, menos de 10 MB, fuera del repo si pesa más) que reemplace a Marte girando | Blender |
+| 2 | Medir FPS del simulador en laptop, iPhone y Android | Frontend |
+| 3 | Cuentas reales (hoy las pantallas no crean usuarios) si se decide que hacen falta | Equipo |
+| 4 | Pasar los colores del logo a `docs/identidad-visual.md` | Diseño |
+| 5 | Envío a Space Apps: textos en inglés, video de hasta 30 s o 7 diapositivas, declaración de uso de IA, marca de agua en imágenes generadas con IA, sin logos de NASA | Todo el equipo |
 
 ## Modelos 3D: cómo entregarlos
 1. Exporten el `.glb` (reglas abajo) y déjenlo en `assets/models/originales/` (no se sube a Git).

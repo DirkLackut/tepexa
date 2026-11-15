@@ -16,7 +16,8 @@ Equipo de 6 (UAM, Managua). Objetivo de esta etapa: **la demo del evento**.
 | 003 | Motor de rutas (3 perfiles + regreso) | Cerrada (15-nov): DTM real, ~1.5 s en Render. Extra pendiente: comparar con la travesía de Perseverance (CE-5) |
 | 004 | Análisis de misión e informe | Cerrada (15-nov): misiones, informe y límite por IP verificados en Render v0.5.0 |
 | 005 | Manifiesto del terreno 3D | Cerrada (15-nov): `/terrain` en vivo con 2 niveles y escena de referencia en `frontend/ejemplos/escena-3d/`. Extra: textura con la ortoimagen real |
-| 006 | Pipeline de assets 3D (Blender) y Rive | Casi cerrada (15-nov): optimizador, revisión automática en cada PR, 10 modelos optimizados y comparación de calidad. Falta del equipo: dron en móvil, mudanza de `backend/render/`, prueba con Blender MCP |
+| 006 | Pipeline de assets 3D (Blender) y Rive | Cerrada (15-nov): optimizador, revisión automática en cada PR, 10 modelos optimizados y comparación de calidad; `backend/render/` sale del repo; el dron se queda con su aviso en móvil; la prueba con Blender MCP se descarta |
+| — | Frontend integrado | 15-nov: diseño del equipo con los datos reales en `frontend/` (Atlas, Planificador, Análisis e informe, Simulador, Tripulación, Asistente, Medusae, Perfil). La simulación 3D es un módulo aislado; es posible que cambie (no está decidido) (`frontend/src/simulador/LEEME.md`); mapas: Jezero (real) y Medusae Fossae (ilustrativo). Falta: publicar en Vercel y medir FPS |
 
 Las specs 002 a 006 tienen `spec.md` y `tasks.md` en borrador; se completan con `clarificacion.md`
 y `plan.md` al abrir cada una. Datos de NASA: `docs/datos/catalogo-de-datos.md`.
@@ -64,6 +65,13 @@ y `plan.md` al abrir cada una. Datos de NASA: `docs/datos/catalogo-de-datos.md`.
 | D-43 | Ver `specs/006-assets-3d-y-rive/plan.md` | Tripo: Smart Mesh o Retopology; el optimizador no reduce modelos livianos |
 | D-32 a D-34 | Ver `specs/004-misiones-e-informe/plan.md` | Ruta en jsonb, límite por IP y tope de misiones, error RATE_LIMITED |
 | D-28 a D-31 | Ver `specs/002-pipeline-de-datos/plan.md` | Recorte 4 × 3 km leído por rangos (sin descargar), terreno servido por la API, semilla 002 aparte |
+| D-44 | Frontend: el diseño del equipo como cascarón y las piezas reales adentro, módulo por módulo | Se conserva el trabajo visual del equipo y cada pantalla muestra datos de la API con su fuente |
+| D-45 | Pantallas de cuenta sin crear usuarios (sin aviso de demo, a pedido de Dirk); sin campos médicos ni datos personales. Medusae Fossae pasa al Atlas como segunda región | Principio de datos mínimos; no hay backend de usuarios |
+| D-46 | Asistente sin IA: respuestas armadas con los datos reales | Nada inventado; sin costo ni claves en el frontend |
+| D-47 | Simulador aislado en `frontend/src/simulador/` con contrato propio | Puede cambiar sin tocar el resto de la app |
+| D-48 | Dependencias del frontend: three 0.170.0, @react-three/fiber 8.17.10, @react-three/drei 9.117.3, ol 10.2.1, upng-js 2.1.0, openapi-typescript 7.4.4 (dev) | Las mismas que la escena de referencia (spec 005) |
+| D-49 | Mapa de simulación de Medusae Fossae **ilustrativo** (yardangs generados en el navegador, `is_example: true`) con rutas del mismo modelo de caminata que la API | La API no tiene DTM de Medusae; permite ensayar la próxima misión sin presentar nada como dato de NASA. Se reemplaza cuando el backend tenga un DTM real |
+| D-50 | Avatares animados en el sombreador de vértices (piernas, brazos, torso) y casco medido sobre cada modelo; tripulante a escala ×15 | Los modelos de Tripo no tienen esqueleto; sin descargas extra ni costo de rendimiento |
 
 ## Assets de Blender y Rive
 - **Formato de trabajo:** `.blend` (lo sigue usando el equipo en Blender; no va a Git).
@@ -102,6 +110,6 @@ Las crea y administra **Dirk**; el equipo entra como miembro. Ninguna clave va a
 
 ## Lecciones
 - Spec 001: en el SQL Editor de Neon el clic sintético no siempre ejecuta; verificar siempre con una consulta de conteo después de correr.
-- Spec 001: los modelos 3D del equipo entraron en `backend/render/` (Crater, mars, Medusa: ~28 MB). Se moverán a `assets/` y R2 en la spec 006, con acuerdo del equipo.
+- Spec 001: los modelos 3D del equipo entraron en `backend/render/` (Crater, mars, Medusa: ~28 MB). Spec 006 (15-nov): salen del repo; las versiones nuevas están en `frontend/public/models/`.
 - Render vuelve a publicar en cada merge, aunque solo cambien assets: falta `buildFilter` en `render.yaml`. (Resuelto en el PR #4.)
 - Spec 002: no hizo falta descargar 1.8 GB. El GeoTIFF del USGS acepta lecturas por rango y se leyó solo el recorte desde el navegador integrado; el puente de herramientas corta cada respuesta en ~250 KB, así que los datos viajan comprimidos y en partes.

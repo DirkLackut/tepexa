@@ -1,0 +1,334 @@
+/* =========================================================
+   TEPEXA — Clean White Dashboard + Black Bottom HUD Navbar
+   Typography:
+     - Titles & Headings: Orbitron
+     - Subtitles & Prose: Inter
+     - Telemetry & Data: Space Mono
+   Background: Pure White (#FFFFFF)
+   Bottom Navbar: Deep Black (#000000) with Amber Active Outline
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  /* Fonts */
+  --font-orbitron: 'Orbitron', -apple-system, sans-serif;
+  --font-inter: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'Space Mono', Consolas, monospace;
+
+  /* Clean White Theme */
+  --color-bg: #FFFFFF;
+  --color-bg-subtle: #F8FAFC;
+  --color-bg-card: #FFFFFF;
+
+  --color-navy: #0F172A;
+  --color-navy-dark: #0A0F1D;
+  --color-navy-light: #1E293B;
+
+  /* Brand TEPEXA */
+  --color-primary: #E8521A;
+  --color-primary-hover: #D4430F;
+  --color-secondary: #3D1A6E;
+  --color-amber: #D97706;
+  --color-success: #10B981;
+  --color-danger: #EF4444;
+  --color-info: #0284C7;
+
+  /* Text & Borders */
+  --color-text-main: #0F172A;
+  --color-text-muted: #64748B;
+  --color-text-light: #94A3B8;
+  --color-border: #E2E8F0;
+  --color-border-subtle: #F1F5F9;
+
+  /* Compatibility mapping so all HUD cards render clean white */
+  --hud-bg-black: #FFFFFF;
+  --hud-bg-dark: #FFFFFF;
+  --hud-bg-panel: #FFFFFF;
+  --hud-bg-panel-subtle: #F8FAFC;
+  --hud-border: #E2E8F0;
+  --hud-border-subtle: #F1F5F9;
+  --hud-border-active: #D97706;
+  --hud-border-cyan: #0284C7;
+
+  --hud-orange: #E8521A;
+  --hud-amber: #D97706;
+  --hud-gold: #D4AF37;
+  --hud-cyan: #0284C7;
+  --hud-green: #10B981;
+  --hud-red: #EF4444;
+
+  --hud-text-primary: #0F172A;
+  --hud-text-secondary: #475569;
+  --hud-text-muted: #64748B;
+  --hud-text-dim: #94A3B8;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 10px 25px rgba(15, 23, 42, 0.08);
+
+  --topbar-height: 64px;
+  --bottombar-height: 48px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-inter);
+  background-color: #FFFFFF;
+  color: var(--color-navy);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ================== TYPOGRAPHY ================== */
+/* TITLES & HEADINGS: ORBITRON */
+h1, h2, h3, h4, h5, h6, .orbitron-title, .title-orbitron {
+  font-family: var(--font-orbitron);
+  letter-spacing: 0.03em;
+  color: var(--color-navy);
+}
+
+/* SUBTITLES & BODY: INTER */
+p, .sub-inter, .subtitle, span, label, input, button {
+  font-family: var(--font-inter);
+}
+
+.hud-mono {
+  font-family: var(--font-mono);
+}
+
+.label-caps {
+  font-family: var(--font-orbitron);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+/* ================== CARDS ================== */
+.card-white, .hud-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+  color: var(--color-navy);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card-white:hover, .hud-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: #CBD5E1;
+}
+
+.hud-card-active {
+  border-color: var(--color-primary);
+  background: #FFFFFF;
+  box-shadow: 0 0 12px rgba(232, 82, 26, 0.1);
+}
+
+/* ================== BUTTONS ================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-primary, .btn-orange {
+  background: var(--color-primary);
+  color: #FFFFFF;
+}
+.btn-primary:hover, .btn-orange:hover {
+  background: var(--color-primary-hover);
+  box-shadow: 0 4px 12px rgba(232, 82, 26, 0.25);
+}
+
+.btn-outline {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  color: var(--color-navy);
+}
+.btn-outline:hover {
+  background: var(--color-bg-subtle);
+  border-color: #CBD5E1;
+}
+
+.hud-btn {
+  font-family: var(--font-inter);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: #FFFFFF;
+  color: var(--color-navy);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.hud-btn:hover {
+  background: var(--color-bg-subtle);
+  border-color: #CBD5E1;
+}
+.hud-btn-amber {
+  border-color: #F59E0B;
+  background: #FFFBEB;
+  color: #B45309;
+}
+.hud-btn-amber:hover {
+  background: #FEF3C7;
+}
+.hud-btn-orange {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #FFFFFF;
+}
+.hud-btn-orange:hover {
+  background: var(--color-primary-hover);
+}
+
+/* ================== PILLS & BADGES ================== */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-inter);
+}
+
+.pill-online {
+  background: #ECFDF5;
+  color: #065F46;
+  border: 1px solid #A7F3D0;
+}
+
+/* ================== LAYOUT ================== */
+.dash-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #FFFFFF;
+}
+
+.dash-topbar, .mission-control-topbar {
+  height: var(--topbar-height);
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.dash-main, .hud-viewport-main {
+  flex: 1;
+  padding: 1.5rem 2rem 80px 2rem; /* leaves space for bottom bar */
+  background: #FFFFFF;
+}
+
+/* ================== EXACT BOTTOM NAVBAR MATCH ================== */
+/* Deep black bar as shown in user's image with amber active outline */
+.hud-bottom-navbar-container, .mission-control-bottombar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--bottombar-height);
+  background: #000000;
+  border-top: 1px solid #1E293B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 1rem;
+  z-index: 50;
+  overflow-x: auto;
+}
+
+.hud-bottom-nav-link, .hud-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  color: #94A3B8;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.hud-bottom-nav-link:hover, .hud-nav-link:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Active outline in amber matching user's uploaded image */
+.hud-bottom-nav-link.active, .hud-nav-link.active {
+  color: #F59E0B;
+  background: transparent;
+  border: 1px solid #F59E0B;
+}
+
+/* Pulse animation */
+@keyframes pulseHeart {
+  0% { transform: scale(1); }
+  15% { transform: scale(1.22); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.15); }
+  60% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+.pulse-anim {
+  animation: pulseHeart 1.2s infinite ease-in-out;
+}
+
+/* ================== INPUTS ================== */
+.input-field, .hud-input {
+  background: #F8FAFC;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--color-navy);
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s ease;
+}
+
+.input-field:focus, .hud-input:focus {
+  border-color: var(--color-primary);
+  background: #FFFFFF;
+}
