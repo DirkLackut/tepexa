@@ -2,12 +2,14 @@
   "error": {
     "code": "NO_ROUTE",
     "message": {
-      "es": "No existe una ruta que respete la pendiente máxima entre esos puntos.",
-      "en": "No route respects the maximum slope between those points."
+      "es": "No hay ruta que respete la pendiente máxima de 20° entre esos puntos.",
+      "en": "No route respects the 20° maximum slope between those points."
     },
     "details": {
-      "max_slope_deg": 25,
-      "blocked_target_index": 2
+      "profile": "fastest",
+      "from_index": 2,
+      "to_index": 3,
+      "max_slope_deg": 20.0
     }
   }
 }

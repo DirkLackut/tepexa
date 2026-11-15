@@ -40,6 +40,19 @@ spec 002. Constitución, principio 1: todo lo que se muestra cita su fuente.
 | Mapa de inercia térmica de THEMIS | ASU / NASA | Suelo suelto |
 | Productos CRISM de Jezero | PDS Geosciences | Mineralogía |
 
+### Productos elegidos (15-nov-2026)
+
+| Producto | Archivo | Tamaño | Cobertura | Cita |
+|---|---|---|---|---|
+| DTM HiRISE 1 m | `JEZ_hirise_soc_006_DTM_MOLAtopography_DeltaGeoid_1m_Eqc_latTs0_lon0_blend40.tif` | 1.8 GB | lat 18.3068–18.6693 N, lon 77.2229–77.584 E (equirectangular, planetocéntrica) | Fergason et al. (2020), USGS Astrogeology, [doi:10.5066/P9REJ9JN](https://doi.org/10.5066/P9REJ9JN) |
+| Ortoimagen HiRISE 25 cm | `JEZ_hirise_soc_006_orthoMosaic_25cm_Eqc_latTs0_lon0_first.tif` | 6.9 GB | La misma | Fergason et al. (2020), USGS Astrogeology, [doi:10.5066/P9QJDP48](https://doi.org/10.5066/P9QJDP48), CC0 1.0 |
+| Travesía de Perseverance | `M20_waypoints.json` | pocos MB | Toda la misión | NASA/JPL-Caltech (MMGIS) |
+
+**Cómo se obtuvo el DTM (15-nov):** sin descargar el archivo. El GeoTIFF no está comprimido y el servidor
+acepta rangos de bytes, así que el navegador integrado leyó solo las filas del recorte de 4 × 3 km y las
+mandó al entorno de trabajo ya remuestreadas a 2 m. Verificación: en los 5 sitios de muestra la altura del
+DTM coincide con la de Perseverance con un error de 0.01 a 0.19 m. La ortoimagen (6.9 GB) queda pendiente.
+
 **Riesgo principal:** que el mosaico HiRISE de navegación de Mars 2020 no cubra toda la Margin Unit.
 Si no la cubre, se busca un DTM HiRISE individual de la zona en el PDS, o se usa CTX con la
 advertencia `LOW_DATA_RESOLUTION`.

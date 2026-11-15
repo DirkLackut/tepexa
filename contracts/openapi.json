@@ -2012,7 +2012,7 @@
     "description": "Contrato definido en la spec 000. Todas las coordenadas están en metros en el marco local de cada región. Los textos para el usuario vienen como {es, en}. Las respuestas de ejemplo llevan is_example: true y no son datos de NASA.",
     "summary": "Explore the Unknown — mapa, rutas y simulación de EVA en Marte (NASA Space Apps 2026).",
     "title": "TEPEXA API",
-    "version": "0.2.0-spec001"
+    "version": "0.4.0-spec002"
   },
   "openapi": "3.1.0",
   "paths": {

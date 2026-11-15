@@ -12,8 +12,8 @@ Equipo de 6 (UAM, Managua). Objetivo de esta etapa: **la demo del evento**.
 |---|---|---|
 | 000 | Contrato API backend↔frontend | Cerrada (14-nov, `cb1975e`). Falta la revisión del frontend (T8) |
 | 001 | Base de datos (Neon + PostGIS), catálogo y publicación en Render | Cerrada (15-nov). API en `https://tepexa-api.onrender.com/api/v1`. Falta solo probar CORS cuando exista la URL de Vercel |
-| 002 | Pipeline de datos (DEM, ortoimagen, inercia térmica, mineralogía) | Pendiente |
-| 003 | Motor de rutas (3 perfiles + regreso) | Pendiente |
+| 002 | Pipeline de datos (DEM, ortoimagen, inercia térmica, mineralogía) | Parte 1 lista (15-nov): DTM HiRISE real de la Margin Unit, 5 sitios reales de Perseverance, terreno 3D real. Falta: ortoimagen, inercia térmica, `/layers`, semilla 002 en Neon |
+| 003 | Motor de rutas (3 perfiles + regreso) | Listo sobre el DTM real (falta medir en Render y comparar con la travesía) |
 | 004 | Análisis de misión e informe | Pendiente |
 | 005 | Manifiesto del terreno 3D | Pendiente |
 | 006 | Pipeline de assets 3D (Blender) y Rive | Pendiente |
@@ -27,10 +27,10 @@ y `plan.md` al abrir cada una. Datos de NASA: `docs/datos/catalogo-de-datos.md`.
 |---|---|
 | Nombre | TEPEXA — *Explore the Unknown* |
 | Usuario de la demo | Estudiante (explora) y astronauta (planifica y simula) |
-| Región principal | Jezero, Margin Unit: la EVA recorre los 3 episodios de agua (Bedford et al., 2026) |
+| Región principal | Jezero, Margin Unit. Objetivo de la EVA: las rocas con carbonato donde Perseverance tomó muestras (Pelican Point, Lefroy Bay, Comet Geyser, Old Faithful Geyser) y, opcional, Eremita Mesa. Los episodios 2 y 3 quedan como hechos de la región: las fuentes no dan rocas concretas |
 | Región extra | Medusae Fossae como **avance completo** de «próxima misión»: ficha, hechos con certeza y terreno del equipo; **sin cálculo de rutas** |
-| Datos | Ortoimagen y DEM HiRISE (~1 m), inercia térmica (THEMIS), mineralogía orbital (CRISM), fotos de Perseverance |
-| Costo de ruta | Pendiente máxima (filtro) + tiempo con traje (Tobler ajustada a Marte) + suelo suelto (inercia térmica) + ruta de regreso |
+| Datos | DTM HiRISE (mosaico Mars 2020 del USGS) recortado a la Margin Unit; puntos de interés = sitios de muestra de Perseverance. Pendientes: ortoimagen, inercia térmica (THEMIS), mineralogía (CRISM), fotos |
+| Costo de ruta | Pendiente máxima 20° (filtro) + tiempo con traje (Tobler a 2 km/h en llano, ritmo de NASA) + suelo suelto (inercia térmica) + ruta de regreso; EVA de 6 h. Valores de referencia lunares de NASA: no hay oficiales para Marte |
 | Perfiles | Más corta, más rápida, más segura |
 | Simulador | 3D central (R3F) con cámaras en tercera persona y primera persona con HUD; 2D como minimapa y respaldo |
 | Móvil | Todo disponible, 3D incluido en versión liviana |
@@ -57,6 +57,8 @@ y `plan.md` al abrir cada una. Datos de NASA: `docs/datos/catalogo-de-datos.md`.
 | D-6 | Neon (PostgreSQL 18.7 + PostGIS 3.6.4), AWS US East 1 | Gratis, cerca de Render Virginia |
 | D-7 | Vercel (frontend, equipo) + Render (API) + Cloudflare R2 (archivos pesados). Google Cloud y Porkbun descartados (14-nov) | Gratis; lo decidió el equipo |
 | D-11 a D-19 | Ver `specs/001-base-de-datos-y-catalogo/plan.md` | Migraciones SQL, psycopg, textos jsonb, modo live por endpoint, Render, CORS |
+| D-20 a D-27 | Ver `specs/003-motor-de-rutas/plan.md` | Dijkstra (SciPy), rejilla de 10 m, `tobler-eva-v1`, 20° y 360 min con fuente de NASA, costos por perfil |
+| D-28 a D-31 | Ver `specs/002-pipeline-de-datos/plan.md` | Recorte 4 × 3 km leído por rangos (sin descargar), terreno servido por la API, semilla 002 aparte |
 
 ## Assets de Blender y Rive
 - **Formato de trabajo:** `.blend` (lo sigue usando el equipo en Blender; no va a Git).
@@ -96,4 +98,5 @@ Las crea y administra **Dirk**; el equipo entra como miembro. Ninguna clave va a
 ## Lecciones
 - Spec 001: en el SQL Editor de Neon el clic sintético no siempre ejecuta; verificar siempre con una consulta de conteo después de correr.
 - Spec 001: los modelos 3D del equipo entraron en `backend/render/` (Crater, mars, Medusa: ~28 MB). Se moverán a `assets/` y R2 en la spec 006, con acuerdo del equipo.
-- Render vuelve a publicar en cada merge, aunque solo cambien assets: falta `buildFilter` en `render.yaml`.
+- Render vuelve a publicar en cada merge, aunque solo cambien assets: falta `buildFilter` en `render.yaml`. (Resuelto en el PR #4.)
+- Spec 002: no hizo falta descargar 1.8 GB. El GeoTIFF del USGS acepta lecturas por rango y se leyó solo el recorte desde el navegador integrado; el puente de herramientas corta cada respuesta en ~250 KB, así que los datos viajan comprimidos y en partes.

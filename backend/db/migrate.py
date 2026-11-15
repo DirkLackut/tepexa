@@ -35,11 +35,13 @@ def apply_migrations(url: str) -> list[str]:
     return done
 
 
-def apply_seeds(url: str) -> list[str]:
-    """Las semillas son idempotentes: se pueden aplicar varias veces."""
+def apply_seeds(url: str, only: list[str] | None = None) -> list[str]:
+    """Las semillas son idempotentes: se pueden aplicar varias veces. `only` limita a esos nombres."""
     done = []
     with psycopg.connect(url, autocommit=True) as conn:
         for path in sorted(SEEDS.glob("*.sql")):
+            if only is not None and path.stem not in only:
+                continue
             conn.execute(path.read_text(encoding="utf-8"))
             done.append(path.stem)
     return done

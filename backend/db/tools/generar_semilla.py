@@ -36,11 +36,8 @@ def source_id(src: dict) -> str:
     return "src-" + hashlib.sha1(key.encode("utf-8")).hexdigest()[:12]
 
 
-def main():
-    regions = [load("region-jezero.json"), load("region-medusae-fossae.json")]
-    order = [r["id"] for r in load("regions.json")["items"]]
-    pois = load("pois-jezero.json")
-
+def build_sql(regions: list[dict], order: list[str], pois_list: list[dict], header: list[str]) -> tuple[str, int]:
+    """SQL idempotente: borra las regiones dadas (en cascada hechos y puntos) y las vuelve a insertar."""
     sources: dict[str, dict] = {}
 
     def src(s):
@@ -79,22 +76,23 @@ def main():
                                  f"({q(r['id'])}, {i}, {j}, {q(src(s))});")
 
     pois_sql = []
-    for k, feat in enumerate(pois["features"]):
-        p = feat["properties"]
-        x, y = feat["geometry"]["coordinates"]
-        pois_sql.append(
-            "insert into pois (region_id, id, ord, geom, name, category, description, water_episode, elevation_m, "
-            "confidence_note, is_example) values ("
-            + ", ".join([q(pois["region_id"]), q(feat["id"]), q(k), f"ST_SetSRID(ST_MakePoint({x!r}, {y!r}), 0)",
-                         q(p["name"]), q(p["category"]), q(p["description"]), q(p["water_episode"]),
-                         q(p["elevation_m"]), q(p["confidence_note"]), q(pois["is_example"])]) + ");")
-        for j, s in enumerate(p["evidence"]):
-            pois_sql.append(f"insert into poi_sources (region_id, poi_id, ord, source_id) values "
-                            f"({q(pois['region_id'])}, {q(feat['id'])}, {j}, {q(src(s))});")
-        for j, im in enumerate(p["images"]):
-            pois_sql.append(f"insert into poi_images (region_id, poi_id, ord, url, credit, caption) values "
-                            f"({q(pois['region_id'])}, {q(feat['id'])}, {j}, {q(im['url'])}, {q(im['credit'])}, "
-                            f"{q(im['caption'])});")
+    for pois in pois_list:
+      for k, feat in enumerate(pois["features"]):
+          p = feat["properties"]
+          x, y = feat["geometry"]["coordinates"]
+          pois_sql.append(
+              "insert into pois (region_id, id, ord, geom, name, category, description, water_episode, elevation_m, "
+              "confidence_note, is_example) values ("
+              + ", ".join([q(pois["region_id"]), q(feat["id"]), q(k), f"ST_SetSRID(ST_MakePoint({x!r}, {y!r}), 0)",
+                           q(p["name"]), q(p["category"]), q(p["description"]), q(p["water_episode"]),
+                           q(p["elevation_m"]), q(p["confidence_note"]), q(pois["is_example"])]) + ");")
+          for j, s in enumerate(p["evidence"]):
+              pois_sql.append(f"insert into poi_sources (region_id, poi_id, ord, source_id) values "
+                              f"({q(pois['region_id'])}, {q(feat['id'])}, {j}, {q(src(s))});")
+          for j, im in enumerate(p["images"]):
+              pois_sql.append(f"insert into poi_images (region_id, poi_id, ord, url, credit, caption) values "
+                              f"({q(pois['region_id'])}, {q(feat['id'])}, {j}, {q(im['url'])}, {q(im['credit'])}, "
+                              f"{q(im['caption'])});")
 
     sources_sql = [
         "insert into sources (id, mission, instrument, product_id, url, attribution, license_note) values ("
@@ -106,17 +104,22 @@ def main():
         for sid, s in sorted(sources.items())
     ]
 
-    sql = "\n".join([
+    sql = "\n".join([*header, "begin;", *sources_sql, *body, *facts_sql, *pois_sql, "commit;", ""])
+    return sql, len(sources)
+
+
+def main():
+    regions = [load("region-jezero.json"), load("region-medusae-fossae.json")]
+    order = [r["id"] for r in load("regions.json")["items"]]
+    pois = load("pois-jezero.json")
+    sql, n_sources = build_sql(regions, order, [pois], [
         "-- Spec 001 · Semilla del catálogo de EJEMPLO (generada; no editar a mano).",
         "-- Generada por backend/db/tools/generar_semilla.py desde contracts/examples/.",
         "-- Idempotente: se puede ejecutar varias veces. En Neon: pegar completo en el SQL Editor.",
-        "begin;",
-        *sources_sql, *body, *facts_sql, *pois_sql,
-        "commit;", "",
     ])
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(sql, encoding="utf-8")
-    print(f"{OUT.relative_to(REPO)}: {len(sources)} fuentes, {len(regions)} regiones, {len(pois['features'])} puntos")
+    print(f"{OUT.relative_to(REPO)}: {n_sources} fuentes, {len(regions)} regiones, {len(pois['features'])} puntos")
 
 
 if __name__ == "__main__":

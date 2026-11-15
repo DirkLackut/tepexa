@@ -1,6 +1,6 @@
 # Spec 002 — Pipeline de datos reales
 
-Estado: Borrador
+Estado: En curso (parte 1 lista: DTM real, puntos de interés reales, rutas y terreno 3D en vivo)
 Depende de: 001
 Cubre: `/regions/{id}/layers` en modo live y los datos que usan las specs 003 y 005.
 

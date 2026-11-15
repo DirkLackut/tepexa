@@ -1,7 +1,7 @@
 # Spec 003 — Motor de rutas
 
-Estado: Borrador
-Depende de: 002
+Estado: En curso (motor listo sobre terreno sintético; falta el DTM real de la spec 002)
+Depende de: 002 (solo para el DTM real)
 Cubre: `POST /routes/compare` en modo live.
 
 ## Problema
@@ -9,7 +9,7 @@ El astronauta necesita comparar rutas entre la base y los objetivos científicos
 terreno real, con criterios explicados y sin afirmar que son seguras.
 
 ## Alcance
-**Incluye:** A\* sobre el DTM recortado; tres perfiles (más corta, más rápida, más segura); pendiente
+**Incluye:** búsqueda de ruta óptima (Dijkstra, D-20) sobre el DTM recortado; tres perfiles (más corta, más rápida, más segura); pendiente
 máxima como filtro; tiempo con traje (Tobler ajustada a Marte, con fuente); suelo suelto por inercia
 térmica; ruta de regreso y aviso de límite de EVA; métricas, perfil de elevación y advertencias.
 **No incluye:** física del traje, radiación ni clima.

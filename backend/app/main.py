@@ -1,8 +1,9 @@
 """API de TEPEXA."""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
-from . import errors
+from . import errors, terrain_store
 from .api.v1 import router
 from .settings import APP_VERSION, cors_origin_regex, cors_origins
 
@@ -20,3 +21,5 @@ errors.install(app)
 app.add_middleware(CORSMiddleware, allow_origins=cors_origins(), allow_origin_regex=cors_origin_regex(),
                    allow_methods=["GET", "POST"], allow_headers=["*"])
 app.include_router(router)
+# Terreno 3D real (heightmaps PNG 16 bits y textura): ~3 MB por región. Ver terrain_store.py.
+app.mount("/assets", StaticFiles(directory=terrain_store.STATIC), name="assets")
