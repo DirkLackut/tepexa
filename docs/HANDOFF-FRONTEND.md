@@ -91,8 +91,8 @@ el **terreno sintético**; los `id` y las coordenadas de los puntos de interés 
 8. **Bilingüe:** la API trae `{es, en}`; sus textos propios también deben existir en los dos idiomas.
 9. **Tipos:** `npx openapi-typescript contracts/openapi.json -o frontend/src/shared/api/types.ts`. No los
    escriban a mano.
-10. **CORS:** hoy solo `http://localhost:5173`. Pásenle a Dirk la URL de Vercel (producción y patrón de
-    vistas previas) para habilitarla.
+10. **CORS:** acepta `http://localhost:5173` y, cuando Dirk active B1, cualquier `https://tepexa….vercel.app`
+    (producción y vistas previas). El proyecto de Vercel debe llamarse empezando con `tepexa`.
 
 ## 5. Medusae Fossae (próxima misión)
 `status: "preview"`: ficha y 6 hechos con certeza y fuentes. No tiene capas, terreno ni rutas: esas rutas
@@ -137,11 +137,37 @@ Blender, no la API. Muéstrenlo como avance, nunca como misión planificable.
 - Nada de claves ni de la cadena de conexión de Neon en el frontend o en el repo.
 - Los modelos de Blender van a `assets/` (o a R2), no a `backend/`. Los `.blend` no se suben.
 
+## 6b. Cómo trabajar sin esperar a Dirk
+**Unir un PR:** rama → PR → **un integrante distinto del autor** lo aprueba → cualquiera con permiso de escritura lo
+une. `.github/CODEOWNERS` decide quién puede aprobar cada carpeta:
+
+| Carpeta | Aprueba |
+|---|---|
+| `frontend/`, `assets/`, `pipeline/assets/` | Cualquier integrante del frontend (no hace falta Dirk) |
+| `contracts/` | Dirk o IsraDev29 |
+| `backend/`, `specs/`, `docs/`, `render.yaml`, raíz y el resto | Dirk |
+
+No mezclen en un mismo PR cambios de `frontend/` con archivos de Dirk: si el PR toca uno solo de esos archivos,
+necesita su aprobación.
+
+**Servicios: de quién es cada uno y si el equipo depende de Dirk**
+
+| Servicio | Para qué | ¿El equipo depende de Dirk? |
+|---|---|---|
+| GitHub | Repositorio (público) | No para el día a día. Solo él cambia reglas y agrega colaboradores |
+| Vercel | Publica `frontend/` al unir a `main`; vista previa por PR | No. Funciona con commits de todo el equipo porque el repo es **público**: si se vuelve privado, el plan gratis de Vercel bloquea los commits de otras personas |
+| Render | La API | No. Solo se vuelve a publicar cuando cambian `backend/`, `contracts/` o `render.yaml`. Sus variables y registros son de Dirk |
+| Neon | Base de datos, solo la usa la API | No. El frontend nunca la toca. Cambios en la base, solo con Dirk |
+| Cloudflare R2 | Hoy no se usa: los modelos se sirven desde Vercel | No |
+
+**Única dependencia, una sola vez:** el CORS de la API (B1). Dirk lo deja aceptando cualquier dirección
+`https://tepexa….vercel.app`, así que el proyecto de Vercel debe llamarse empezando con `tepexa`.
+
 ## 7. Lo que falta del backend (y quién lo hace)
 
 | # | Pendiente | Quién | Bloquea al frontend |
 |---|---|---|---|
-| B1 | Agregar la URL de Vercel al CORS | Backend, cuando el frontend pase la URL | Sí, en producción |
+| B1 | CORS para `https://tepexa….vercel.app` (variable `TEPEXA_CORS_ORIGIN_REGEX` en Render, sin cambiar código) | Dirk, una vez | Sí, en producción |
 | B2 | Inercia térmica (THEMIS) → capa y suelo suelto en la ruta «más segura» | Backend | No: hoy las 3 rutas salen casi iguales y la app lo dice |
 | B3 | Ortoimagen HiRISE de 25 cm como capa y textura real del 3D | Backend | No: hoy la textura es relieve sombreado |
 | B4 | Mineralogía (CRISM) como capa | Backend | No |
@@ -157,7 +183,7 @@ Ver la tabla completa en `frontend/README.md` («Pendientes del equipo»). Lo ur
    mostrar las 3 rutas, el perfil de elevación y las advertencias.
 3. Simular (3D) con el heightmap real y la polilínea de la ruta elegida.
 4. Guardar la misión y mostrar el informe.
-5. Publicar en Vercel y pasar la URL para el CORS (B1).
+5. Publicar en Vercel con un nombre de proyecto que empiece con `tepexa` (CORS, B1).
 
 **Se puede repartir:** B5 (fotos de Perseverance) lo puede tomar el frontend: elegir 1 o 2 fotos por punto
 en `https://mars.nasa.gov/mars2020/multimedia/raw-images/` (filtrar por sol), con crédito
