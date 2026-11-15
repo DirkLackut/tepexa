@@ -11,12 +11,12 @@ Equipo de 6 (UAM, Managua). Objetivo de esta etapa: **la demo del evento**.
 | Spec | Nombre | Estado |
 |---|---|---|
 | 000 | Contrato API backend↔frontend | Cerrada (14-nov, `cb1975e`). Falta la revisión del frontend (T8) |
-| 001 | Base de datos (Neon + PostGIS), catálogo y publicación en Render | Cerrada (15-nov). API en `https://tepexa-api.onrender.com/api/v1`. Falta solo probar CORS cuando exista la URL de Vercel |
-| 002 | Pipeline de datos (DEM, ortoimagen, inercia térmica, mineralogía) | Parte 1 lista (15-nov): DTM HiRISE real de la Margin Unit, 5 sitios reales de Perseverance, terreno 3D real. Semilla 002 aplicada en Neon. Falta: ortoimagen, inercia térmica, `/layers` |
-| 003 | Motor de rutas (3 perfiles + regreso) | Listo sobre el DTM real (falta medir en Render y comparar con la travesía) |
+| 001 | Base de datos (Neon + PostGIS), catálogo y publicación en Render | Cerrada (15-nov). API en `https://tepexa-api.onrender.com/api/v1`. CORS listo para `https://tepexa….vercel.app` (variable en Render, 15-nov) |
+| 002 | Pipeline de datos (DEM, ortoimagen, inercia térmica, mineralogía) | Parte 1 lista (15-nov): DTM HiRISE real de la Margin Unit, 5 sitios reales de Perseverance, terreno 3D real, `/layers` con relieve y elevación. Semilla 002 aplicada en Neon. Falta (extras): ortoimagen, inercia térmica, mineralogía |
+| 003 | Motor de rutas (3 perfiles + regreso) | Cerrada (15-nov): DTM real, ~1.5 s en Render. Extra pendiente: comparar con la travesía de Perseverance (CE-5) |
 | 004 | Análisis de misión e informe | Cerrada (15-nov): misiones, informe y límite por IP verificados en Render v0.5.0 |
-| 005 | Manifiesto del terreno 3D | Pendiente |
-| 006 | Pipeline de assets 3D (Blender) y Rive | En curso: optimizador listo (28.4 → 3.3 MB en PC); faltan los modelos de Tripo y acordar la mudanza de `backend/render/` |
+| 005 | Manifiesto del terreno 3D | Cerrada (15-nov): `/terrain` en vivo con 2 niveles y escena de referencia en `frontend/ejemplos/escena-3d/`. Extra: textura con la ortoimagen real |
+| 006 | Pipeline de assets 3D (Blender) y Rive | Casi cerrada (15-nov): optimizador, revisión automática en cada PR, 10 modelos optimizados y comparación de calidad. Falta del equipo: dron en móvil, mudanza de `backend/render/`, prueba con Blender MCP |
 
 Las specs 002 a 006 tienen `spec.md` y `tasks.md` en borrador; se completan con `clarificacion.md`
 y `plan.md` al abrir cada una. Datos de NASA: `docs/datos/catalogo-de-datos.md`.
@@ -60,6 +60,8 @@ y `plan.md` al abrir cada una. Datos de NASA: `docs/datos/catalogo-de-datos.md`.
 | D-20 a D-27 | Ver `specs/003-motor-de-rutas/plan.md` | Dijkstra (SciPy), rejilla de 10 m, `tobler-eva-v1`, 20° y 360 min con fuente de NASA, costos por perfil |
 | D-35 | Ver `specs/003-motor-de-rutas/plan.md` | Búsqueda de rutas por ventana: ~1.5 s en Render |
 | D-36 a D-39 | Ver `specs/006-assets-3d-y-rive/plan.md` | glTF-Transform, originales fuera de Git, presupuesto como aviso, reemplazo si un modelo falla |
+| D-40 a D-42 | Ver `specs/005-terreno-3d/plan.md` | Terreno servido por la API (no R2), escena de referencia aparte en `frontend/ejemplos/`, heightmap de 16 bits con `upng-js` |
+| D-43 | Ver `specs/006-assets-3d-y-rive/plan.md` | Tripo: Smart Mesh o Retopology; el optimizador no reduce modelos livianos |
 | D-32 a D-34 | Ver `specs/004-misiones-e-informe/plan.md` | Ruta en jsonb, límite por IP y tope de misiones, error RATE_LIMITED |
 | D-28 a D-31 | Ver `specs/002-pipeline-de-datos/plan.md` | Recorte 4 × 3 km leído por rangos (sin descargar), terreno servido por la API, semilla 002 aparte |
 

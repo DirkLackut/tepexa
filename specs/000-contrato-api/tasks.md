@@ -14,5 +14,5 @@
 
 ## Bloque D — Entrega al frontend
 - [x] T6 · `contracts/README.md`: qué endpoint usa cada pantalla y cómo leer los datos · CE-7
-- [ ] T7 · Commit y push desde la PC (VS Code) · ⚠ intervención manual
-- [ ] T8 · El equipo de frontend revisa `contracts/README.md` y deja sus dudas · ⚠ intervención manual
+- [x] T7 · Commit y push desde la PC (VS Code) · hecho (PR de la spec 000)
+- [ ] T8 · El equipo de frontend revisa `contracts/README.md` y deja sus dudas en `specs/000-contrato-api/clarificacion.md` · ⚠ equipo

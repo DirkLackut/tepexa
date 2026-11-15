@@ -10,7 +10,7 @@
 
 ## Bloque C — Procesamiento
 - [x] T5 · Recorte y paso al marco local · `pipeline/jezero/procesar_dtm.py`
-- [ ] T6 · Teselas del mapa base, relieve, inercia térmica y mineralogía (`/layers` live)
+- [ ] T6 · Capas para `/layers` · relieve sombreado y elevación ya en vivo (v0.5.0); faltan inercia térmica y mineralogía (B2, B4)
 - [x] T7 · Heightmap PNG 16 bits (2 m) y versión móvil (4 m)
 - [x] T8 · Manifiesto con hashes (`terrain.json`, `data/processed/.../manifest.json`)
 - [ ] T8b · Ortoimagen HiRISE 25 cm del recorte (lectura por rangos, como el DTM) para la textura real

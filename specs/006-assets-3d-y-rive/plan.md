@@ -22,18 +22,24 @@
 | Modelo | Original | PC | Móvil |
 |---|---|---|---|
 | `mars` | 5.25 MB | 0.96 MB (129 072 tri) | 0.26 MB (32 268 tri) |
-| `crater` | 4.31 MB | 0.50 MB (178 804 tri) | 0.18 MB (44 701 tri) — usa transmisión (agua): apagarla en móvil |
-| `medusa` | 18.79 MB | 1.82 MB (624 962 tri) | 0.63 MB (156 240 tri) |
+| `crater` (Jezero con su lago antiguo, Smart Mesh; reemplaza al de `backend/render`) | 2.25 MB | 0.60 MB (19 672 tri) | 0.32 MB (19 672 tri) |
+| `medusa` (Medusae Fossae, Smart Mesh; reemplaza al de `backend/render`) | 1.54 MB | 0.38 MB (17 193 tri) | 0.23 MB (17 193 tri) |
 | `alejandro` (Tripo) | 59.75 MB | 2.75 MB (299 974 tri) | 1.29 MB (130 902 tri) |
 | `dirk` (Tripo) | 60.96 MB | 2.84 MB (299 968 tri) | 1.42 MB (143 088 tri) |
 | `dylan` (Tripo) | 60.78 MB | 2.77 MB (300 051 tri) | 1.26 MB (125 743 tri) |
 | `israel` (Tripo) | 59.85 MB | 2.72 MB (300 090 tri) | 1.15 MB (113 304 tri) |
 | `yasid` (Tripo) | 59.87 MB | 2.78 MB (299 899 tri) | 1.30 MB (130 442 tri) |
-| `china` (Tripo) | 60.52 MB | 2.91 MB (299 924 tri) | 1.49 MB (150 284 tri) |
+| `china` (Tripo Smart Mesh; el HD de 60.5 MB quedó en `originales/anteriores/`) | 9.38 MB | 1.64 MB (19 127 tri) | 0.81 MB (19 127 tri) |
 | `drone` (Tripo) | 62.29 MB | 2.87 MB (299 982 tri) | 1.77 MB (~190 mil tri) — ⚠ supera 1.5 MB |
 
 Los escaneos de Tripo tienen muchas costuras de UV: el simplificador no baja de ~10 % de los triángulos aunque se le
 permita más error. Para el dron, lo que sí funciona es exportarlo de Tripo con menos caras; si no, se acepta el aviso.
+
+**Calidad (15-nov, capturas con la misma cámara y luz):** de cuerpo entero, PC y móvil no se distinguen del original.
+De cerca, la cara de los avatares HD se mancha. La causa es la **reducción de triángulos** (se probó: comprimir con
+meshopt y pasar a WebP sin reducir queda igual al original, pero pesa 11 MB). Pasa igual con 50 % que con 15 %. Los modelos
+generados con **Smart Mesh** o pasados por **Retopology** en Tripo (~20 mil triángulos, textura horneada) quedan limpios en
+PC y en móvil, y pesan menos de la mitad.
 
 ## Decisiones
 | ID | Decisión | Motivo |
@@ -42,6 +48,7 @@ permita más error. Para el dron, lo que sí funciona es exportarlo de Tripo con
 | D-37 | Originales fuera de Git; optimizados en `frontend/public/models/` | Vercel los sirve; Render no se vuelve a publicar por un modelo; GitHub no acepta > 100 MB |
 | D-38 | Presupuesto como aviso, no como error | Flexibilidad del equipo: deciden ellos |
 | D-39 | Reemplazo simple si un modelo falla | Un modelo roto no puede tumbar la demo |
+| D-43 | Modelos nuevos de Tripo: generar con **Smart Mesh** (o Retopology si ya existe en HD), exportar GLB con textura 2k; el optimizador no reduce triángulos por debajo de 75 mil | Calidad de la cara sin manchas y un solo gasto de créditos por modelo (Retopology cuesta 35 créditos extra) |
 
 ## Notas
 - `Crater.glb` es artístico: no coincide con el DTM. Sirve para la entrada; el simulador usa el heightmap
