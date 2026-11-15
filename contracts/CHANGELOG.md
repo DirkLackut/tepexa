@@ -2,6 +2,17 @@
 
 Solo cambios que agregan dentro de `/api/v1` (ver «Compatibilidad» en `contracts/README.md`).
 
+## 0.5.0 — spec 004 y capas reales (15-nov-2026)
+- **Misiones en vivo:** `POST /missions` recalcula en el servidor la ruta del perfil elegido y la guarda
+  (id `m-…`); `GET /missions/{id}` la devuelve igual; `GET /missions/{id}/report` arma el informe con
+  objetivos visitados, fuentes, supuestos, limitaciones y aviso.
+- Nuevo error `RATE_LIMITED` (HTTP 429): más de 10 misiones guardadas por IP en 10 minutos.
+  `details.retry_after_s` dice cuántos segundos esperar.
+- **Capas en vivo para Jezero:** `/regions/jezero-margin/layers` trae `hillshade` y `elevation` con
+  `tiles.format = "image"` (una imagen que cubre todo `extent`; en OpenLayers: `ImageStatic`).
+  Ortoimagen, inercia térmica y mineralogía no se listan hasta tener el dato real.
+- Sin cambios de forma.
+
 ## 0.4.0 — spec 002, parte 1 (15-nov-2026)
 - En modo live, Jezero pasa a **datos reales** (`dataset_version: hirise-v1`, `is_example: false`):
   - `/regions/jezero-margin`: centro 18.487 N, 77.325 E; elevación −2443.1 a −1995.0 m; nuevo objetivo de misión.

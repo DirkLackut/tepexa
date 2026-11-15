@@ -1,6 +1,6 @@
 # TEPEXA — Estado y decisiones
 
-Actualizado: 14 de noviembre de 2026. Es lo primero que se lee al retomar el proyecto.
+Actualizado: 14 de noviembre de 2026. Es lo primero que se lee al retomar el proyecto. Para el frontend: `docs/HANDOFF-FRONTEND.md`.
 
 ## Qué es
 App web para NASA Space Apps 2026, reto «Interplanetary Survival Guide: Martian Map».
@@ -12,9 +12,9 @@ Equipo de 6 (UAM, Managua). Objetivo de esta etapa: **la demo del evento**.
 |---|---|---|
 | 000 | Contrato API backend↔frontend | Cerrada (14-nov, `cb1975e`). Falta la revisión del frontend (T8) |
 | 001 | Base de datos (Neon + PostGIS), catálogo y publicación en Render | Cerrada (15-nov). API en `https://tepexa-api.onrender.com/api/v1`. Falta solo probar CORS cuando exista la URL de Vercel |
-| 002 | Pipeline de datos (DEM, ortoimagen, inercia térmica, mineralogía) | Parte 1 lista (15-nov): DTM HiRISE real de la Margin Unit, 5 sitios reales de Perseverance, terreno 3D real. Falta: ortoimagen, inercia térmica, `/layers`, semilla 002 en Neon |
+| 002 | Pipeline de datos (DEM, ortoimagen, inercia térmica, mineralogía) | Parte 1 lista (15-nov): DTM HiRISE real de la Margin Unit, 5 sitios reales de Perseverance, terreno 3D real. Semilla 002 aplicada en Neon. Falta: ortoimagen, inercia térmica, `/layers` |
 | 003 | Motor de rutas (3 perfiles + regreso) | Listo sobre el DTM real (falta medir en Render y comparar con la travesía) |
-| 004 | Análisis de misión e informe | Pendiente |
+| 004 | Análisis de misión e informe | Lista en el código (misiones, informe, límite por IP). Falta aplicar la migración 002 en Neon |
 | 005 | Manifiesto del terreno 3D | Pendiente |
 | 006 | Pipeline de assets 3D (Blender) y Rive | Pendiente |
 
@@ -58,6 +58,7 @@ y `plan.md` al abrir cada una. Datos de NASA: `docs/datos/catalogo-de-datos.md`.
 | D-7 | Vercel (frontend, equipo) + Render (API) + Cloudflare R2 (archivos pesados). Google Cloud y Porkbun descartados (14-nov) | Gratis; lo decidió el equipo |
 | D-11 a D-19 | Ver `specs/001-base-de-datos-y-catalogo/plan.md` | Migraciones SQL, psycopg, textos jsonb, modo live por endpoint, Render, CORS |
 | D-20 a D-27 | Ver `specs/003-motor-de-rutas/plan.md` | Dijkstra (SciPy), rejilla de 10 m, `tobler-eva-v1`, 20° y 360 min con fuente de NASA, costos por perfil |
+| D-32 a D-34 | Ver `specs/004-misiones-e-informe/plan.md` | Ruta en jsonb, límite por IP y tope de misiones, error RATE_LIMITED |
 | D-28 a D-31 | Ver `specs/002-pipeline-de-datos/plan.md` | Recorte 4 × 3 km leído por rangos (sin descargar), terreno servido por la API, semilla 002 aparte |
 
 ## Assets de Blender y Rive

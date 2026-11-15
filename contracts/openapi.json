@@ -211,6 +211,7 @@
           "NO_ROUTE",
           "MISSION_NOT_FOUND",
           "DATASET_UNAVAILABLE",
+          "RATE_LIMITED",
           "INTERNAL"
         ],
         "title": "ErrorCode",
@@ -2012,7 +2013,7 @@
     "description": "Contrato definido en la spec 000. Todas las coordenadas están en metros en el marco local de cada región. Los textos para el usuario vienen como {es, en}. Las respuestas de ejemplo llevan is_example: true y no son datos de NASA.",
     "summary": "Explore the Unknown — mapa, rutas y simulación de EVA en Marte (NASA Space Apps 2026).",
     "title": "TEPEXA API",
-    "version": "0.4.0-spec002"
+    "version": "0.5.0-spec004"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -2090,6 +2091,16 @@
               }
             },
             "description": "Petición inválida, fuera de cobertura o sin ruta"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Demasiadas misiones guardadas seguidas"
           }
         },
         "summary": "Create Mission",

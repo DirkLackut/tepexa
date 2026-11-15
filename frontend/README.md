@@ -1,7 +1,8 @@
 # Frontend — guía y pendientes del equipo
 
 App en React + Vite + OpenLayers + React Three Fiber. La construye el equipo de frontend.
-Antes de empezar lean `contracts/README.md` (qué endpoint usa cada pantalla) y
+**Empiecen por `docs/HANDOFF-FRONTEND.md`** (estado de la API publicada, datos reales y qué falta).
+Después lean `contracts/README.md` (qué endpoint usa cada pantalla) y
 `docs/constitucion.md`.
 
 ## Flujo de la app (acordado)
@@ -21,8 +22,8 @@ también va en móvil, en versión liviana (`lods[].recommended_for = "mobile"`)
 1. **Tipos generados, no escritos a mano:**
    `npx openapi-typescript ../contracts/openapi.json -o src/shared/api/types.ts`
    Vuelvan a generarlos cada vez que cambie `contracts/openapi.json`.
-2. **Una sola URL base configurable:** `VITE_API_URL`. Mientras no haya API publicada, lean los
-   archivos de `contracts/examples/`. Cuando esté en Render, `GET /api/v1/health` → `endpoints`
+2. **Una sola URL base configurable:** `VITE_API_URL=https://tepexa-api.onrender.com/api/v1`. Sin
+   conexión, lean los archivos de `contracts/examples/` (terreno sintético). Cuando esté en Render, `GET /api/v1/health` → `endpoints`
    dice qué partes ya son datos reales (`live`) y cuáles siguen de ejemplo.
    Render gratis tarda unos 50 s en despertar si nadie lo usó en 15 min: muestren un estado de carga.
 3. **Lector tolerante:** ignoren campos que no conozcan y muestren `message` aunque llegue un

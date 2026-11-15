@@ -54,6 +54,13 @@ def unknown_walking_model(name: str, supported: list[str]) -> ApiError:
                     {"walking_model": name, "supported": supported})
 
 
+def rate_limited(retry_after_s: int) -> ApiError:
+    return ApiError(429, ErrorCode.RATE_LIMITED,
+                    "Se guardaron demasiadas misiones seguidas. Intente de nuevo en unos minutos.",
+                    "Too many missions were saved in a row. Try again in a few minutes.",
+                    {"retry_after_s": retry_after_s})
+
+
 def mission_not_found(mission_id: str) -> ApiError:
     return ApiError(404, ErrorCode.MISSION_NOT_FOUND,
                     f"La misión «{mission_id}» no existe.", f"Mission '{mission_id}' does not exist.",

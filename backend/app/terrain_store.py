@@ -52,3 +52,38 @@ def manifest(region_id: str, dataset_version: str, frame_id: str) -> TerrainMani
             formula=T(es="escena.x = (x − centro_x)·u; escena.y = (z − z_ref)·u·exageración; escena.z = −(y − centro_y)·u",
                       en="scene.x = (x − center_x)·u; scene.y = (z − z_ref)·u·exaggeration; scene.z = −(y − center_y)·u")),
         total_size_bytes=sum(v["bytes"] for v in f.values()))
+
+
+# ---------------------------------------------------------------- capas 2D reales (spec 002, T11)
+def layers(region_id: str, dataset_version: str):
+    """Capas que salen del DTM: relieve sombreado y elevación, como imágenes georreferenciadas al marco local.
+    Ortoimagen, inercia térmica y mineralogía todavía no están: no se listan (principio 1)."""
+    from .contract import Layer, LayerList, Legend, LegendStop, TileSource
+
+    m = _meta(region_id, dataset_version)
+    if m is None or "layer-hillshade.webp" not in m["files"]:
+        return None
+    base = f"{public_url()}/assets/terrain/{region_id}/{dataset_version}"
+    extent = Bounds(min_x=0, min_y=0, max_x=m["width_m"], max_y=m["height_m"])
+    src = Source(**{k: m["source"][k] for k in ("mission", "instrument", "product_id", "url", "attribution")})
+    lim = T(es="Calculada del DTM HiRISE de 1 m remuestreado a 2 m en el marco local.",
+            en="Computed from the 1 m HiRISE DTM resampled to 2 m in the local frame.")
+    items = [
+        Layer(id="hillshade", kind="hillshade", title=T(es="Relieve sombreado", en="Hillshade"),
+              description=T(es="Sombras calculadas de la elevación para leer la forma del terreno.",
+                            en="Shading computed from elevation to read the shape of the terrain."),
+              source=src, resolution_m=2.0, units=None, legend=None,
+              tiles=TileSource(format="image", url=f"{base}/layer-hillshade.webp", extent=extent),
+              default_visible=True, default_opacity=1.0, z_order=0, used_in_routing=False, limitations=lim),
+        Layer(id="elevation", kind="elevation", title=T(es="Elevación", en="Elevation"),
+              description=T(es="Altura del terreno sobre el geoide de Marte; es la base del cálculo de rutas y del 3D.",
+                            en="Terrain height above the Mars geoid; it is the basis for routes and the 3D view."),
+              source=src, resolution_m=2.0, units="m",
+              legend=Legend(type="continuous", units="m", stops=[
+                  LegendStop(value=m["z_min_m"], color="#1B3A4B", label=T(es="Más bajo", en="Lowest")),
+                  LegendStop(value=round((m["z_min_m"] + m["z_max_m"]) / 2, 1), color="#8C6B4F", label=T(es="Medio", en="Middle")),
+                  LegendStop(value=m["z_max_m"], color="#E8D9B5", label=T(es="Más alto", en="Highest"))]),
+              tiles=TileSource(format="image", url=f"{base}/layer-elevation.webp", extent=extent),
+              default_visible=False, default_opacity=0.6, z_order=1, used_in_routing=True, limitations=lim),
+    ]
+    return LayerList(region_id=region_id, is_example=False, dataset_version=dataset_version, items=items)

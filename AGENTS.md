@@ -12,6 +12,10 @@ científicos, comparando rutas calculadas sobre un modelo de elevación real.
 - El acuerdo entre ambos lados es `contracts/` (spec 000). Nadie lo cambia sin PR revisado
   por el otro lado.
 
+## Si trabajas en el frontend
+Lee **primero** `docs/HANDOFF-FRONTEND.md`: estado de la API, datos reales, cómo usarlos, qué falta y
+quién lo hace. No modifiques `backend/` ni `contracts/`.
+
 ## Antes de tocar código
 1. Lee `docs/constitucion.md`.
 2. Lee la spec activa en `specs/` (spec.md → clarificacion.md → plan.md → tasks.md).
@@ -23,6 +27,7 @@ científicos, comparando rutas calculadas sobre un modelo de elevación real.
 - Servidor local (modo ejemplo): `uvicorn app.main:app --reload --app-dir backend`
 - Regenerar ejemplos y OpenAPI: `python contracts/tools/generar_ejemplos.py`
 - Regenerar la semilla del catálogo: `python backend/db/tools/generar_semilla.py`
+- Datos reales de Jezero: `python pipeline/jezero/procesar_dtm.py` y `python pipeline/jezero/catalogo_hirise.py`
 - Migraciones: archivos nuevos en `backend/db/migrations/`; las aplicadas no se editan.
 
 ## Reglas
@@ -37,5 +42,6 @@ científicos, comparando rutas calculadas sobre un modelo de elevación real.
 - Sin datos personales en el repo. Los avatares parecidos a personas requieren consentimiento.
 
 ## Al terminar cualquier tarea
+- Si cambió la API o su estado, actualiza `docs/HANDOFF-FRONTEND.md` (secciones 2 y 7) y `contracts/CHANGELOG.md`.
 - Ejecuta `pytest -q backend/tests` y confirma que todo pasa.
 - Si cambió el contrato, regenera `contracts/openapi.json` y los ejemplos.

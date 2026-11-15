@@ -41,6 +41,18 @@
       "sha256": "a5ae927d7d3937dc81bbfbd3bf03e3f969b3ccf339790b75a5cea520cb6caeb8",
       "width_px": 2001,
       "height_px": 1501
+    },
+    "layer-hillshade.webp": {
+      "bytes": 487200,
+      "sha256": "fa8a78402e73e0ee17a30c32139158f19fd34cca5b9b93d7db40f0bab8d38b3f",
+      "width_px": 2001,
+      "height_px": 1501
+    },
+    "layer-elevation.webp": {
+      "bytes": 17838,
+      "sha256": "3a4829e423ed0967e105dfc064b669717cffe6001c291d8cae0b906a008a0048",
+      "width_px": 2001,
+      "height_px": 1501
     }
   }
 }

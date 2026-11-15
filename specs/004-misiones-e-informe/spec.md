@@ -1,6 +1,6 @@
 # Spec 004 — Misiones e informe
 
-Estado: Borrador
+Estado: Lista en el código (15-nov). Falta aplicar la migración 002 en Neon
 Depende de: 003
 Cubre: `POST /missions`, `GET /missions/{id}`, `GET /missions/{id}/report` en modo live.
 

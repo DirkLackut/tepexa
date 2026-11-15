@@ -4,9 +4,9 @@ Todo lo que el backend va a responder ya está aquí. Pueden programar las panta
 archivos de `examples/` desde hoy; cuando la API esté publicada, solo cambian la URL base.
 
 - **Base:** `/api/v1` (local: `http://localhost:8000/api/v1`; publicada: `https://tepexa-api.onrender.com/api/v1`).
-  En vivo hoy, con **datos reales de Jezero** (DTM HiRISE y sitios de Perseverance): `/regions`,
-  `/regions/{id}`, `/regions/{id}/pois`, `/regions/{id}/terrain` y `/routes/compare`. Siguen de ejemplo:
-  `/layers` y `/missions`. Guíense siempre por `is_example` de cada respuesta.
+  Todo responde en vivo con **datos reales de Jezero** (DTM HiRISE y sitios de Perseverance):
+  regiones, puntos de interés, capas, terreno 3D, rutas y misiones con informe.
+  Guíense siempre por `is_example` de cada respuesta. Guía de traspaso: `docs/HANDOFF-FRONTEND.md`.
   Los JSON de `examples/` son el terreno sintético: sirven para trabajar sin la API, pero sus puntos y
   alturas no son los reales.
   Render gratis se duerme a los 15 min: la primera llamada puede tardar ~50 s.
@@ -47,10 +47,12 @@ terreno ni rutas; muestra ficha y hechos).
    `outbound.legs[]` indica en qué vértices de la polilínea empieza y termina cada tramo entre
    objetivos. `elevation_profile` sirve para el gráfico de perfil.
    **El simulador 3D, el minimapa y el mapa deben usar la misma polilínea** (constitución, principio 4).
-4. **Terreno 3D:** `heightmap` es un PNG de 16 bits:
+4. **Capas 2D:** si `tiles.format` es `"image"`, es una sola imagen que cubre `tiles.extent`
+   (OpenLayers: `ImageStatic` con la proyección local). Si es `"xyz"`, es una plantilla de teselas.
+5. **Terreno 3D:** `heightmap` es un PNG de 16 bits:
    `z = z_min_m + (valor / 65535) · (z_max_m − z_min_m)`. Usen `lods[]` con `recommended_for`
    para elegir resolución en PC o en móvil.
-5. **Errores:** siempre `{ "error": { "code", "message": {es, en}, "details" } }`.
+6. **Errores:** siempre `{ "error": { "code", "message": {es, en}, "details" } }`.
 
 | Código | HTTP | Cuándo |
 |---|---|---|
@@ -62,8 +64,9 @@ terreno ni rutas; muestra ficha y hechos).
 | `BAD_REQUEST` | 422 | La petición no tiene el formato esperado |
 | `MISSION_NOT_FOUND` | 404 | La misión no existe |
 | `DATASET_UNAVAILABLE` | 503 | Los datos no están disponibles en el servidor |
+| `RATE_LIMITED` | 429 | Más de 10 misiones guardadas por IP en 10 min (`details.retry_after_s`) |
 
-6. **Advertencias** (`warnings[].code`): `EXAMPLE_DATA`, `CONCEPTUAL_ONLY`, `SOFT_SOIL`,
+7. **Advertencias** (`warnings[].code`): `EXAMPLE_DATA`, `CONCEPTUAL_ONLY`, `SOFT_SOIL`,
    `STEEP_SEGMENT`, `EVA_LIMIT_EXCEEDED`, `LOW_DATA_RESOLUTION`. Muéstrenlas con su `message`.
 
 ## Compatibilidad (reglas de v1)
